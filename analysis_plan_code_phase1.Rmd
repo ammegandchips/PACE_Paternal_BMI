@@ -1,0 +1,168 @@
+# PACE Paternal BMI: R code for complete analysis (Phase one)
+
+author: "Gemma Sharp"
+date: "12/07/2017"
+
+# Before you start
+This code will run all the models necessary for phase one of the PACE paternal BMI project.
+You just need to supply the functions with your data in the correct format. 
+These are the data objects you need:  
+
+1. **meth.matrix:** a matrix of methylation beta values (on a scale of 0-1), where each row is a probe and each column is a sample. Rows should be named appropriately with the cg ID (cg0123456, etc). Columns should be named with the same unique sample IDs as the "Sample_Name" column in complete.pheno. Probes on the sex chromosomes should be included, but please exclude any probes that don't pass your usual QC protocol. If in doubt, please include rather than exclude probes at this stage. It is essential that you remove outliers using the Tukey (IQR*3) method. If you have not already done this, please run the IQR.removal function before running the EWAS.  
+
+2. **complete.pheno:** a dataframe containing the following columns (please make sure the columns are named EXACTLY as below and all binary variables are coded as 0/1 numeric variables):
+	* **Sample_Name:** unique sample IDs for each sample in meth.matrix. Don't worry if they're not matched at this stage, the ewas function will do that for you.
+	* **pat.bmi:** numeric, paternal BMI in kg/m^2
+	* **mat.bmi:** numeric, maternal BMI in kg/m^2
+	* **pat.bmi.z:** numeric, z-score of paternal BMI (the code to generate these z-scores is provided below)
+	* **mat.bmi.z:** numeric, z-score of maternal BMI (the code to generate these z-scores is provided below)
+	* **mat_age:** numeric, maternal age in years
+	* **pat_age:** numeric, paternal age in years
+	* **mat_ses:** numeric, binary, 0=low maternal ses, 1=high maternal ses
+	* **pat_ses:** numeric, binary, 0=low paternal ses, 1=high paternal ses
+	* **mat_smoke:** numeric, binary, 0=no maternal smoking in pregnancy, 1=any maternal smoking in pregnancy
+	* **pat_smoke:** numeric, binary, 0=no paternal smoking in the 6 months prior to pregnancy, 1=any paternal smoking in the 6 months prior to pregnancy
+	* **parity:** numeric, binary, 0=no previous children, 1=at least one previous child
+	* **sex:** numeric, binary, 0=male, 1=female (please take extra care to make sure these are coded around the right way!)
+	* **mat_obesity:** numeric, binary, 0=mum is normal weight, 1=mum is obese  
+	
+
+3. **cell.counts:** a matrix or dataframe of cell proportions, estimated using either the andrews-and-bakulski (for cord blood) or reinius (standard houseman method for whole blood) reference sets. Each column should be a cell type and each row should be a sample. The first column should be called "Sample_Name" and contain the same unique sample IDs as the "Sample_Name" column in complete.pheno.  
+
+4. **autosomal.sites:** provided with the analysis plan or [here](https://github.com/ammegandchips/PACE_Paternal_BMI/blob/master/autosomal.sites.csv). It's also available within the meffil package using meffil.get.autosomal.sites(featureset = "epic")
+
+# 1) Load the required functions
+These have been written specifically for this PACE project. They were circulated with the analysis plan and are also available [here](https://github.com/ammegandchips/PACE_Paternal_BMI/blob/master/pace_pat_bmi_functions.r)
+
+```r{}
+source("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/pace_pat_bmi_functions.r")
+```
+
+# 2) Load the data and perform probe QC
+
+You can do this using your usual pipeline, for example, this is how I do it for ALSPAC:
+
+```r{}
+# Set initial parameters for analysis (TP=time point)
+TP="cord"
+Phenofile = "alspac_pheno"
+CellData = "andrews-and-bakulski"
+WD = "/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/alspac"
+
+# Set the working directory
+setwd(WD)
+
+# Load required packages
+library(sva)
+library(matrixStats)
+library(limma)
+library(psych)
+library(tableone)
+
+# Load description of samples
+load("/panfs/panasas01/dedicated-mrcieu/studies/latest/alspac/epigenetic/methylation/450k/aries/released/2016-05-03/data/samplesheet/data.Robj")
+samplesheet<-subset(samplesheet, time_point==TP)
+if(TP !="antenatal" & TP !="FOM"){
+qletB<-samplesheet$ALN[which(samplesheet$QLET=="B")] #find alns for multiple pregnancies
+samplesheet<-samplesheet[-which(samplesheet$ALN %in% qletB),] #remove multiple pregnancies
+}
+
+# Load phenotype data
+complete.pheno<-readRDS(paste0("pheno/",Phenofile,".rds"))
+#Add Sample_Name to Pheno
+complete.pheno<-merge(complete.pheno,samplesheet[,c("ALN_QLET","Sample_Name")],by.x="alnqlet",by.y="ALN_QLET")
+
+# Load the methylation data
+load("/panfs/panasas01/dedicated-mrcieu/studies/latest/alspac/epigenetic/methylation/450k/aries/released/2016-05-03/data/betas/data.Robj")
+meth.matrix <- norm.beta.random[,samplesheet$Sample_Name] #keep the samples that correspond to the time point you're interested in
+rm(norm.beta.random)
+
+# Load detection P-values (used to filter out probes with a high detection P-value)
+load("/panfs/panasas01/dedicated-mrcieu/studies/latest/alspac/epigenetic/methylation/450k/aries/released/2016-05-03/data/detection_p_values/data.Robj")
+pvals <- detp[,samplesheet$Sample_Name] #keep the samples that correspond to the time point you're interested in
+rm(detp)
+
+# Load annotation data (used to filter out control probes)
+require(meffil)
+annotation <- meffil.get.features("450k")
+
+# Filter methylation data (remove control probes and probes with high detection P-values)
+pvalue.over.0.05 <- pvals > 0.05
+count.over.0.05 <- rowSums(sign(pvalue.over.0.05))
+probes.to.exclude.p <- rownames(pvals)[which(count.over.0.05 > ncol(pvals)*0.05)]
+snps.and.controls <- as.character(annotation$name[-grep("cg|ch", annotation$name)])
+annotation<- annotation[-which(annotation$name %in% c(snps.and.controls,probes.to.exclude.p)),]
+meth.matrix <- subset(meth.matrix, row.names(meth.matrix) %in% annotation$name)
+
+print(paste("There are now ",nrow(meth.matrix), " probes"))
+print(paste(length(snps.and.controls),"were removed because they were SNPs/controls"))
+print(paste(length(probes.to.exclude.p),"were removed because they had a high detection P-value"))
+
+# Load cell.counts
+if(TP=="cord"){
+cell.counts<-read.table(paste0("/panfs/panasas01/dedicated-mrcieu/studies/latest/alspac/epigenetic/methylation/450k/aries/released/2016-05-03/data/derived/cellcounts/cord/",CellData,"/data.txt"),header=T)
+}else{
+if(CellData=="houseman_eos"){
+load("/panfs/panasas01/sscm/gs8094/Common_files/aries-detailed-cell-counts-20150409.rda")
+cell.counts<-detailed.cell.counts[[TP]]
+}else{
+cell.counts<-read.table("/panfs/panasas01/dedicated-mrcieu/studies/latest/alspac/epigenetic/methylation/450k/aries/released/2016-05-03/data/derived/cellcounts/houseman/data.txt", header=TRUE)
+}}
+colnames(cell.counts)[1]<-"Sample_Name"
+
+# Load a list of the autosomal probes on the epic and 450k:
+autosomal.sites <- read.csv("/panfs/panasas01/sscm/gs8094/Common_files/autosomal.sites.csv", stringsAsFactors=FALSE, header=TRUE)[,1]
+
+# Remove outliers from the methylation data using the Tukey (IQR*3) method if you haven't done this already
+meth.matrix <- IQR.removal(meth.matrix)
+
+# Create Z-scores for paternal and maternal BMI if you haven't done this already
+complete.pheno$pat.bmi.z <- as.numeric(scale(complete.pheno$pat.bmi, center=TRUE, scale=TRUE))
+complete.pheno$mat.bmi.z <- as.numeric(scale(complete.pheno$mat.bmi, center=TRUE, scale=TRUE))
+```
+
+# 3) Run all EWAS models and save results
+
+You should just need to change the file paths and study name (i.e. from ALSPAC)
+
+```r{}
+minimal.pat.res <- ewas.function(complete.pheno = complete.pheno, meth.matrix = meth.matrix, cell.counts = cell.counts, ewas.model = "minimal.pat", autosomal.sites=autosomal.sites)
+save(minimal.pat.res,file=paste0("results/ALSPAC.ewas.results.",TP,".minimal.pat.Rdata"))
+
+minimal.mat.res <- ewas.function(complete.pheno = complete.pheno, meth.matrix = meth.matrix, cell.counts = cell.counts, ewas.model = "minimal.mat", autosomal.sites=autosomal.sites)
+save(minimal.mat.res,file=paste0("results/ALSPAC.ewas.results.",TP,".minimal.mat.Rdata"))
+
+cell.pat.res <- ewas.function(complete.pheno = complete.pheno, meth.matrix = meth.matrix, cell.counts = cell.counts, ewas.model = "cell.pat", autosomal.sites=autosomal.sites)
+save(cell.pat.res,file=paste0("results/ALSPAC.ewas.results.",TP,".cell.pat.Rdata"))
+
+cell.mat.res <- ewas.function(complete.pheno = complete.pheno, meth.matrix = meth.matrix, cell.counts = cell.counts, ewas.model = "cell.mat", autosomal.sites=autosomal.sites)
+save(cell.mat.res,file=paste0("results/ALSPAC.ewas.results.",TP,"cell.mat.Rdata"))
+
+full.res <- ewas.function(complete.pheno = complete.pheno, meth.matrix = meth.matrix, cell.counts = cell.counts, ewas.model = "full", autosomal.sites=autosomal.sites)
+save(full.res,file=paste0("results/ALSPAC.ewas.results.",TP,".full.Rdata"))
+
+full.normal.res <- ewas.function(complete.pheno = complete.pheno, meth.matrix = meth.matrix, cell.counts = cell.counts, ewas.model = "full.normal", autosomal.sites=autosomal.sites)
+save(full.normal.res,file=paste0("results/ALSPAC.ewas.results.",TP,".full.normal.Rdata"))
+
+full.girls.res <- ewas.function(complete.pheno = complete.pheno, meth.matrix = meth.matrix, cell.counts = cell.counts, ewas.model = "full.girls", autosomal.sites=autosomal.sites)
+save(full.girls.res,file=paste0("results/ALSPAC.ewas.results.",TP,".full.girls.Rdata"))
+
+full.boys.res <- ewas.function(complete.pheno = complete.pheno, meth.matrix = meth.matrix, cell.counts = cell.counts, ewas.model = "full.boys", autosomal.sites=autosomal.sites)
+save(full.boys.res,file=paste0("results/ALSPAC.ewas.results.",TP,".full.boys.Rdata"))
+
+full.normal.girls.res <- ewas.function(complete.pheno = complete.pheno, meth.matrix = meth.matrix, cell.counts = cell.counts, ewas.model = "full.normal.girls", autosomal.sites=autosomal.sites)
+save(full.normal.girls.res,file=paste0("results/ALSPAC.ewas.results.",TP,".full.normal.girls.Rdata"))
+
+full.normal.boys.res <- ewas.function(complete.pheno = complete.pheno, meth.matrix = meth.matrix, cell.counts = cell.counts, ewas.model = "full.normal.boys", autosomal.sites=autosomal.sites)
+save(full.normal.boys.res,file=paste0("results/ALSPAC.ewas.results.",TP,".full.normal.boys.Rdata"))
+```
+
+# 4) Summarise the variables used in the EWAS
+
+(TP="birth" or "childhood" or "adolescence" or "adulthood")
+
+``` r{}
+ewas.variables.summary <- summarise.ewas.variables(complete.pheno = complete.pheno, meth.matrix = meth.matrix, cell.counts = cell.counts) #don't worry about the warning message about not being able to compute exact p-values
+save(ewas.variables.summary,file=paste0("results/ALSPAC.ewas.variables.summary.",TP,".Rdata"))
+
+```

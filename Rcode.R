@@ -134,7 +134,7 @@ ewas.res.minimal.mat <- ewas.function(meth, pheno.minimal.mat[,!colnames(pheno.m
 ewas.res.mutual <- ewas.function(meth, pheno.mutual[,!colnames(pheno.mutual) %in% c("sex","pat.bmi.cat","mat.bmi.cat", "pat.bmi", "mat.bmi")], variable.of.interest = c("Zpat.bmi","Zmat.bmi"))
 ewas.res.mutual.boys.only <- ewas.function(meth, pheno.mutual.boys.only[,!colnames(pheno.mutual.boys.only) %in% c("sex","pat.bmi.cat","mat.bmi.cat", "pat.bmi", "mat.bmi")], variable.of.interest = c("Zpat.bmi","Zmat.bmi"))
 ewas.res.mutual.girls.only <- ewas.function(meth, pheno.mutual.girls.only[,!colnames(pheno.mutual.girls.only) %in% c("sex","pat.bmi.cat","mat.bmi.cat", "pat.bmi", "mat.bmi")], variable.of.interest = c("Zpat.bmi","Zmat.bmi"))
-
+ 
 # Save EWAS results as an Rdata file
 save(list=intersect(ls(),
                     c("ewas.res.minimal.pat",

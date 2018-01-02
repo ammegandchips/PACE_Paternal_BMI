@@ -32,7 +32,7 @@ The project is split into two phases. **The first phase, described in this analy
 
 Findings from the first phase will feed into the second phase, where we will contact cohorts again to complete additional analyses relating to aims 2 and 3. In aim 2, we will use three causal inference techniques, the maternal/paternal negative control design, cross-cultural comparisons and Mendelian randomization, in an attempt to infer causality in associations identified in aim 1. In aim 3, we will use mQTLs (SNPs robustly associated with methylation) and MR-Base (a database and analytical platform for Mendelian randomization) to conduct a pheWAS (phenome-wide association study) to identify offspring phenotypes associated with differential methylation at paternal obesity-associated CpGs.
 
-All of the code necessary to run these analyses is provided here [https://github.com/ammegandchips/PACE_Paternal_BMI/blob/master/Rcode.R] (https://github.com/ammegandchips/PACE_Paternal_BMI/blob/master/Rcode.R). We hope that this will lessen the burden for contributing cohorts and it will also ensure that all outputs are consistently formatted. This will significantly reduce the burden on the people conducting the meta-analysis. Therefore, **please use the supplied code**.
+All of the code necessary to run these analyses is provided here https://github.com/ammegandchips/PACE_Paternal_BMI/blob/master/Rcode.R. We hope that this will lessen the burden for contributing cohorts and it will also ensure that all outputs are consistently formatted. This will significantly reduce the burden on the people conducting the meta-analysis. Therefore, **please use the supplied code**.
 
 # Analyses relating to aim 1
 

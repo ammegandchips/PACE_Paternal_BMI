@@ -32,7 +32,7 @@ The project is split into two phases. **The first phase, described in this analy
 
 Findings from the first phase will feed into the second phase, where we will contact cohorts again to complete additional analyses relating to aims 2 and 3. In aim 2, we will use three causal inference techniques, the maternal/paternal negative control design, cross-cultural comparisons and Mendelian randomization, in an attempt to infer causality in associations identified in aim 1. In aim 3, we will use mQTLs (SNPs robustly associated with methylation) and MR-Base (a database and analytical platform for Mendelian randomization) to conduct a pheWAS (phenome-wide association study) to identify offspring phenotypes associated with differential methylation at paternal obesity-associated CpGs.
 
-All of the code necessary to run these analyses will be provided. We hope that this will lessen the burden for contributing cohorts and it will also ensure that all outputs are consistently formatted. This will significantly reduce the burden on the people conducting the meta-analysis. Therefore, **please use the supplied code**.
+All of the code necessary to run these analyses is provided here [https://github.com/ammegandchips/PACE_Paternal_BMI/blob/master/Rcode.R] (https://github.com/ammegandchips/PACE_Paternal_BMI/blob/master/Rcode.R). We hope that this will lessen the burden for contributing cohorts and it will also ensure that all outputs are consistently formatted. This will significantly reduce the burden on the people conducting the meta-analysis. Therefore, **please use the supplied code**.
 
 # Analyses relating to aim 1
 
@@ -125,7 +125,7 @@ Methylation ~ Paternal BMI + Maternal BMI + SVs for batch + Paternal age + Pater
 Please supply the following files in the specified formats:
 
 1) EWAS results (For each time point, one Rdata file labelled as YOURSTUDY.patbmi.ewasresults.timepoint.Rdata. This will contain all outputs from all EWAS for one time point. If you have multiple time points, you will have an Rdata file for each time point: birth, early_childhood, late_childhood, adolescence, or adult)
-2) Extra cohort information: one Excel file labelled as YOURSTUDY.patbmi.cohortinfo.xlsx. This will contain information for each cohort relating to things like normalisation method and number of fathers excluded because of non-paternity. Please download and use the template available at [https://github.com/ammegandchips/PACE_Paternal_BMI/TEMPLATE.patbmi.cohortinfo.xlsx](https://github.com/ammegandchips/PACE_Paternal_bmi/TEMPLATE.patbmi.cohortinfo.xlsx)
+2) Extra cohort information: one Excel file labelled as YOURSTUDY.patbmi.cohortinfo.xlsx. This will contain information for each cohort relating to things like normalisation method and number of fathers excluded because of non-paternity. Please download and use the template available at [https://github.com/ammegandchips/PACE_Paternal_BMI/blob/master/YOURSTUDY.patbmi.cohortinfo.xlsx](https://github.com/ammegandchips/PACE_Paternal_BMI/blob/master/YOURSTUDY.patbmi.cohortinfo.xlsx)
 3) EWAS variables summary: for the main EWAS model (mutual), a csv file labelled as YOURSTUDY.patbmi.modelname.summary.timepoint.csv. This will contain summary statistics summarising predictor variables. The code will generate these files for you. If you have multiple time points, you will have a csv file for each time point: birth, early.childhood, late.childhood, adolescence, or adult.
 
 # Upload, timescale and contacts
@@ -135,7 +135,7 @@ Please supply the following files in the specified formats:
 
 # R code
 
-All the R code to perform these analyses is provided at:  [https://github.com/ammegandchips/PACE_Paternal_BMI/](https://github.com/ammegandchips/PACE_Paternal_BMI/)
+All the R code to perform these analyses is provided at:  [https://github.com/ammegandchips/PACE_Paternal_BMI/blob/master/Rcode.R](https://github.com/ammegandchips/PACE_Paternal_BMI/blob/master/Rcode.R)
 
 **Please** use this code! If you have any questions about the analysis and/or are struggling to get the code to run, please email [gemma.sharp@bristol.ac.uk](gemma.sharp@bristol.ac.uk).
 

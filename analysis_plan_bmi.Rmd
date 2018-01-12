@@ -60,9 +60,7 @@ All of the code necessary to run these analyses is provided here https://github.
 
 Perhaps moreso than in previous PACE analyses, it is very important that covariates are coded exactly as outlined below. The R code relies on these codings!
 
-* **Paternal social class (pat.ses):** binary numeric variable (1=high/0=low), please use your preferred classification, but note that our preference is for education level.
-
-* **Maternal social class (mat.ses):** binary numeric variable (1=high/0=low), please use your preferred classification, but note that our preference is for education level.
+* **Paternal social class (pat.ses):** binary numeric variable (1=high/0=low), please use your preferred classification, but note that our preference is for education level. *If your study does not have information on paternal social class, or there are a lot of missing values, please use maternal social class instead and note this in your Excel output. If you use maternal social class, please still call the variable "pat.ses" to enable the code to run*
 
 * **Paternal age (pat.age):** continuous numeric variable in years
 
@@ -93,16 +91,16 @@ Perhaps moreso than in previous PACE analyses, it is very important that covaria
 ## EWAS models
 
 ### Minimally-adjusted: Paternal BMI + Covariates + Cells (model name: minimal.pat)
-Methylation ~ Paternal BMI + SVs for batch + Paternal age + Paternal smoking status + Paternal socioeconomic status + Maternal age + Maternal smoking status + Maternal social class + Parity + Estimated cell counts
+Methylation ~ Paternal BMI + SVs for batch + Paternal age + Paternal smoking status + Paternal socioeconomic status + Maternal age + Maternal smoking status + Parity + Estimated cell counts
 
 ### Minimally-adjusted: Maternal BMI + Covariates + Cells (model name: minimal.mat)
-Methylation ~ Maternal BMI + SVs for batch + Paternal age + Paternal smoking status + Paternal socioeconomic status + Maternal age + Maternal smoking status + Maternal social class + Parity + Estimated cell counts
+Methylation ~ Maternal BMI + SVs for batch + Paternal age + Paternal smoking status + Paternal socioeconomic status + Maternal age + Maternal smoking status + Parity + Estimated cell counts
 
 ### Mutually-adjusted: adjusted for other parent's BMI, covariates and cells (model name: mutual)
 
 *Note that the code extracts results for the effect of paternal AND maternal BMI*
 
-Methylation ~ Paternal BMI + Maternal BMI + SVs for batch + Paternal age + Paternal smoking status + Paternal socioeconomic status + Maternal age + Maternal smoking status + Maternal social class + Parity + Estimated cell counts
+Methylation ~ Paternal BMI + Maternal BMI + SVs for batch + Paternal age + Paternal smoking status + Paternal socioeconomic status + Maternal age + Maternal smoking status + Parity + Estimated cell counts
 
 ### Mutually-adjusted, in boys only (model name: mutual.boys)
 
@@ -110,7 +108,7 @@ Methylation ~ Paternal BMI + Maternal BMI + SVs for batch + Paternal age + Pater
 
 *The R code will remove female offspring*
 
-Methylation ~ Paternal BMI + Maternal BMI + SVs for batch + Paternal age + Paternal smoking status + Paternal socioeconomic status + Maternal age + Maternal smoking status + Maternal social class + Parity + Estimated cell counts
+Methylation ~ Paternal BMI + Maternal BMI + SVs for batch + Paternal age + Paternal smoking status + Paternal socioeconomic status + Maternal age + Maternal smoking status + Parity + Estimated cell counts
 
 ### Mutually-adjusted, in girls only (model name: mutual.girls)
 
@@ -118,7 +116,7 @@ Methylation ~ Paternal BMI + Maternal BMI + SVs for batch + Paternal age + Pater
 
 *The R code will remove male offspring*
 
-Methylation ~ Paternal BMI + Maternal BMI + SVs for batch + Paternal age + Paternal smoking status + Paternal socioeconomic status + Maternal age + Maternal smoking status + Maternal social class + Parity + Estimated cell counts
+Methylation ~ Paternal BMI + Maternal BMI + SVs for batch + Paternal age + Paternal smoking status + Paternal socioeconomic status + Maternal age + Maternal smoking status + Parity + Estimated cell counts
 
 # Outputs
 
@@ -145,7 +143,7 @@ You shouldn't have to rewrite or add to the code, unless otherwise stated.
 
 There are just two inputs required for these analyses:
 
-1) pheno: a dataframe containing all the "phenotype" data needed for this project. Each row is a sample(individual) and each column is a different variable. Necessary variable names are: "pat.bmi", "mat.bmi", pat.active.smoking", "mat.active.smoking", "sex","pat.ses", "mat.ses", "pat.age", "mat.age", "parity". If these columns are named differently in your dataset, please rename the columns accordingly.
+1) pheno: a dataframe containing all the "phenotype" data needed for this project. Each row is a sample(individual) and each column is a different variable. Necessary variable names are: "pat.bmi", "mat.bmi", pat.active.smoking", "mat.active.smoking", "sex","pat.ses", "pat.age", "mat.age", "parity". If these columns are named differently in your dataset, please rename the columns accordingly.
 
 2) meth: a matrix of methylation illumina beta values. Each column is a sample and each row is a probe on the array (450k or EPIC). Column names must correspond to the sample.id column in pheno.
 

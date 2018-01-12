@@ -12,7 +12,7 @@
 # There are just two inputs required for this analysis:
 # 1) pheno: a dataframe containing all the "phenotype" data needed for this project. 
 #    Each row is a sample(individual) and each column is a different variable. 
-#    Necessary variable names are: "pat.bmi", "mat.bmi", pat.active.smoking", "mat.active.smoking", "sex","pat.ses", "mat.ses", "pat.age", "mat.age", "parity"
+#    Necessary variable names are: "pat.bmi", "mat.bmi", pat.active.smoking", "mat.active.smoking", "sex","pat.ses", "pat.age", "mat.age", "parity"
 #    If these columns are named differently in your dataset, please rename the columns accordingly
 #    Details on how to code these variables are provided in the analysis plan.
 # 2) meth: a matrix of methylation illumina beta values. Each column is a sample and each row is a probe on the array (450k or EPIC). 
@@ -74,8 +74,8 @@ cell.names <- if(timepoint=="birth"){
 }else{
   c("nk","gran","bcell","cd8t","cd4t","mono")
 }
-traits.and.covariates <- c("pat.bmi", "mat.bmi","sex","pat.ses","mat.ses","pat.age","mat.age","pat.active.smoking","mat.active.smoking","parity")
-covariates <- c("pat.age", "pat.active.smoking", "pat.ses", "mat.age", "mat.active.smoking", "mat.ses" , "parity", cell.names)
+traits.and.covariates <- c("pat.bmi", "mat.bmi","sex","pat.ses","pat.age","mat.age","pat.active.smoking","mat.active.smoking","parity")
+covariates <- c("pat.age", "pat.active.smoking", "pat.ses", "mat.age", "mat.active.smoking" , "parity", cell.names)
 
 # Load and check phenotype data
 pheno <- read.csv("EWAS/pat_bmi/phenofile.alspac.csv",header=TRUE,stringsAsFactors=FALSE) #change filename/location to point to your phenotype file
@@ -123,7 +123,7 @@ pheno.mutual.girls.only <- pheno.mutual[which(pheno.mutual$sex == 1),]
 
 # Summarise pheno data and save summaries as .csv files
 setwd("EWAS/pat_bmi/")
-mutual.tableone <- as.data.frame(print(CreateTableOne(data=pheno.mutual[,-1],factorVars=c("pat.bmi.cat","mat.bmi.cat","pat.active.smoking","mat.active.smoking","mat.ses","pat.ses","parity","sex"))),stringsAsFactors=FALSE)
+mutual.tableone <- as.data.frame(print(CreateTableOne(data=pheno.mutual[,-1],factorVars=c("pat.bmi.cat","mat.bmi.cat","pat.active.smoking","mat.active.smoking","pat.ses","parity","sex"))),stringsAsFactors=FALSE)
 mutual.tableone <- rbind(mutual.tableone,cor.test(pheno.mutual$pat.bmi,pheno.mutual$mat.bmi,method="spearman")$estimate,cor.test(pheno.mutual$pat.bmi,pheno.mutual$mat.bmi,method="spearman")$p.value)
 row.names(mutual.tableone)[(nrow(mutual.tableone)-1):nrow(mutual.tableone)] <- c("cortest.rho","cortest.p")
 write.csv(mutual.tableone,file=paste0(study,".patbmi.mutual.summary.",timepoint,".csv"))

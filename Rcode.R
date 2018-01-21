@@ -86,9 +86,6 @@ for(i in 1:length(c("sample.id",traits.and.covariates,cell.names))) {
                paste("variable called",c("sample.id",traits.and.covariates,cell.names)[i],"is present in pheno")))
 }
 
-table(pheno$bio.dad) #checking number of partners that are not biological fathers
-pheno <- pheno[which(pheno$bio.dad==1),] #removing partners that are not biological fathers
-
 # Load methylation data (meth)
 load("/panfs/panasas01/dedicated-mrcieu/studies/latest/alspac/epigenetic/methylation/450k/aries/released/2016-05-03/data/betas/data.Robj") #change to point to your methylation data
 # Please perform any cohort-level QC at this stage (e.g. you might want to remove probes with a high detection P-value)

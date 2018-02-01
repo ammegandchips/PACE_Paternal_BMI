@@ -60,7 +60,7 @@ All of the code necessary to run these analyses is provided here https://github.
 
 Perhaps moreso than in previous PACE analyses, it is very important that covariates are coded exactly as outlined below. The R code relies on these codings!
 
-* **Paternal social class (pat.ses):** binary numeric variable (1=high/0=low), please use your preferred classification, but note that our preference is for education level. *If your study does not have information on paternal social class, or there are a lot of missing values, please use maternal social class instead and note this in your Excel output. If you use maternal social class, please still call the variable "pat.ses" to enable the code to run*
+* **Paternal social class (ses):** binary numeric variable (1=high/0=low), please use your preferred classification, but note that our preference is for education level. *If your study does not have information on paternal social class, or there are a lot of missing values, please use maternal social class instead and note this in your Excel output.*
 
 * **Paternal age (pat.age):** continuous numeric variable in years
 
@@ -90,13 +90,25 @@ Perhaps moreso than in previous PACE analyses, it is very important that covaria
 
 ## EWAS models
 
-### Minimally-adjusted: Paternal BMI + Covariates + Cells (model name: minimal.pat)
+### Minimally-adjusted: Paternal BMI + Cells (model name: covs.pat)
+Methylation ~ Paternal BMI + SVs for batch + Estimated cell counts
+
+### Minimally-adjusted: Maternal BMI + Cells (model name: covs.mat)
+Methylation ~ Maternal BMI + SVs for batch + Estimated cell counts
+
+### Minimally-adjusted: adjusted for other parent's BMI and cells (model name: covs.mutual)
+
+*Note that the code extracts results for the effect of paternal AND maternal BMI*
+
+Methylation ~ Paternal BMI + Maternal BMI + SVs for batch  + Estimated cell counts
+
+### Covariates-adjusted: Paternal BMI + Covariates + Cells (model name: covs.pat)
 Methylation ~ Paternal BMI + SVs for batch + Paternal age + Paternal smoking status + Paternal socioeconomic status + Maternal age + Maternal smoking status + Parity + Estimated cell counts
 
-### Minimally-adjusted: Maternal BMI + Covariates + Cells (model name: minimal.mat)
+### Covariates-adjusted: Maternal BMI + Covariates + Cells (model name: covs.mat)
 Methylation ~ Maternal BMI + SVs for batch + Paternal age + Paternal smoking status + Paternal socioeconomic status + Maternal age + Maternal smoking status + Parity + Estimated cell counts
 
-### Mutually-adjusted: adjusted for other parent's BMI, covariates and cells (model name: mutual)
+### Covariates-adjusted: adjusted for other parent's BMI, covariates and cells (model name: covs.mutual)
 
 *Note that the code extracts results for the effect of paternal AND maternal BMI*
 
@@ -123,8 +135,9 @@ Methylation ~ Paternal BMI + Maternal BMI + SVs for batch + Paternal age + Pater
 Please supply the following files in the specified formats:
 
 1) EWAS results (For each time point, one Rdata file labelled as YOURSTUDY.patbmi.ewasresults.timepoint.Rdata. This will contain all outputs from all EWAS for one time point. If you have multiple time points, you will have an Rdata file for each time point: birth, early_childhood, late_childhood, adolescence, or adult)
-2) Extra cohort information: one Excel file labelled as YOURSTUDY.patbmi.cohortinfo.xlsx. This will contain information for each cohort relating to things like normalisation method and number of fathers excluded because of non-paternity. Please download and use the template available at [https://github.com/ammegandchips/PACE_Paternal_BMI/blob/master/YOURSTUDY.patbmi.cohortinfo.xlsx](https://github.com/ammegandchips/PACE_Paternal_BMI/blob/master/YOURSTUDY.patbmi.cohortinfo.xlsx)
-3) EWAS variables summary: for the main EWAS model (mutual), a csv file labelled as YOURSTUDY.patbmi.modelname.summary.timepoint.csv. This will contain summary statistics summarising predictor variables. The code will generate these files for you. If you have multiple time points, you will have a csv file for each time point: birth, early.childhood, late.childhood, adolescence, or adult.
+2) IQR log file: for each time point, one Rdata file labelled as YOURSTUDY.patsmoking.logIQR.timepoint.Rdata.The code will generate this file for you. If you have multiple time points, you will have an Rdata file for each time point: birth, early.childhood, late.childhood, adolescence, or adult.
+3) Extra cohort information: one Excel file labelled as YOURSTUDY.patbmi.cohortinfo.xlsx. This will contain information for each cohort relating to things like normalisation method and number of fathers excluded because of non-paternity. Please download and use the template available at [https://github.com/ammegandchips/PACE_Paternal_BMI/blob/master/YOURSTUDY.patbmi.cohortinfo.xlsx](https://github.com/ammegandchips/PACE_Paternal_BMI/blob/master/YOURSTUDY.patbmi.cohortinfo.xlsx)
+4) EWAS variables summary: for the main EWAS model (mutual), a csv file labelled as YOURSTUDY.patbmi.modelname.summary.timepoint.csv. This will contain summary statistics summarising predictor variables. The code will generate these files for you. If you have multiple time points, you will have a csv file for each time point: birth, early.childhood, late.childhood, adolescence, or adult.
 
 # Upload, timescale and contacts
 
@@ -143,7 +156,7 @@ You shouldn't have to rewrite or add to the code, unless otherwise stated.
 
 There are just two inputs required for these analyses:
 
-1) pheno: a dataframe containing all the "phenotype" data needed for this project. Each row is a sample(individual) and each column is a different variable. Necessary variable names are: "pat.bmi", "mat.bmi", pat.active.smoking", "mat.active.smoking", "sex","pat.ses", "pat.age", "mat.age", "parity". If these columns are named differently in your dataset, please rename the columns accordingly.
+1) pheno: a dataframe containing all the "phenotype" data needed for this project. Each row is a sample(individual) and each column is a different variable. Necessary variable names are: "pat.bmi", "mat.bmi", pat.active.smoking", "mat.active.smoking", "sex","ses", "pat.age", "mat.age", "parity". If these columns are named differently in your dataset, please rename the columns accordingly.
 
 2) meth: a matrix of methylation illumina beta values. Each column is a sample and each row is a probe on the array (450k or EPIC). Column names must correspond to the sample.id column in pheno.
 

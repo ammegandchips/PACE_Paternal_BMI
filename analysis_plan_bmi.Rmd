@@ -90,13 +90,13 @@ Perhaps moreso than in previous PACE analyses, it is very important that covaria
 
 ## EWAS models
 
-### Minimally-adjusted: Paternal BMI + Cells (model name: covs.pat)
+### Minimally-adjusted: Paternal BMI + Cells (model name: min.pat)
 Methylation ~ Paternal BMI + SVs for batch + Estimated cell counts
 
-### Minimally-adjusted: Maternal BMI + Cells (model name: covs.mat)
+### Minimally-adjusted: Maternal BMI + Cells (model name: min.mat)
 Methylation ~ Maternal BMI + SVs for batch + Estimated cell counts
 
-### Minimally-adjusted: adjusted for other parent's BMI and cells (model name: covs.mutual)
+### Minimally-adjusted: adjusted for other parent's BMI and cells (model name: min.mutual)
 
 *Note that the code extracts results for the effect of paternal AND maternal BMI*
 

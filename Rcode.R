@@ -12,7 +12,7 @@
 # There are just two inputs required for this analysis:
 # 1) pheno: a dataframe containing all the "phenotype" data needed for this project. 
 #    Each row is a sample(individual) and each column is a different variable. 
-#    Necessary variable names are: "pat.bmi", "mat.bmi", pat.active.smoking", "mat.active.smoking", "sex","pat.ses", "pat.age", "mat.age", "parity"
+#    Necessary variable names are: "pat.bmi", "mat.bmi", pat.active.smoking", "mat.active.smoking", "sex","ses", "pat.age", "mat.age", "parity"
 #    If these columns are named differently in your dataset, please rename the columns accordingly
 #    Details on how to code these variables are provided in the analysis plan.
 # 2) meth: a matrix of methylation illumina beta values. Each column is a sample and each row is a probe on the array (450k or EPIC). 
@@ -74,8 +74,8 @@ cell.names <- if(timepoint=="birth"){
 }else{
   c("nk","gran","bcell","cd8t","cd4t","mono")
 }
-traits.and.covariates <- c("pat.bmi", "mat.bmi","sex","pat.ses","pat.age","mat.age","pat.active.smoking","mat.active.smoking","parity")
-covariates <- c("pat.age", "pat.active.smoking", "pat.ses", "mat.age", "mat.active.smoking" , "parity", cell.names)
+traits.and.covariates <- c("pat.bmi", "mat.bmi","sex","ses","pat.age","mat.age","pat.active.smoking","mat.active.smoking","parity")
+covariates <- c("pat.age", "pat.active.smoking", "ses", "mat.age", "mat.active.smoking" , "parity", cell.names)
 
 # Load and check phenotype data
 pheno <- read.csv("EWAS/pat_bmi/phenofile.alspac.csv",header=TRUE,stringsAsFactors=FALSE) #change filename/location to point to your phenotype file
@@ -91,52 +91,81 @@ load("/panfs/panasas01/dedicated-mrcieu/studies/latest/alspac/epigenetic/methyla
 # Please perform any cohort-level QC at this stage (e.g. you might want to remove probes with a high detection P-value)
 
 # IQR*3 method to remove outliers (if this has not already been applied to your data)
+log.iqr <- data.frame(cpgs = row.names(meth),NAs.before.IQR3 = rowSums(is.na(meth)))
 meth <- IQR.removal(meth)
+log.iqr$NAs.after.IQR3 <- rowSums(is.na(meth))
+save(log.iqr, file=paste0(study,".patbmi.logIQR.",timepoint,".Rdata"))
 
-# Generate surrogate variables for technical batch and merge with pheno data to create the phenotype dataframes for the mutually-adjusted model
-pheno.mutual <- SVA.generate(meth, pheno, variable.of.interest = c("pat.bmi","mat.bmi"), model.covariates = c(covariates,"sex"),n.sv=20)
+# Generate surrogate variables for technical batch and merge with pheno data to create the phenotype dataframes for the mutually adjusted models
+pheno.covs.mutual <- SVA.generate(meth, pheno, variable.of.interest = c("pat.bmi","mat.bmi"), model.covariates = c(covariates,"sex"),n.sv=20)
+pheno.min.mutual <- SVA.generate(meth, pheno, variable.of.interest = c("pat.bmi","mat.bmi"), model.covariates = NULL,n.sv=20)
 
 #Create variables for BMI categories, which will be used to summarise data
-pheno.mutual$pat.bmi.cat <- NA
-pheno.mutual$pat.bmi.cat[pheno.mutual$pat.bmi<=18.5] <-"underweight"
-pheno.mutual$pat.bmi.cat[pheno.mutual$pat.bmi>18.5 & pheno.mutual$pat.bmi<=25] <-"normal"
-pheno.mutual$pat.bmi.cat[pheno.mutual$pat.bmi>25 & pheno.mutual$pat.bmi<=30] <-"overweight"
-pheno.mutual$pat.bmi.cat[pheno.mutual$pat.bmi>30] <-"obese"
-pheno.mutual$mat.bmi.cat <- NA
-pheno.mutual$mat.bmi.cat[pheno.mutual$mat.bmi<=18.5] <-"underweight"
-pheno.mutual$mat.bmi.cat[pheno.mutual$mat.bmi>18.5 & pheno.mutual$mat.bmi<=25] <-"normal"
-pheno.mutual$mat.bmi.cat[pheno.mutual$mat.bmi>25 & pheno.mutual$mat.bmi<=30] <-"overweight"
-pheno.mutual$mat.bmi.cat[pheno.mutual$mat.bmi>30] <-"obese"
+pheno.min.mutual$pat.bmi.cat <- NA
+pheno.min.mutual$pat.bmi.cat[pheno.min.mutual$pat.bmi<=18.5] <-"underweight"
+pheno.min.mutual$pat.bmi.cat[pheno.min.mutual$pat.bmi>18.5 & pheno.min.mutual$pat.bmi<=25] <-"normal"
+pheno.min.mutual$pat.bmi.cat[pheno.min.mutual$pat.bmi>25 & pheno.min.mutual$pat.bmi<=30] <-"overweight"
+pheno.min.mutual$pat.bmi.cat[pheno.min.mutual$pat.bmi>30] <-"obese"
+pheno.min.mutual$mat.bmi.cat <- NA
+pheno.min.mutual$mat.bmi.cat[pheno.min.mutual$mat.bmi<=18.5] <-"underweight"
+pheno.min.mutual$mat.bmi.cat[pheno.min.mutual$mat.bmi>18.5 & pheno.min.mutual$mat.bmi<=25] <-"normal"
+pheno.min.mutual$mat.bmi.cat[pheno.min.mutual$mat.bmi>25 & pheno.min.mutual$mat.bmi<=30] <-"overweight"
+pheno.min.mutual$mat.bmi.cat[pheno.min.mutual$mat.bmi>30] <-"obese"
+
+pheno.covs.mutual$pat.bmi.cat <- NA
+pheno.covs.mutual$pat.bmi.cat[pheno.covs.mutual$pat.bmi<=18.5] <-"underweight"
+pheno.covs.mutual$pat.bmi.cat[pheno.covs.mutual$pat.bmi>18.5 & pheno.covs.mutual$pat.bmi<=25] <-"normal"
+pheno.covs.mutual$pat.bmi.cat[pheno.covs.mutual$pat.bmi>25 & pheno.covs.mutual$pat.bmi<=30] <-"overweight"
+pheno.covs.mutual$pat.bmi.cat[pheno.covs.mutual$pat.bmi>30] <-"obese"
+pheno.covs.mutual$mat.bmi.cat <- NA
+pheno.covs.mutual$mat.bmi.cat[pheno.covs.mutual$mat.bmi<=18.5] <-"underweight"
+pheno.covs.mutual$mat.bmi.cat[pheno.covs.mutual$mat.bmi>18.5 & pheno.covs.mutual$mat.bmi<=25] <-"normal"
+pheno.covs.mutual$mat.bmi.cat[pheno.covs.mutual$mat.bmi>25 & pheno.covs.mutual$mat.bmi<=30] <-"overweight"
+pheno.covs.mutual$mat.bmi.cat[pheno.covs.mutual$mat.bmi>30] <-"obese"
 
 # Create BMI Z-scores
-pheno.mutual$Zmat.bmi <- as.numeric(scale(pheno.mutual$mat.bmi,center=TRUE,scale=TRUE))
-pheno.mutual$Zpat.bmi <- as.numeric(scale(pheno.mutual$pat.bmi,center=TRUE,scale=TRUE))
+pheno.min.mutual$Zmat.bmi <- as.numeric(scale(pheno.min.mutual$mat.bmi,center=TRUE,scale=TRUE))
+pheno.min.mutual$Zpat.bmi <- as.numeric(scale(pheno.min.mutual$pat.bmi,center=TRUE,scale=TRUE))
 
-#Create the phenotype dataframes for the minimally-adjusted and sex stratified EWASs
-pheno.minimal.pat <-pheno.mutual[,-which(colnames(pheno.mutual) %in% c("mat.bmi","Zmat.bmi"))]
-pheno.minimal.mat <-pheno.mutual[,-which(colnames(pheno.mutual) %in% c("pat.bmi","Zpat.bmi"))]
-pheno.mutual.boys.only <- pheno.mutual[which(pheno.mutual$sex == 0),]
-pheno.mutual.girls.only <- pheno.mutual[which(pheno.mutual$sex == 1),]
+pheno.covs.mutual$Zmat.bmi <- as.numeric(scale(pheno.covs.mutual$mat.bmi,center=TRUE,scale=TRUE))
+pheno.covs.mutual$Zpat.bmi <- as.numeric(scale(pheno.covs.mutual$pat.bmi,center=TRUE,scale=TRUE))
+
+#Create the phenotype dataframes for the non-mutually-adjusted and sex stratified EWASs
+pheno.min.pat <-pheno.min.mutual[,-which(colnames(pheno.min.mutual) %in% c("mat.bmi","Zmat.bmi","mat.bmi.cat"))]
+pheno.min.mat <-pheno.min.mutual[,-which(colnames(pheno.min.mutual) %in% c("pat.bmi","Zpat.bmi","pat.bmi.cat"))]
+pheno.covs.pat <-pheno.covs.mutual[,-which(colnames(pheno.covs.mutual) %in% c("mat.bmi","Zmat.bmi"))]
+pheno.covs.mat <-pheno.covs.mutual[,-which(colnames(pheno.covs.mutual) %in% c("pat.bmi","Zpat.bmi"))]
+pheno.covs.mutual.boys.only <- pheno.covs.mutual[which(pheno.covs.mutual$sex == 0),]
+pheno.covs.mutual.girls.only <- pheno.covs.mutual[which(pheno.covs.mutual$sex == 1),]
 
 # Summarise pheno data and save summaries as .csv files
 setwd("EWAS/pat_bmi/")
-mutual.tableone <- as.data.frame(print(CreateTableOne(data=pheno.mutual[,-1],factorVars=c("pat.bmi.cat","mat.bmi.cat","pat.active.smoking","mat.active.smoking","pat.ses","parity","sex"))),stringsAsFactors=FALSE)
-mutual.tableone <- rbind(mutual.tableone,cor.test(pheno.mutual$pat.bmi,pheno.mutual$mat.bmi,method="spearman")$estimate,cor.test(pheno.mutual$pat.bmi,pheno.mutual$mat.bmi,method="spearman")$p.value)
-row.names(mutual.tableone)[(nrow(mutual.tableone)-1):nrow(mutual.tableone)] <- c("cortest.rho","cortest.p")
-write.csv(mutual.tableone,file=paste0(study,".patbmi.mutual.summary.",timepoint,".csv"))
+min.mutual.tableone <- as.data.frame(print(CreateTableOne(data=pheno.min.mutual[,-1],factorVars=c("pat.bmi.cat","mat.bmi.cat"))),stringsAsFactors=FALSE)
+min.mutual.tableone <- rbind(min.mutual.tableone,suppressWarnings(cor.test(pheno.min.mutual$pat.bmi,pheno.min.mutual$mat.bmi,method="spearman")$estimate),suppressWarnings(cor.test(pheno.min.mutual$pat.bmi,pheno.min.mutual$mat.bmi,method="spearman")$p.value))
+covs.mutual.tableone <- as.data.frame(print(CreateTableOne(data=pheno.covs.mutual[,-1],factorVars=c("pat.bmi.cat","mat.bmi.cat","pat.active.smoking","mat.active.smoking","ses","parity","sex"))),stringsAsFactors=FALSE)
+covs.mutual.tableone <- rbind(covs.mutual.tableone,suppressWarnings(cor.test(pheno.covs.mutual$pat.bmi,pheno.covs.mutual$mat.bmi,method="spearman")$estimate),suppressWarnings(cor.test(pheno.covs.mutual$pat.bmi,pheno.covs.mutual$mat.bmi,method="spearman")$p.value))
+row.names(min.mutual.tableone)[(nrow(min.mutual.tableone)-1):nrow(min.mutual.tableone)] <- c("cortest.rho","cortest.p")
+row.names(covs.mutual.tableone)[(nrow(covs.mutual.tableone)-1):nrow(covs.mutual.tableone)] <- c("cortest.rho","cortest.p")
+write.csv(min.mutual.tableone,file=paste0(study,".patbmi.min.mutual.summary.",timepoint,".csv"))
 
 # Run each EWAS
-ewas.res.minimal.pat <- ewas.function(meth, pheno.minimal.pat[,!colnames(pheno.minimal.pat) %in% c("sex","pat.bmi.cat","mat.bmi.cat", "pat.bmi", "mat.bmi")], variable.of.interest = "Zpat.bmi")
-ewas.res.minimal.mat <- ewas.function(meth, pheno.minimal.mat[,!colnames(pheno.minimal.mat) %in% c("sex","pat.bmi.cat","mat.bmi.cat", "pat.bmi", "mat.bmi")], variable.of.interest = "Zmat.bmi")
-ewas.res.mutual <- ewas.function(meth, pheno.mutual[,!colnames(pheno.mutual) %in% c("sex","pat.bmi.cat","mat.bmi.cat", "pat.bmi", "mat.bmi")], variable.of.interest = c("Zpat.bmi","Zmat.bmi"))
-ewas.res.mutual.boys.only <- ewas.function(meth, pheno.mutual.boys.only[,!colnames(pheno.mutual.boys.only) %in% c("sex","pat.bmi.cat","mat.bmi.cat", "pat.bmi", "mat.bmi")], variable.of.interest = c("Zpat.bmi","Zmat.bmi"))
-ewas.res.mutual.girls.only <- ewas.function(meth, pheno.mutual.girls.only[,!colnames(pheno.mutual.girls.only) %in% c("sex","pat.bmi.cat","mat.bmi.cat", "pat.bmi", "mat.bmi")], variable.of.interest = c("Zpat.bmi","Zmat.bmi"))
+ewas.res.min.pat <- ewas.function(meth, pheno.min.pat[,!colnames(pheno.min.pat) %in% c("sex","pat.bmi.cat","mat.bmi.cat", "pat.bmi", "mat.bmi")], variable.of.interest = "Zpat.bmi")
+ewas.res.min.mat <- ewas.function(meth, pheno.min.mat[,!colnames(pheno.min.mat) %in% c("sex","pat.bmi.cat","mat.bmi.cat", "pat.bmi", "mat.bmi")], variable.of.interest = "Zmat.bmi")
+ewas.res.min.mutual <- ewas.function(meth, pheno.min.mutual[,!colnames(pheno.min.mutual) %in% c("sex","pat.bmi.cat","mat.bmi.cat", "pat.bmi", "mat.bmi")], variable.of.interest = c("Zpat.bmi","Zmat.bmi"))
+ewas.res.covs.pat <- ewas.function(meth, pheno.covs.pat[,!colnames(pheno.covs.pat) %in% c("sex","pat.bmi.cat","mat.bmi.cat", "pat.bmi", "mat.bmi")], variable.of.interest = "Zpat.bmi")
+ewas.res.covs.mat <- ewas.function(meth, pheno.covs.mat[,!colnames(pheno.covs.mat) %in% c("sex","pat.bmi.cat","mat.bmi.cat", "pat.bmi", "mat.bmi")], variable.of.interest = "Zmat.bmi")
+ewas.res.covs.mutual <- ewas.function(meth, pheno.covs.mutual[,!colnames(pheno.covs.mutual) %in% c("sex","pat.bmi.cat","mat.bmi.cat", "pat.bmi", "mat.bmi")], variable.of.interest = c("Zpat.bmi","Zmat.bmi"))
+ewas.res.covs.mutual.boys.only <- ewas.function(meth, pheno.covs.mutual.boys.only[,!colnames(pheno.covs.mutual.boys.only) %in% c("sex","pat.bmi.cat","mat.bmi.cat", "pat.bmi", "mat.bmi")], variable.of.interest = c("Zpat.bmi","Zmat.bmi"))
+ewas.res.covs.mutual.girls.only <- ewas.function(meth, pheno.covs.mutual.girls.only[,!colnames(pheno.covs.mutual.girls.only) %in% c("sex","pat.bmi.cat","mat.bmi.cat", "pat.bmi", "mat.bmi")], variable.of.interest = c("Zpat.bmi","Zmat.bmi"))
  
 # Save EWAS results as an Rdata file
 save(list=intersect(ls(),
-                    c("ewas.res.minimal.pat",
-                      "ewas.res.minimal.mat",
-                      "ewas.res.mutual",
-                      "ewas.res.mutual.boys.only",
-                      "ewas.res.mutual.girls.only")),
+                    c("ewas.res.min.pat",
+                      "ewas.res.min.mat",
+                      "ewas.res.min.mutual",
+                      "ewas.res.covs.pat",
+                      "ewas.res.covs.mat",
+                      "ewas.res.covs.mutual",
+                      "ewas.res.covs.mutual.boys.only",
+                      "ewas.res.covs.mutual.girls.only")),
      file=paste0(study,".patbmi.ewasresults.",timepoint,".Rdata"))

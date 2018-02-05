@@ -98,7 +98,7 @@ save(log.iqr, file=paste0(study,".patbmi.logIQR.",timepoint,".Rdata"))
 
 # Generate surrogate variables for technical batch and merge with pheno data to create the phenotype dataframes for the mutually adjusted models
 pheno.covs.mutual <- SVA.generate(meth, pheno, variable.of.interest = c("pat.bmi","mat.bmi"), model.covariates = c(covariates,"sex"),n.sv=20)
-pheno.min.mutual <- SVA.generate(meth, pheno, variable.of.interest = c("pat.bmi","mat.bmi"), model.covariates = NULL,n.sv=20)
+pheno.min.mutual <- SVA.generate(meth, pheno, variable.of.interest = c("pat.bmi","mat.bmi"), model.covariates = cell.names,n.sv=20)
 
 #Create variables for BMI categories, which will be used to summarise data
 pheno.min.mutual$pat.bmi.cat <- NA
@@ -147,6 +147,11 @@ covs.mutual.tableone <- rbind(covs.mutual.tableone,suppressWarnings(cor.test(phe
 row.names(min.mutual.tableone)[(nrow(min.mutual.tableone)-1):nrow(min.mutual.tableone)] <- c("cortest.rho","cortest.p")
 row.names(covs.mutual.tableone)[(nrow(covs.mutual.tableone)-1):nrow(covs.mutual.tableone)] <- c("cortest.rho","cortest.p")
 write.csv(min.mutual.tableone,file=paste0(study,".patbmi.min.mutual.summary.",timepoint,".csv"))
+
+# Test associations between paternal BMI and cell types
+cells <- pheno.min.mutual[,which(colnames(pheno.min.mutual) %in% cell.names)]
+cells.res <- t(apply(cells,2,function(x) summary(lm(x ~ pheno.min.mutual$pat.bmi))$coef[2,]))
+write.csv(cells.res,file=paste0(study,".patbmi.cells.res.summary.",timepoint,".csv"))
 
 # Run each EWAS
 ewas.res.min.pat <- ewas.function(meth, pheno.min.pat[,!colnames(pheno.min.pat) %in% c("sex","pat.bmi.cat","mat.bmi.cat", "pat.bmi", "mat.bmi")], variable.of.interest = "Zpat.bmi")

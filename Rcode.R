@@ -147,6 +147,7 @@ covs.mutual.tableone <- rbind(covs.mutual.tableone,suppressWarnings(cor.test(phe
 row.names(min.mutual.tableone)[(nrow(min.mutual.tableone)-1):nrow(min.mutual.tableone)] <- c("cortest.rho","cortest.p")
 row.names(covs.mutual.tableone)[(nrow(covs.mutual.tableone)-1):nrow(covs.mutual.tableone)] <- c("cortest.rho","cortest.p")
 write.csv(min.mutual.tableone,file=paste0(study,".patbmi.min.mutual.summary.",timepoint,".csv"))
+write.csv(covs.mutual.tableone,file=paste0(study,".patbmi.covs.mutual.summary.",timepoint,".csv"))
 
 # Test associations between paternal BMI and cell types
 cells <- pheno.min.mutual[,which(colnames(pheno.min.mutual) %in% cell.names)]

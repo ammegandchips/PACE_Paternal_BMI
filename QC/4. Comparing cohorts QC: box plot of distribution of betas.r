@@ -3,7 +3,8 @@
 
 require(reshape)
 
-abbreviated.cohort.names <- c("AL","Bas","Bwh","CH","EN","GR","Inc","Ic","PI","VI","RH")#abbreviated to fit on x axis
+abbreviated.cohort.names <- c("AL","Bas","Bwh","CH","EN","GR","Inc","Ic","PI","VI","RH")#or c("AL","CH","GR","HE") for late_childhood
+time_point <- "birth" #or whatever
 
 require(reshape)
 list.of.dataframes <- lapply(All.EWAS,
@@ -23,7 +24,7 @@ colnames(dat) <- c("Models","Coefficients","Cohorts")
 
 require(ggplot2)
 
-filename <- "qc_res/coefficient.distributions.png"
+filename <- paste0("qc_res/coefficient.distributions.",time_point,".png"
 png(filename, width=30,height=40,units="cm",res=300)
 P <- ggplot(dat, aes(x = Cohorts, y = Coefficients)) +
         geom_boxplot(fill = "#4271AE", colour = "#1F3552",

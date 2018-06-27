@@ -1,4 +1,6 @@
 #Leave one out analysis for top sites (P<1e-5) from covs adjusted models
+#Leave one out is carried out BEFORE removing sites with high heterogeneity, and again AFTER
+#This code is for AFTER (i.e. on list.of.results.het.removed not list.of.results)
 
 top.sites.covs.pat <- list.of.results.het.removed$covs.pat[which(list.of.results.het.removed$covs.pat$Pvalue<1e-5),"MarkerName"]
 top.sites.covs.patmat <- list.of.results.het.removed$covs.patmat[which(list.of.results.het.removed$covs.patmat$Pvalue<1e-5),"MarkerName"]

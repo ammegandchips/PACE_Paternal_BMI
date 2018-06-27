@@ -38,4 +38,5 @@ Summary.of.hits <- as.data.frame(t(apply(Summary.of.hits,1,unlist)))
 Summary.of.hits <-do.call(data.frame,lapply(Summary.of.hits, function(x) replace(x, is.infinite(x),NA)))
 row.names(Summary.of.hits) <- names(list.of.results)
 
-write.csv(Summary.of.hits,"meta_models.summary_of_hits.csv",row.names=TRUE)
+time_point<-"birth" #or whatever
+write.csv(Summary.of.hits,paste0("meta_models.summary_of_hits.",time_point,".csv"),row.names=TRUE)

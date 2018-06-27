@@ -20,7 +20,7 @@ dat$Cohorts <- row.names(dat)
 dat$Cohorts <- unlist(lapply(strsplit(dat$Cohorts,split=".",fixed=TRUE),"[",1))
 colnames(dat) <- c("Models","Coefficients","Cohorts")
 cutoff.lower <- quantile(dat$Coefficients,1e-5,na.rm=T) 
-cuttoff.higher <- quantile(dat$Coefficients,1-1e-5,na.rm=T)
+cutoff.higher <- quantile(dat$Coefficients,1-1e-5,na.rm=T)
 cutoff <- round(max(abs(cutoff.lower),abs(cutoff.higher)),1)
 
 remove.outlying.es <- function(ewas.dataframe){

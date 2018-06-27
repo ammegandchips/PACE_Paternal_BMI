@@ -6,4 +6,9 @@ intersect(list.of.results.het.removed$covs.pat[which(list.of.results.het.removed
 #patmat vs matpat
 intersect(list.of.results.het.removed$covs.patmat[which(list.of.results.het.removed$covs.patmat$Pvalue<1e-5),"MarkerName"],list.of.results.het.removed$covs.matpat[which(list.of.results.het.removed$covs.matpat$Pvalue<1e-5),"MarkerName"])#0
 
+#males patmat vs matpat
+intersect(list.of.results.het.removed$boys.patmat[which(list.of.results.het.removed$boys.patmat$Pvalue<1e-5),"MarkerName"],list.of.results.het.removed$boys.matpat[which(list.of.results.het.removed$boys.matpat$Pvalue<1e-5),"MarkerName"])#0
+
+#females patmat vs matpat
+intersect(list.of.results.het.removed$girls.patmat[which(list.of.results.het.removed$girls.patmat$Pvalue<1e-5),"MarkerName"],list.of.results.het.removed$girls.matpat[which(list.of.results.het.removed$girls.matpat$Pvalue<1e-5),"MarkerName"])#0
 

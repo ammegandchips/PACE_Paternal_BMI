@@ -1,0 +1,233 @@
+module add tools/git-1.8.4.2
+git clone https://github.com/explodecomputer/random-metal
+cd random-metal
+make
+cd ..
+random-metal/executables/metal
+
+#models: 
+#"min.pat"      "min.mat"      "min.patmat"   "min.matpat"   "covs.pat"
+#"covs.mat"     "covs.patmat"  "covs.matpat"  "boys.patmat"  "boys.matpat"
+#"girls.patmat" "girls.matpat"
+
+#BIRTH
+
+REMOVEFILTERS
+SCHEME STDERR
+USESTRAND OFF
+GENOMICCONTROL OFF
+AVERAGEFREQ OFF
+MINMAXFREQ OFF
+COLUMNCOUNTING LENIENT
+SEPARATOR COMMA
+PVALUELABEL p
+MARKER probeid
+EFFECTLABEL coef
+STDERRLABEL se
+
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/birth.min.pat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ALSPAC.min.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.asian.min.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.white.min.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.CHAMACOS.min.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ENVIRONAGE.min.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.GenerationR.min.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.INMA.nocombat.min.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.PICCOLIPIU.min.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ProjectViva.min.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.RHEA.min.pat.csv
+
+ANALYZE RANDOM
+CLEAR
+CLEAR
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/birth.min.mat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ALSPAC.min.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.asian.min.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.white.min.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.CHAMACOS.min.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ENVIRONAGE.min.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.GenerationR.min.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.INMA.nocombat.min.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.PICCOLIPIU.min.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ProjectViva.min.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.RHEA.min.mat.csv
+
+ANALYZE RANDOM
+CLEAR
+CLEAR
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/birth.min.patmat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ALSPAC.min.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.asian.min.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.white.min.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.CHAMACOS.min.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ENVIRONAGE.min.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.GenerationR.min.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.INMA.nocombat.min.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.PICCOLIPIU.min.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ProjectViva.min.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.RHEA.min.patmat.csv
+
+ANALYZE RANDOM
+CLEAR
+CLEAR
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/birth.min.matpat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ALSPAC.min.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.asian.min.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.white.min.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.CHAMACOS.min.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ENVIRONAGE.min.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.GenerationR.min.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.INMA.nocombat.min.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.PICCOLIPIU.min.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ProjectViva.min.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.RHEA.min.matpat.csv
+
+ANALYZE RANDOM
+CLEAR
+CLEAR
+
+########
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/birth.covs.pat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ALSPAC.covs.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.asian.covs.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.white.covs.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.CHAMACOS.covs.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ENVIRONAGE.covs.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.GenerationR.covs.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.INMA.nocombat.covs.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.PICCOLIPIU.covs.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ProjectViva.covs.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.RHEA.covs.pat.csv
+
+ANALYZE RANDOM
+CLEAR
+CLEAR
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/birth.covs.mat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ALSPAC.covs.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.asian.covs.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.white.covs.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.CHAMACOS.covs.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ENVIRONAGE.covs.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.GenerationR.covs.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.INMA.nocombat.covs.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.PICCOLIPIU.covs.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ProjectViva.covs.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.RHEA.covs.mat.csv
+
+ANALYZE RANDOM
+CLEAR
+CLEAR
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/birth.covs.patmat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ALSPAC.covs.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.asian.covs.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.white.covs.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.CHAMACOS.covs.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ENVIRONAGE.covs.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.GenerationR.covs.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.INMA.nocombat.covs.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.PICCOLIPIU.covs.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ProjectViva.covs.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.RHEA.covs.patmat.csv
+
+ANALYZE RANDOM
+CLEAR
+CLEAR
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/birth.covs.matpat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ALSPAC.covs.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.asian.covs.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.white.covs.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.CHAMACOS.covs.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ENVIRONAGE.covs.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.GenerationR.covs.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.INMA.nocombat.covs.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.PICCOLIPIU.covs.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ProjectViva.covs.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.RHEA.covs.matpat.csv
+
+ANALYZE RANDOM
+CLEAR
+CLEAR
+
+######
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/birth.boys.patmat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ALSPAC.boys.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.asian.covs.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.white.covs.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.CHAMACOS.boys.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ENVIRONAGE.boys.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.GenerationR.boys.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.INMA.nocombat.boys.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.PICCOLIPIU.boys.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ProjectViva.boys.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.RHEA.boys.patmat.csv
+
+ANALYZE RANDOM
+CLEAR
+CLEAR
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/birth.boys.matpat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ALSPAC.boys.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.asian.boys.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.white.boys.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.CHAMACOS.boys.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ENVIRONAGE.boys.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.GenerationR.boys.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.INMA.nocombat.boys.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.PICCOLIPIU.boys.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ProjectViva.boys.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.RHEA.boys.matpat.csv
+
+ANALYZE RANDOM
+CLEAR
+CLEAR
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/birth.girls.patmat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ALSPAC.girls.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.asian.girls.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.white.girls.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.CHAMACOS.girls.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ENVIRONAGE.girls.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.GenerationR.girls.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.INMA.nocombat.girls.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.PICCOLIPIU.girls.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ProjectViva.girls.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.RHEA.girls.patmat.csv
+
+ANALYZE RANDOM
+CLEAR
+CLEAR
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/birth.girls.matpat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ALSPAC.girls.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.asian.girls.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.white.girls.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.CHAMACOS.girls.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ENVIRONAGE.girls.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.GenerationR.girls.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.INMA.nocombat.girls.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.PICCOLIPIU.girls.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ProjectViva.girls.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.RHEA.girls.matpat.csv
+
+ANALYZE RANDOM

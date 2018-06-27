@@ -1,6 +1,3 @@
-## PACE Paternal BMI 
-## Gemma Sharp
-## 28/04/2018
 # QC of individual cohort EWAS results #
 ## The required steps:
 # Read in all the files (DONE)

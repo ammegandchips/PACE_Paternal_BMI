@@ -2,7 +2,8 @@
 
 require(data.table)
 
-abbreviated.cohort.names <- c("AL","Bas","Bwh","CH","EN","GR","Inc","Ic","PI","VI","RH")#abbreviated to fit on x axis
+abbreviated.cohort.names <- c("AL","Bas","Bwh","CH","EN","GR","Inc","Ic","PI","VI","RH")#abbreviated to fit on x axis (c("AL","CH","GR","HE") for late_childhood)
+time_point <- "birth" #or whatever
 
 extract.median.n <- function(ewas.dataframe){
 	median(ewas.dataframe[,c(which(colnames(ewas.dataframe)=="n"))],na.rm=TRUE)
@@ -73,7 +74,7 @@ names(dat) <- c("Model","N","Cohort","Median.SE")
 #6 min.pat  170     GR 0.0010540600
 
 require(ggplot2)
-filename <- "qc_res/Precision.by.samplesize.png"
+filename <- paste0("qc_res/Precision.by.samplesize.",time_point,".png"
 png(filename, width=30,height=40,units="cm",res=300)
 P <- ggplot(dat, aes(x = sqrt(N), y = 1/Median.SE, label=Cohort)) +
         geom_text()+

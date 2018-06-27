@@ -50,7 +50,7 @@ extract.and.merge.meta.analysis <-function(meta.res,data){
 meta.cell.results <- fixed.effects.meta.analysis(list.of.studies = studies, data = cell.results)
 meta.cell.results.dataframe <- extract.and.merge.meta.analysis(meta.res = meta.cell.results, data = cell.results)
 
-write.csv(meta.cell.results.dataframe,"cells.meta.results.csv")
+write.csv(meta.cell.results.dataframe,"cells.meta.results.birth.csv")
 
 # Draw forest plots
 pdf("cells.forest.plots.pdf",width=10,height=6)

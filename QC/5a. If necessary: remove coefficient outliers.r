@@ -4,7 +4,7 @@
 
 require(reshape)
 
-abbreviated.cohort.names <- c("AL","Bas","Bwh","CH","EN","GR","Inc","Ic","PI","VI","RH")
+abbreviated.cohort.names <- c("AL","Bas","Bwh","CH","EN","GR","Inc","Ic","PI","VI","RH")#or c("AL","CH","GR","HE")  for late childhood
 
 list.of.dataframes <- lapply(All.EWAS,
 function(cohort){

@@ -33,6 +33,18 @@ dev.off()
 png("EnrichmentQQ.imprinted.matpatbmi.png",width=500,height=500)
 myQQ(p.sva = sort(list.of.results.het.removed$covs.matpat$Pvalue[which(list.of.results.het.removed$covs.matpat$MarkerName %in% imprinted)]),Title="Maternal BMI (adjusted for paternal BMI) P-values:\nEnrichment for imprinted CpGs")
 dev.off()
+png("EnrichmentQQ.imprinted.patmatbmi.male.png",width=500,height=500)
+myQQ(p.sva = sort(list.of.results.het.removed$boys.patmat$Pvalue[which(list.of.results.het.removed$boys.patmat$MarkerName %in% imprinted)]),Title="Paternal BMI (adjusted for maternal BMI) P-values for male offspring:\nEnrichment for imprinted CpGs")
+dev.off()
+png("EnrichmentQQ.imprinted.matpatbmi.male.png",width=500,height=500)
+myQQ(p.sva = sort(list.of.results.het.removed$boys.matpat$Pvalue[which(list.of.results.het.removed$boys.matpat$MarkerName %in% imprinted)]),Title="Maternal BMI (adjusted for paternal BMI) P-values for male offspring:\nEnrichment for imprinted CpGs")
+dev.off()
+png("EnrichmentQQ.imprinted.patmatbmi.female.png",width=500,height=500)
+myQQ(p.sva = sort(list.of.results.het.removed$girls.patmat$Pvalue[which(list.of.results.het.removed$girls.patmat$MarkerName %in% imprinted)]),Title="Paternal BMI (adjusted for maternal BMI) P-values for female offspring:\nEnrichment for imprinted CpGs")
+dev.off()
+png("EnrichmentQQ.imprinted.matpatbmi.female.png",width=500,height=500)
+myQQ(p.sva = sort(list.of.results.het.removed$girls.matpat$Pvalue[which(list.of.results.het.removed$girls.matpat$MarkerName %in% imprinted)]),Title="Maternal BMI (adjusted for paternal BMI) P-values for female offspring:\nEnrichment for imprinted CpGs")
+dev.off()
 
 #MSE
 png("EnrichmentQQ.epialleles.patmatbmi.png",width=500,height=500)
@@ -41,12 +53,33 @@ dev.off()
 png("EnrichmentQQ.epialleles.matpatbmi.png",width=500,height=500)
 myQQ(p.sva = sort(list.of.results.het.removed$covs.matpat$Pvalue[which(list.of.results.het.removed$covs.matpat$MarkerName %in% epialleles)]),Title="Maternal BMI (adjusted for paternal BMI) P-values:\nEnrichment for metastable epialleles")
 dev.off()
+png("EnrichmentQQ.epialleles.patmatbmi.male.png",width=500,height=500)
+myQQ(p.sva = sort(list.of.results.het.removed$boys.patmat$Pvalue[which(list.of.results.het.removed$boys.patmat$MarkerName %in% epialleles)]),Title="Paternal BMI (adjusted for maternal BMI) P-values for male offspring:\nEnrichment for epiallele CpGs")
+dev.off()
+png("EnrichmentQQ.epialleles.matpatbmi.male.png",width=500,height=500)
+myQQ(p.sva = sort(list.of.results.het.removed$boys.matpat$Pvalue[which(list.of.results.het.removed$boys.matpat$MarkerName %in% epialleles)]),Title="Maternal BMI (adjusted for paternal BMI) P-values for male offspring:\nEnrichment for epiallele CpGs")
+dev.off()
+png("EnrichmentQQ.epialleles.patmatbmi.female.png",width=500,height=500)
+myQQ(p.sva = sort(list.of.results.het.removed$girls.patmat$Pvalue[which(list.of.results.het.removed$girls.patmat$MarkerName %in% epialleles)]),Title="Paternal BMI (adjusted for maternal BMI) P-values for female offspring:\nEnrichment for epiallele CpGs")
+dev.off()
+png("EnrichmentQQ.epialleles.matpatbmi.female.png",width=500,height=500)
+myQQ(p.sva = sort(list.of.results.het.removed$girls.matpat$Pvalue[which(list.of.results.het.removed$girls.matpat$MarkerName %in% epialleles)]),Title="Maternal BMI (adjusted for paternal BMI) P-values for female offspring:\nEnrichment for epiallele CpGs")
+dev.off()
+
 
 #Summary of P<0.05 in these regions
 summary(list.of.results.het.removed$covs.patmat[which(list.of.results.het.removed$covs.patmat$Pvalue<0.05),"MarkerName"] %in% imprinted)#1
 summary(list.of.results.het.removed$covs.matpat[which(list.of.results.het.removed$covs.matpat$Pvalue<0.05),"MarkerName"] %in% imprinted)#14
 summary(list.of.results.het.removed$covs.patmat[which(list.of.results.het.removed$covs.patmat$Pvalue<0.05),"MarkerName"] %in% epialleles)#8
 summary(list.of.results.het.removed$covs.matpat[which(list.of.results.het.removed$covs.matpat$Pvalue<0.05),"MarkerName"] %in% epialleles)#4
+summary(list.of.results.het.removed$boys.patmat[which(list.of.results.het.removed$boys.patmat$Pvalue<0.05),"MarkerName"] %in% imprinted)#9
+summary(list.of.results.het.removed$boys.matpat[which(list.of.results.het.removed$boys.matpat$Pvalue<0.05),"MarkerName"] %in% imprinted)#7
+summary(list.of.results.het.removed$girls.patmat[which(list.of.results.het.removed$girls.patmat$Pvalue<0.05),"MarkerName"] %in% imprinted)#6
+summary(list.of.results.het.removed$girls.matpat[which(list.of.results.het.removed$girls.matpat$Pvalue<0.05),"MarkerName"] %in% imprinted)#7
+summary(list.of.results.het.removed$boys.patmat[which(list.of.results.het.removed$boys.patmat$Pvalue<0.05),"MarkerName"] %in% epialleles)#8
+summary(list.of.results.het.removed$boys.matpat[which(list.of.results.het.removed$boys.matpat$Pvalue<0.05),"MarkerName"] %in% epialleles)#6
+summary(list.of.results.het.removed$girls.patmat[which(list.of.results.het.removed$girls.patmat$Pvalue<0.05),"MarkerName"] %in% epialleles)#5
+summary(list.of.results.het.removed$girls.matpat[which(list.of.results.het.removed$girls.matpat$Pvalue<0.05),"MarkerName"] %in% epialleles)#5
 
 #Denominators
 length(intersect(imprinted,list.of.results.het.removed$covs.patmat$MarkerName))#104

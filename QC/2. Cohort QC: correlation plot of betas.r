@@ -1,5 +1,7 @@
 # Cohort QC: Correlation plot of betas in all 12 results files
 
+time_point <- "birth" #or "late_childhood", "early_childhood", "adolescence"
+
 require(corrplot)
 require(plyr)
 
@@ -10,7 +12,7 @@ extract.coefficients <- function(ewas.dataframe){
 correlation.plot<-function(cohort,cohort_name){
 x <- data.frame(do.call(cbind, lapply(cohort,extract.coefficients)))
 colnames(x)<-key$result[which(colnames(x)%in%key$merged.title.coef)]
-filename <- paste0("qc_res/",cohort_name,".correlation.png")
+filename <- paste0("qc_res/",cohort_name,".",timepoint,".correlation.png")
 png(filename,width=15,height=18,units="cm",res=300)
 corrplot(cor(x),method="number",type="upper")
 title(cohort_name)

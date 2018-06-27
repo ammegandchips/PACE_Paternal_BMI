@@ -1,5 +1,7 @@
 #Read EWAS meta-analysis results and prepare for further analysis
 
+tp <- "birth" #or whatever
+
 models <-c("min.pat","min.mat","min.patmat","min.matpat","covs.pat",
 "covs.mat","covs.patmat","covs.matpat","boys.patmat","boys.matpat",
 "girls.patmat","girls.matpat")

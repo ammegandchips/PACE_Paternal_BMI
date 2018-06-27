@@ -4,6 +4,8 @@ models <-c("min.pat","min.mat","min.patmat","min.matpat","covs.pat",
 "covs.mat","covs.patmat","covs.matpat","boys.patmat","boys.matpat",
 "girls.patmat","girls.matpat")
 
+tp <- "birth" #or whatever
+
 setwd("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/")
 
 require(meffil)

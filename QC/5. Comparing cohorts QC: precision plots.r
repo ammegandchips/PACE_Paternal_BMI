@@ -74,7 +74,7 @@ names(dat) <- c("Model","N","Cohort","Median.SE")
 #6 min.pat  170     GR 0.0010540600
 
 require(ggplot2)
-filename <- paste0("qc_res/Precision.by.samplesize.",time_point,".png"
+filename <- paste0("qc_res/Precision.by.samplesize.",time_point,".png")
 png(filename, width=30,height=40,units="cm",res=300)
 P <- ggplot(dat, aes(x = sqrt(N), y = 1/Median.SE, label=Cohort)) +
         geom_text()+

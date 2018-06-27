@@ -24,7 +24,7 @@ colnames(dat) <- c("Models","Coefficients","Cohorts")
 
 require(ggplot2)
 
-filename <- paste0("qc_res/coefficient.distributions.",time_point,".png"
+filename <- paste0("qc_res/coefficient.distributions.",time_point,".png")
 png(filename, width=30,height=40,units="cm",res=300)
 P <- ggplot(dat, aes(x = Cohorts, y = Coefficients)) +
         geom_boxplot(fill = "#4271AE", colour = "#1F3552",

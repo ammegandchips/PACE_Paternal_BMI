@@ -1,4 +1,5 @@
-#Pat vs Mat meta-analysis
+#MALES AND FEMALES: Pat vs Mat meta-analysis
+
 fixed.effects.meta.analysis <- function(data){
                               require(metafor)
                               res = split(data, f=data$MarkerName)
@@ -52,3 +53,103 @@ ggtitle("Paternal vs Maternal BMI\n") + theme(plot.title = element_text(hjust = 
 png("PatvsMat.coefplot.png",width=1000,height=500)
 P
 dev.off()
+				 
+#SEX STRATIFIED
+				 
+ixed.effects.meta.analysis <- function(data){
+                              require(metafor)
+                              res = split(data, f=data$MarkerName)
+                              res = lapply(res, function(x) rma.uni(slab=x$study,yi=x$Effect,sei=x$StdErr,method="FE",weighted=TRUE))
+                              res
+                              }
+
+CpGs.male <- list.of.results.het.removed$boys.patmat[which(list.of.results.het.removed$boys.patmat$Pvalue<1e-5),"MarkerName"]
+CpGs.female <- list.of.results.het.removed$girls.patmat[which(list.of.results.het.removed$girls.patmat$Pvalue<1e-5),"MarkerName"]
+
+#MALES ONLY
+
+					   PatMatComparison<-rbind(list.of.results.het.removed$boys.patmat[which(list.of.results.het.removed$boys.patmat$MarkerName %in% CpGs.male),],
+list.of.results.het.removed$boys.matpat[which(list.of.results.het.removed$boys.matpat$MarkerName %in% CpGs.male),])
+PatMatComparison$Model <- c(rep("Paternal adjusted for maternal",length(CpGs.male)),
+						rep("Maternal adjusted for paternal",length(CpGs.male)))
+							  
+results.patmat.adj<-fixed.effects.meta.analysis(data=PatMatComparison[which(PatMatComparison$Model %in% c("Paternal adjusted for maternal","Maternal adjusted for paternal")),])
+results.patmat.adj<-ldply(lapply(results.patmat.adj,function(x) unlist(c(x[c("QE","QEp","I2")]))))
+write.csv(results.patmat.adj,"matpatvspatmat.male.metaanalysis.birth.csv")
+
+PatMatComparison$colour <-"black"
+PatMatComparison$colour[which(PatMatComparison$Model %in% c("Maternal adjusted for paternal"))]<-"red"
+PatMatComparison$ci.lb<-PatMatComparison$Effect - (1.96* PatMatComparison$StdErr)
+PatMatComparison$ci.ub<-PatMatComparison$Effect + (1.96* PatMatComparison$StdErr)
+PatMatComparison$Model<-factor(PatMatComparison$Model,levels=c("Paternal adjusted for maternal","Maternal adjusted for paternal"),ordered=TRUE)
+Order<-list.of.results.het.removed$boys.patmat[which(list.of.results.het.removed$boys.patmat$MarkerName %in% CpGs.male),]
+Order<-Order[order(Order$Effect),]
+PatMatComparison$MarkerName<-factor(PatMatComparison$MarkerName,levels=Order$MarkerName,ordered=TRUE)
+PatMatComparison<-merge(PatMatComparison,annotation,by.x="MarkerName",by.y="name",all=FALSE)
+new.annotations<-fread("/panfs/panasas01/sscm/gs8094/Common_files/enhanced_annotations.txt",stringsAsFactors=FALSE)
+PatMatComparison<-merge(PatMatComparison,new.annotations,by.x="MarkerName",by.y="IlmnID",all.y=FALSE)
+PatMatComparison$gene <- unlist(lapply(strsplit(PatMatComparison$gene.symbol,split=";"),"[",1))
+PatMatComparison$gene[is.na(PatMatComparison$gene)]<-PatMatComparison$"UCSC KnownGene"[is.na(PatMatComparison$gene)]
+PatMatComparison$CpG.Gene <- paste0(PatMatComparison$MarkerName,"\n",PatMatComparison$gene)
+PatMatComparison<-PatMatComparison[order(PatMatComparison$MarkerName),]
+PatMatComparison$CpG.Gene<-factor(PatMatComparison$CpG.Gene,levels=unique(PatMatComparison$CpG.Gene),ordered=TRUE)
+
+P <- ggplot(PatMatComparison,aes(x=Model,y=Effect*100))+
+geom_errorbar(aes(colour=Model,ymin=ci.lb*100, ymax=ci.ub*100),width=0.5,size=1)+
+geom_point(aes(shape=Model,colour=Model),fill="white",size=4)+
+scale_shape_manual(values=c(15,22))+
+scale_colour_manual(values=c("red","black"))+
+geom_hline(yintercept=0,linetype="dashed")+
+facet_grid(.~CpG.Gene)+
+theme_bw() + theme(axis.ticks.x=element_blank(),axis.text.x=element_blank(),panel.grid.major.x = element_blank()) +
+xlab("")+ylab("Effect estimate (difference in % methylation\nper 1SD increase in parental BMI)")+
+ggtitle("Paternal vs Maternal BMI (male offspring)\n") + theme(plot.title = element_text(hjust = 0.5),strip.text = element_text(face = "italic"))
+
+png("PatvsMat.male.coefplot.png",width=1500,height=500)
+P
+dev.off()
+
+#FEMALES ONLY
+
+PatMatComparison<-rbind(list.of.results.het.removed$girls.patmat[which(list.of.results.het.removed$girls.patmat$MarkerName %in% CpGs.female),],
+list.of.results.het.removed$girls.matpat[which(list.of.results.het.removed$girls.matpat$MarkerName %in% CpGs.female),])
+PatMatComparison$Model <- c(rep("Paternal adjusted for maternal",length(CpGs.female)),
+						rep("Maternal adjusted for paternal",length(CpGs.female)))
+							  
+results.patmat.adj<-fixed.effects.meta.analysis(data=PatMatComparison[which(PatMatComparison$Model %in% c("Paternal adjusted for maternal","Maternal adjusted for paternal")),])
+results.patmat.adj<-ldply(lapply(results.patmat.adj,function(x) unlist(c(x[c("QE","QEp","I2")]))))
+write.csv(results.patmat.adj,"matpatvspatmat.female.metaanalysis.birth.csv")
+
+PatMatComparison$colour <-"black"
+PatMatComparison$colour[which(PatMatComparison$Model %in% c("Maternal adjusted for paternal"))]<-"red"
+PatMatComparison$ci.lb<-PatMatComparison$Effect - (1.96* PatMatComparison$StdErr)
+PatMatComparison$ci.ub<-PatMatComparison$Effect + (1.96* PatMatComparison$StdErr)
+PatMatComparison$Model<-factor(PatMatComparison$Model,levels=c("Paternal adjusted for maternal","Maternal adjusted for paternal"),ordered=TRUE)
+Order<-list.of.results.het.removed$girls.patmat[which(list.of.results.het.removed$girls.patmat$MarkerName %in% CpGs.female),]
+Order<-Order[order(Order$Effect),]
+PatMatComparison$MarkerName<-factor(PatMatComparison$MarkerName,levels=Order$MarkerName,ordered=TRUE)
+PatMatComparison<-merge(PatMatComparison,annotation,by.x="MarkerName",by.y="name",all=FALSE)
+new.annotations<-fread("/panfs/panasas01/sscm/gs8094/Common_files/enhanced_annotations.txt",stringsAsFactors=FALSE)
+PatMatComparison<-merge(PatMatComparison,new.annotations,by.x="MarkerName",by.y="IlmnID",all.y=FALSE)
+PatMatComparison$gene <- unlist(lapply(strsplit(PatMatComparison$gene.symbol,split=";"),"[",1))
+PatMatComparison$gene[is.na(PatMatComparison$gene)]<-PatMatComparison$"UCSC KnownGene"[is.na(PatMatComparison$gene)]
+PatMatComparison$CpG.Gene <- paste0(PatMatComparison$MarkerName,"\n",PatMatComparison$gene)
+PatMatComparison<-PatMatComparison[order(PatMatComparison$MarkerName),]
+PatMatComparison$CpG.Gene<-factor(PatMatComparison$CpG.Gene,levels=unique(PatMatComparison$CpG.Gene),ordered=TRUE)
+
+P <- ggplot(PatMatComparison,aes(x=Model,y=Effect*100))+
+geom_errorbar(aes(colour=Model,ymin=ci.lb*100, ymax=ci.ub*100),width=0.5,size=1)+
+geom_point(aes(shape=Model,colour=Model),fill="white",size=4)+
+scale_shape_manual(values=c(15,22))+
+scale_colour_manual(values=c("red","black"))+
+geom_hline(yintercept=0,linetype="dashed")+
+facet_grid(.~CpG.Gene)+
+theme_bw() + theme(axis.ticks.x=element_blank(),axis.text.x=element_blank(),panel.grid.major.x = element_blank()) +
+xlab("")+ylab("Effect estimate (difference in % methylation\nper 1SD increase in parental BMI)")+
+ggtitle("Paternal vs Maternal BMI (female offspring)\n") + theme(plot.title = element_text(hjust = 0.5),strip.text = element_text(face = "italic"))
+
+png("PatvsMat.female.coefplot.png",width=1000,height=500)
+P
+dev.off()
+
+				 

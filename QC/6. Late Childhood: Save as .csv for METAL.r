@@ -4,7 +4,7 @@
 prepare.QCd.ewas.results <- function(result.file, ewas.dataframe, cohort.name){
 key.result <- key[which(key$result==result.file),]
 QCd.ewas.results <- ewas.dataframe[,intersect(colnames(ewas.dataframe), c(key.result$column.prefix,paste(key.result$column.prefix,key.result$column.suffix,sep=".")))]
-colnames(QCd.ewas.results) <- c("n","coef","se","p","probeid")
+colnames(QCd.ewas.results) <- c("n","se","p","probeid","coef")
 filename <- paste0("meta/cohort_files_after_qc/late_childhood.",cohort.name,".",result.file,".csv")
 write.csv(QCd.ewas.results,filename,row.names=FALSE,quote=FALSE,eol="\r\n")
 }

@@ -53,7 +53,7 @@ meta.cell.results.dataframe <- extract.and.merge.meta.analysis(meta.res = meta.c
 write.csv(meta.cell.results.dataframe,"cells.meta.results.birth.csv")
 
 # Draw forest plots
-pdf("cells.forest.plots.pdf",width=10,height=6)
+pdf("cells.forest.plots.birth.pdf",width=10,height=6)
 for(i in 1:length(meta.cell.results)){
 par(mar=c(4,5,1,4))
 forest(meta.cell.results[[i]],main="",digits=4,mlab="",xlab="Difference in cell proportion per 1SD increase in paternal BMI",xlim=c(-0.02,0.02),alim=c(-0.02,0.02),cex=1,ylim=c(-1,13))

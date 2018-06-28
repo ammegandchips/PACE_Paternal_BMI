@@ -3,7 +3,7 @@
 
 require(reshape)
 
-abbreviated.cohort.names <- c("AL","Bas","Bwh","CH","EN","GR","Inc","Ic","PI","VI","RH")#or c("AL","CH","GR","HE") for late_childhood
+abbreviated.cohort.names <- c("AL","Bas","Bwh","CH","EN","GR","GO","Inc","Ic","PI","PV","RH")#or c("AL","CH","GR","HE") for late_childhood
 time_point <- "birth" #or whatever
 
 require(reshape)

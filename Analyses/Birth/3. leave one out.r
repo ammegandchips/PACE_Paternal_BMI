@@ -14,8 +14,6 @@ addprobeID <- function(ewas.dataframe){
 
 All.EWAS.top <- lapply(All.EWAS,function(x) lapply(x,addprobeID))
 
-names(All.EWAS.top) <-c("ALSPAC","BIB_asian", "BIB_white","GenerationR","ProjectViva","CHAMACOS","INMA.nocombat","RHEA","ENVIRONAGE","PICCOLIPIU")
-
 All.EWAS.top.covs.pat<-lapply(All.EWAS.top,function(x) lapply(x,function(y) y[which(y$probeid %in% top.sites.covs.pat),]))
 All.EWAS.top.covs.patmat<-lapply(All.EWAS.top,function(x) lapply(x,function(y) y[which(y$probeid %in% top.sites.covs.patmat),]))
 All.EWAS.top.boys<-lapply(All.EWAS.top,function(x) lapply(x,function(y) y[which(y$probeid %in% top.sites.boys),]))

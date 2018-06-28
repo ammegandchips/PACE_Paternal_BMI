@@ -44,9 +44,10 @@ INMA.combat <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/results
 RHEA <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/RHEA/RHEA/RHEA.patbmi.ewasresults.birth.Rdata")
 ENVIRONAGE <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/ENVIRONAGE/ENVIRONAGE.patbmi.ewasresults.birth.Rdata")
 PICCOLIPIU <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/PICCOLIPIU/PICCOLIPIU/PICCOLIPIU.patbmi.ewasresults.birth.Rdata")
+GOYA <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/goya/GOYA.patbmi.ewasresults.birth.Rdata")
 
-All.EWAS <- list(ALSPAC,BIB_asian,BIB_white,GenerationR,ProjectViva,CHAMACOS,INMA.nocombat,INMA.combat,RHEA,ENVIRONAGE,PICCOLIPIU)
-names(All.EWAS) <- c("ALSPAC","BIB_asian","BIB_white","GenerationR","ProjectViva","CHAMACOS","INMA.nocombat","INMA.combat","RHEA","ENVIRONAGE","PICCOLIPIU")
+All.EWAS <- list(ALSPAC,BIB_asian,BIB_white,CHAMACOS,ENVIRONAGE,GenerationR,GOYA,INMA.nocombat,INMA.combat,RHEA,PICCOLIPIU,ProjectViva)
+names(All.EWAS) <- c("ALSPAC","BIB_asian","BIB_white","CHAMACOS","ENVIRONAGE","GenerationR","GOYA","INMA.nocombat","INMA.combat","RHEA","PICCOLIPIU","ProjectViva")
 
 #Add probe ID
 

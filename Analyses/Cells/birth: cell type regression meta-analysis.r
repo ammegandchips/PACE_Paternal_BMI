@@ -5,16 +5,17 @@ ALSPAC <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/alspac/results/ALS
 BIB_asian <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/bib/BIB_asian.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
 BIB_white <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/bib/BIB_white.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
 GenerationR <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/GenR/GenR.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
+GOYA <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/goya/GOYA.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
 ProjectViva <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/VIVA_PATBMI/VIVA_PATBMI/Viva.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
 CHAMACOS <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/CHAMACOS_results/CHAMACOS.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
 INMA.nocombat <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/results_PACE_INMA/0years_nocombat/PACE.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
-INMA.combat <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/results_PACE_INMA/0years_combat/PACE.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
 RHEA <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/RHEA/RHEA/RHEA.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
 ENVIRONAGE <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/ENVIRONAGE/ENVIRONAGE.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
 PICCOLIPIU <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/PICCOLIPIU/PICCOLIPIU/PICCOLIPIU.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
 ProjectViva$X <- tolower(ProjectViva$X)
-cell.results<-list(ALSPAC,BIB_asian, BIB_white,GenerationR,ProjectViva,CHAMACOS,INMA.nocombat,RHEA,ENVIRONAGE,PICCOLIPIU)
-names(cell.results) <-c("ALSPAC","BIB_asian", "BIB_white","GenerationR","ProjectViva","CHAMACOS","INMA.nocombat","RHEA","ENVIRONAGE","PICCOLIPIU")
+
+cell.results<- list(ALSPAC,BIB_asian,BIB_white,CHAMACOS,ENVIRONAGE,GenerationR,GOYA,INMA.nocombat,RHEA,PICCOLIPIU,ProjectViva)
+names(cell.results) <- c("ALSPAC","BIB_asian","BIB_white","CHAMACOS","ENVIRONAGE","GenerationR","GOYA","INMA","RHEA","PICCOLIPIU","ProjectViva")
 
 cell.results <- lapply(cell.results,setNames, c("cell_type","effect","se","t","p"))
 cell.results <- do.call(cbind,cell.results)
@@ -23,7 +24,7 @@ cell.results <- do.call(cbind,cell.results)
 
 require(metafor)
 
-studies <-c("ALSPAC","BIB_asian", "BIB_white","GenerationR","ProjectViva","CHAMACOS","INMA.nocombat","RHEA","ENVIRONAGE","PICCOLIPIU")
+studies <- c("ALSPAC","BIB_asian","BIB_white","CHAMACOS","ENVIRONAGE","GenerationR","GOYA","INMA","RHEA","PICCOLIPIU","ProjectViva")
 
 fixed.effects.meta.analysis <- function(list.of.studies,data){
                               coefs = data[,c("ALSPAC.cell_type",paste0(list.of.studies,".effect"))]

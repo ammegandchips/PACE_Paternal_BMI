@@ -4,7 +4,11 @@
 
 require(reshape)
 
-abbreviated.cohort.names <- c("AL","Bas","Bwh","CH","EN","GR","Inc","Ic","PI","VI","RH")#or c("AL","CH","GR","HE")  for late childhood
+abbreviated.cohort.names <- c("AL","Bas","Bwh","CH","EN","GR","GO","Inc","Ic","PI","VI","RH")#or c("AL","CH","GR","HE")  for late childhood
+
+extract.coefficients <- function(ewas.dataframe){
+	ewas.dataframe[,grep(colnames(ewas.dataframe),pattern="coef")]
+}
 
 list.of.dataframes <- lapply(All.EWAS,
 function(cohort){

@@ -59,7 +59,7 @@ extract.Ns <- function(ewas.dataframe){
 }
 
 All.Ns<-lapply(All.EWAS,function(x) do.call(rbind,lapply(x,extract.Ns)))
-names(All.Ns) <-c("ALSPAC","BIB_asian", "BIB_white","CHAMACOS", "ENVIRONAGE","GenerationR","INMA","PICCOLIPIU", "ProjectViva", "RHEA")
+names(All.Ns) <-c("ALSPAC","BIB_asian","BIB_white","CHAMACOS","ENVIRONAGE","GenerationR","GOYA","INMA","RHEA","PICCOLIPIU","ProjectViva")
 Ns.covs<-do.call(rbind,lapply(All.Ns,function(x) x[which(row.names(x) =="ewas.res.covs.pat"),]))
 Ns.covs.mutual.boys.only<-do.call(rbind,lapply(All.Ns,function(x) x[which(row.names(x) =="ewas.res.covs.mutual.boys.only"),]))
 Ns.covs.mutual.girls.only<-do.call(rbind,lapply(All.Ns,function(x) x[which(row.names(x) =="ewas.res.covs.mutual.girls.only"),]))

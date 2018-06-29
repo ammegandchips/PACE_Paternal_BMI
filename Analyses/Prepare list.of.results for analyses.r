@@ -14,7 +14,7 @@ annotation <- meffil.get.features("450k")
 require(data.table)
 
 read.meta.results <- function(model,tp) {
-as.data.frame(fread(paste0("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/",tp,".outliersremoved.",model,"1.txt")))
+as.data.frame(fread(paste0("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/",tp,".",model,"1.txt")))
 }
 
 list.of.results<-lapply(models,read.meta.results,tp="birth")

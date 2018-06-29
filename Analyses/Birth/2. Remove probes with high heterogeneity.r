@@ -1,4 +1,4 @@
-Removing sites with high heterogeneity (HetPVal<1e-5)
+#Removing sites with high heterogeneity (HetPVal<1e-5)
 
 filterprobes.het <- function(ewas.dataframe){
   ewas.dataframe[which(ewas.dataframe$HetPVal>1e-3),]

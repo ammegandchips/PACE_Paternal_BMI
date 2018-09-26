@@ -1,26 +1,50 @@
-#QQ plot and Lambda using Bacon for each model
+time_point <- "birth" #or childhood
 
-time_point <- "birth" #or whatever
-
-require(bacon)
 require(gridExtra)
 
-extract.se <- function(ewas.dataframe){
-	ewas.dataframe[,which(colnames(ewas.dataframe)=="StdErr")]
+myQQ <- function(P, ci = 0.95,Title) {
+  lambda <- Lambda(P)
+  n  <- length(P)
+  df <- data.frame(
+    observed = -log10(P),
+    expected = -log10(ppoints(n)),
+    clower   = -log10(qbeta(p = (1 - ci) / 2, shape1 = 1:n, shape2 = n:1)),
+    cupper   = -log10(qbeta(p = (1 + ci) / 2, shape1 = 1:n, shape2 = n:1))
+  )
+  log10Pe <- expression(paste("Expected -log"[10], plain(P)))
+  log10Po <- expression(paste("Observed -log"[10], plain(P)))
+  ggplot(df) +
+    geom_point(aes(expected, observed), shape = 1, size = 3) +
+      geom_abline(intercept = 0, slope = 1, alpha = 0.5) +
+    geom_line(aes(expected, cupper), linetype = 2,colour="blue") +
+#	ylim(0,6) +
+    geom_line(aes(expected, clower), linetype = 2,colour="blue") +
+    ggtitle(paste0(Title," Lambda = ",round(lambda,2))) +
+	theme_classic()+
+    theme(plot.title = element_text(hjust = 0.5))+
+    xlab(log10Pe) +
+    ylab(log10Po)  
+} 
+
+Lambda<-function(P){
+chisq <- qchisq(1-P,1)
+median(chisq,na.rm=T)/qchisq(0.5,1)
 }
 
-bacon.plot <- function(cohort,cohort_name){
-z.scores <- data.frame(do.call(cbind, lapply(cohort,extract.coefficients)))/data.frame(do.call(cbind, lapply(cohort,extract.se)))
-bacon.res <- apply(z.scores,2,bacon)
-bacon.lambdas <- data.frame(do.call(cbind,lapply(bacon.res,inflation)))
-filename <- paste0(cohort_name,".qqplots.outliersremoved.",time_point,".png")
+extract.p <- function(ewas.dataframe){
+	ewas.dataframe[,which(colnames(ewas.dataframe)=="Pvalue")]
+}
+
+qq.plot <- function(cohort,cohort_name){
+Ps <- data.frame(do.call(cbind, lapply(cohort,extract.p)))
+filename <- paste0(cohort_name,".",time_point,".qqplots.png")
 png(filename, width=30,height=40,units="cm",res=300)
 plot.function<-function(i){
-	plot(bacon.res[[i]],type="qq")+ggtitle(paste(cohort_name,names(bacon.res)[[i]],"lambda =",round(bacon.lambdas[[i]],3)))+theme(legend.position="none",plot.title=element_text(hjust=0.5),axis.title=element_text(size=8))
-}
-plots <- lapply(1:length(bacon.res),plot.function)
+	myQQ(sort(Ps[,i]),Title=paste(cohort_name,": ",colnames(Ps)[i]))
+	}
+plots <- lapply(1:ncol(Ps),plot.function)
 do.call(grid.arrange,plots)
 dev.off()
 }
 
-bacon.plot(list.of.results,"meta_models")
+qq.plot(list.of.results,"meta_models")       

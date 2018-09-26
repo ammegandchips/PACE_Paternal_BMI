@@ -2,7 +2,7 @@
 
 require(data.table)
 
-abbreviated.cohort.names <- c("AL","Bas","Bwh","CH","EN","GR","GO","Inc","Ic","PI","PV","RH")#or c("AL","CH","GR","HE") for late_childhood
+abbreviated.cohort.names <- c("AL","Bas","Bwh","CH","EN","GR","GO","Inc","Ic","M1","M2","M3","PI","PV","RH")
 time_point <- "birth" #or whatever
 
 extract.median.n <- function(ewas.dataframe){
@@ -27,12 +27,12 @@ names(sample.sizes.melted) <- c("model","sample.size","cohort")
 
 # head(sample.sizes.melted)
 #    model sample.size cohort
-#1 min.pat         647     AL
-#2 min.pat          88    Bas
-#3 min.pat         138    Bwh
-#4 min.pat        1061     CH
-#5 min.pat         334     EN
-#6 min.pat         170     GR
+# min.pat         647     AL
+# min.pat          88    Bas
+# min.pat         138    Bwh
+# min.pat         170     CH
+# min.pat         183     EN
+# min.pat        1061     GR
 
 extract.se <- function(ewas.dataframe){
 	ewas.dataframe[,c(which(colnames(ewas.dataframe)=="se"),grep(colnames(ewas.dataframe),pattern="se.pheno"))]
@@ -54,24 +54,23 @@ names(median.SEs.melted) <- c("model","median.se","cohort")
 
 # head(median.SEs.melted)
 #    model    median.se cohort
-#1 min.pat 0.0011268487     AL
-#2 min.pat 0.0030311629    Bas
-#3 min.pat 0.0027171339    Bwh
-#4 min.pat 0.0005759023     CH
-#5 min.pat 0.0005581278     EN
-#6 min.pat 0.0010540600     GR
+# min.pat 0.0010936286     AL
+# min.pat 0.0025318482    Bas
+# min.pat 0.0022816048    Bwh
+# min.pat 0.0010440241     CH
+# min.pat 0.0008717286     EN
+# min.pat 0.0005681995     GR
 
 dat <- cbind(sample.sizes.melted,median.SEs.melted$median.se)
 names(dat) <- c("Model","N","Cohort","Median.SE")
 
-# head(dat)
 #    Model    N Cohort    Median.SE
-#1 min.pat  647     AL 0.0011268487
-#2 min.pat   88    Bas 0.0030311629
-#3 min.pat  138    Bwh 0.0027171339
-#4 min.pat 1061     CH 0.0005759023
-#5 min.pat  334     EN 0.0005581278
-#6 min.pat  170     GR 0.0010540600
+# min.pat  647     AL 0.0010936286
+# min.pat   88    Bas 0.0025318482
+# min.pat  138    Bwh 0.0022816048
+# min.pat  170     CH 0.0010440241
+# min.pat  183     EN 0.0008717286
+# min.pat 1061     GR 0.0005681995
 
 require(ggplot2)
 filename <- paste0("qc_res/Precision.by.samplesize.",time_point,".png")

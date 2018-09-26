@@ -2,6 +2,7 @@
 ## The required steps:
 # Read in all the files (DONE)
 # Remove control probes, remove polymorphic and cross-reactive sites (DONE)
+###
 
 #Set wd
 
@@ -45,9 +46,12 @@ RHEA <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/RHEA/RHEA/RHEA
 ENVIRONAGE <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/ENVIRONAGE/ENVIRONAGE.patbmi.ewasresults.birth.Rdata")
 PICCOLIPIU <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/PICCOLIPIU/PICCOLIPIU/PICCOLIPIU.patbmi.ewasresults.birth.Rdata")
 GOYA <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/goya/GOYA.patbmi.ewasresults.birth.Rdata")
+MoBa1<- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/MoBa1.patbmi.ewasresults.birth.Rdata")
+MoBa2 <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/MoBa2.patbmi.ewasresults.birth.Rdata")
+MoBa3 <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/MoBa3.patbmi.ewasresults.birth.Rdata")
 
-All.EWAS <- list(ALSPAC,BIB_asian,BIB_white,CHAMACOS,ENVIRONAGE,GenerationR,GOYA,INMA.nocombat,INMA.combat,RHEA,PICCOLIPIU,ProjectViva)
-names(All.EWAS) <- c("ALSPAC","BIB_asian","BIB_white","CHAMACOS","ENVIRONAGE","GenerationR","GOYA","INMA.nocombat","INMA.combat","RHEA","PICCOLIPIU","ProjectViva")
+All.EWAS <- list(ALSPAC,BIB_asian,BIB_white,CHAMACOS,ENVIRONAGE,GenerationR,GOYA,INMA.nocombat,INMA.combat,MoBa1,MoBa2,MoBa3,PICCOLIPIU,ProjectViva,RHEA)
+names(All.EWAS) <- c("ALSPAC","BIB_asian","BIB_white","CHAMACOS","ENVIRONAGE","GenerationR","GOYA","INMA.nocombat","INMA.combat","MoBa1","MoBa2","MoBa3","PICCOLIPIU","ProjectViva","RHEA")
 
 #Add probe ID
 

@@ -7,14 +7,6 @@ extract.coefficients <- function(ewas.dataframe){
 	ewas.dataframe[,grep(colnames(ewas.dataframe),pattern="coef")]
 }
 
-
-require(corrplot)
-require(plyr)
-
-extract.coefficients <- function(ewas.dataframe){
-	ewas.dataframe[,grep(colnames(ewas.dataframe),pattern="coef")]
-}
-
 correlation.plot<-function(cohort,cohort_name){
 x <- data.frame(do.call(cbind, lapply(cohort,extract.coefficients)))
 colnames(x)<-key$result[which(colnames(x)%in%key$merged.title.coef)]

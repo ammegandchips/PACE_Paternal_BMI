@@ -40,22 +40,6 @@ MoBa3 <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/MoBa3.patbmi.
 All.EWAS <- list(ALSPAC,BIB_asian,BIB_white,CHAMACOS,ENVIRONAGE,GenerationR,GOYA,INMA,MoBa1,MoBa2,MoBa3,PICCOLIPIU,ProjectViva,RHEA)
 names(All.EWAS) <- c("ALSPAC","BIB_asian","BIB_white","CHAMACOS","ENVIRONAGE","GenerationR","GOYA","INMA","MoBa1","MoBa2","MoBa3","PICCOLIPIU","ProjectViva","RHEA")
 
-#cutoff=0.1 #calculated previously in QC 5a
-
-#remove.outlying.es <- function(ewas.dataframe){
-#  cbind(ewas.dataframe[,-grep(colnames(ewas.dataframe),pattern="coef")],
-#    replace(ewas.dataframe[,grep(colnames(ewas.dataframe),pattern="coef")],abs(ewas.dataframe[,grep(colnames(ewas.dataframe),pattern="coef")])>cutoff,NA))
-#}
-
-#All.EWAS <- lapply(All.EWAS,function(x) lapply(x,remove.outlying.es))
-
-#replace.name<-function(X){
-#  colnames(X)[grep(colnames(X),pattern="ewas")]<-"coef"
-#  X
-#}
-
-#All.EWAS <- lapply(All.EWAS,function(x) lapply(x,replace.name))
-
 extract.Ns <- function(ewas.dataframe){
   summary(ewas.dataframe$n)
 }
@@ -66,9 +50,9 @@ Ns.covs<-do.call(rbind,lapply(All.Ns,function(x) x[which(row.names(x) =="ewas.re
 Ns.covs.mutual.boys.only<-do.call(rbind,lapply(All.Ns,function(x) x[which(row.names(x) =="ewas.res.covs.mutual.boys.only"),]))
 Ns.covs.mutual.girls.only<-do.call(rbind,lapply(All.Ns,function(x) x[which(row.names(x) =="ewas.res.covs.mutual.girls.only"),]))
 
-sum(Ns.covs[,6]) #5246
-sum(Ns.covs.mutual.boys.only[,6]) #2709
-sum(Ns.covs.mutual.girls.only[,6]) #2510
+sum(Ns.covs[,6]) #4894
+sum(Ns.covs.mutual.boys.only[,6]) #2530
+sum(Ns.covs.mutual.girls.only[,6]) #2337
                                                 
 write.csv(Ns.covs,"meta/meta_results/samplesize_covs.csv")
 write.csv(Ns.covs.mutual.boys.only,"meta/meta_results/samplesize_boys.csv")

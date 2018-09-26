@@ -1,6 +1,12 @@
-# Cohort QC: Correlation plot of betas in all 12 results files
+time_point <- "birth" #or "childhood"
 
-time_point <- "birth" #or "late_childhood", "early_childhood", "adolescence"
+require(corrplot)
+require(plyr)
+
+extract.coefficients <- function(ewas.dataframe){
+	ewas.dataframe[,grep(colnames(ewas.dataframe),pattern="coef")]
+}
+
 
 require(corrplot)
 require(plyr)

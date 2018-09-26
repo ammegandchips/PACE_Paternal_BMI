@@ -17,7 +17,7 @@ myQQ <- function(P, ci = 0.95,Title) {
     geom_point(aes(expected, observed), shape = 1, size = 3) +
       geom_abline(intercept = 0, slope = 1, alpha = 0.5) +
     geom_line(aes(expected, cupper), linetype = 2,colour="blue") +
-	ylim(0,6) +
+#	ylim(0,6) +
     geom_line(aes(expected, clower), linetype = 2,colour="blue") +
     ggtitle(paste0(Title," Lambda = ",round(lambda,2))) +
 	theme_classic()+
@@ -43,7 +43,7 @@ png(filename, width=30,height=40,units="cm",res=300)
 plot.function<-function(i){
 	myQQ(sort(Ps[,i]),Title=paste(cohort_name,": ",colnames(Ps)[i]))
 	}
-plots <- lapply(1:length(bacon.res),plot.function)
+plots <- lapply(1:ncol(Ps),plot.function)
 do.call(grid.arrange,plots)
 dev.off()
 }

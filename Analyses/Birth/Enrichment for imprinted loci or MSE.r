@@ -27,6 +27,11 @@ require(meffil)
     ylab(log10Po)  
 } 
 
+Lambda<-function(P){
+chisq <- qchisq(1-P,1)
+median(chisq,na.rm=T)/qchisq(0.5,1)
+}
+
 partida <-read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/partida.sup.T3.csv",stringsAsFactors=FALSE)
 require(data.table)
 pat <- as.data.frame(fread("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/geneimprint.paternally.derived.csv",stringsAsFactors=F))
@@ -115,10 +120,10 @@ NNAT <- annotation[which(annotation$chromosome=="chr20" & (annotation$position>3
 
 myQQ3(dat=list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% IGF2$name),],Title="Paternal BMI (adjusted for maternal BMI) P-values:\nEnrichment for CpGs at IGF2")
 
-igf2<- df[which(df$MarkerName %in% IGF2$name),]
-mest<- df[which(df$MarkerName %in% MEST$name),]
-peg3<- df[which(df$MarkerName %in% PEG3$name),]
-nnat<- df[which(df$MarkerName %in% NNAT$name),]
+igf2<- list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% IGF2$name),]
+mest<- list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% MEST$name),]
+peg3<- list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% PEG3$name),]
+nnat<- list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% NNAT$name),]
 dat <- data.frame(region=c(rep("IGF2",nrow(igf2)),
   rep("MEST",nrow(mest)),
   rep("PEG3",nrow(peg3)),

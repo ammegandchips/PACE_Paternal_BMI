@@ -34,9 +34,11 @@ ALSPAC <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/alspac/resul
 GenerationR <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/GenR/GenR.patbmi.ewasresults.late_childhood.Rdata")
 CHAMACOS <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/CHAMACOS_results/CHAMACOS.patbmi.ewasresults.late_childhood.Rdata")
 HELIX <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/HELIX/HELIX.patbmi.ewasresults.late_childhood.Rdata")
+INMA <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/results_PACE_INMA/4years_nocombat/PACE.patbmi.ewasresults.early_childhoodnocombat.Rdata")
+ProjectViva <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/VIVA_PATBMI/VIVA_PATBMI/Viva.patbmi.ewasresults.early_childhood.Rdata")
 
-All.EWAS <- list(ALSPAC,CHAMACOS,GenerationR,HELIX)
-names(All.EWAS) <- c("ALSPAC","CHAMACOS","GenerationR","HELIX")
+All.EWAS <- list(ALSPAC,CHAMACOS,GenerationR,HELIX,INMA,ProjectViva)
+names(All.EWAS) <- c("ALSPAC","CHAMACOS","GenerationR","HELIX","INMA","ProjectViva")
 
 #Add probe ID
 

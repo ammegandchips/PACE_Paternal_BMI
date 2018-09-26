@@ -1,11 +1,9 @@
 #Leave one out analysis for top sites (P<1e-5) from covs adjusted models
-#Leave one out is carried out BEFORE removing sites with high heterogeneity, and again AFTER
-#This code is for AFTER (i.e. on list.of.results.het.removed not list.of.results)
 
-top.sites.covs.pat <- list.of.results.het.removed$covs.pat[which(list.of.results.het.removed$covs.pat$Pvalue<1e-5),"MarkerName"]
-top.sites.covs.patmat <- list.of.results.het.removed$covs.patmat[which(list.of.results.het.removed$covs.patmat$Pvalue<1e-5),"MarkerName"]
-top.sites.boys <- list.of.results.het.removed$boys.patmat[which(list.of.results.het.removed$boys.patmat$Pvalue<1e-5),"MarkerName"]
-top.sites.girls <- list.of.results.het.removed$girls.patmat[which(list.of.results.het.removed$girls.patmat$Pvalue<1e-5),"MarkerName"]
+top.sites.covs.pat <- list.of.results$covs.pat[which(list.of.results$covs.pat$Pvalue<1e-5),"MarkerName"]
+top.sites.covs.patmat <- list.of.results$covs.patmat[which(list.of.results$covs.patmat$Pvalue<1e-5),"MarkerName"]
+top.sites.boys <- list.of.results$boys.patmat[which(list.of.results$boys.patmat$Pvalue<1e-5),"MarkerName"]
+top.sites.girls <- list.of.results$girls.patmat[which(list.of.results$girls.patmat$Pvalue<1e-5),"MarkerName"]
 
 addprobeID <- function(ewas.dataframe){
   ewas.dataframe$probeid <- row.names(ewas.dataframe)
@@ -109,18 +107,18 @@ xlab("Left out study")+ylab("Effect estimate (difference in methylation\nper 1SD
 ggtitle(name.df) + theme(plot.title = element_text(hjust = 0.5))
 }
 
-pdf("looplots.covs.pat.birth.outliersremoved.het.removed.pdf",width=6,height=4)
+pdf("looplots.covs.pat.birth.pdf",width=6,height=4)
 lapply(1:length(covs.pat.loo),draw.loo.plot,list.of.dfs=covs.pat.loo)
 dev.off()
 
-pdf("looplots.covs.patmat.outliersremoved.birth.het.removed.pdf",width=6,height=4)
+pdf("looplots.covs.patmat.pdf",width=6,height=4)
 lapply(1:length(covs.patmat.loo),draw.loo.plot,list.of.dfs=covs.patmat.loo)
 dev.off()
 
-pdf("looplots.boys.birth.outliersremoved.het.removed.pdf",width=6,height=4)
+pdf("looplots.boys.birth.pdf",width=6,height=4)
 lapply(1:length(boys.loo),draw.loo.plot,list.of.dfs=boys.loo)
 dev.off()
 
-pdf("looplots.girls.birth.outliersremoved.het.removed.pdf",width=6,height=4)
+pdf("looplots.girls.birth.pdf",width=6,height=4)
 lapply(1:length(girls.loo),draw.loo.plot,list.of.dfs=girls.loo)
 dev.off()

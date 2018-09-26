@@ -38,12 +38,10 @@ extract.p <- function(ewas.dataframe){
 qq.plot <- function(cohort,cohort_name){
 Ps <- data.frame(do.call(cbind, lapply(cohort,extract.p)))
 colnames(Ps)<-key$result[which(colnames(Ps)%in%key$merged.title.p)]
-bacon.res <- apply(Ps,2,bacon)
-bacon.lambdas <- data.frame(do.call(cbind,lapply(bacon.res,inflation)))
 filename <- paste0("qc_res/",cohort_name,".",time_point,".qqplots.png")
 png(filename, width=30,height=40,units="cm",res=300)
 plot.function<-function(i){
-	myQQ(sort(Ps[,i]),Title=cohort_name)
+	myQQ(sort(Ps[,i]),Title=paste(cohort_name,": ",colnames(Ps)[i]))
 	}
 plots <- lapply(1:length(bacon.res),plot.function)
 do.call(grid.arrange,plots)

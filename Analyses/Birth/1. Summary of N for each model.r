@@ -28,8 +28,7 @@ BIB_white <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/bib/BIB_w
 GenerationR <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/GenR/GenR.patbmi.ewasresults.birth.Rdata")
 ProjectViva <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/VIVA_PATBMI/VIVA_PATBMI/Viva.patbmi.ewasresults.birth.Rdata")
 CHAMACOS <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/CHAMACOS_results/CHAMACOS.patbmi.ewasresults.birth.Rdata")
-INMA.nocombat <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/results_PACE_INMA/0years_nocombat/PACE.patbmi.ewasresults.birthnocombat.Rdata")
-INMA.combat <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/results_PACE_INMA/0years_combat/PACE.patbmi.ewasresults.birth.Rdata")
+INMA <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/results_PACE_INMA/0years_nocombat/PACE.patbmi.ewasresults.birthnocombat.Rdata")
 RHEA <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/RHEA/RHEA/RHEA.patbmi.ewasresults.birth.Rdata")
 ENVIRONAGE <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/ENVIRONAGE/ENVIRONAGE.patbmi.ewasresults.birth.Rdata")
 PICCOLIPIU <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/PICCOLIPIU/PICCOLIPIU/PICCOLIPIU.patbmi.ewasresults.birth.Rdata")
@@ -38,8 +37,8 @@ MoBa1<- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/MoBa1.patbmi.e
 MoBa2 <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/MoBa2.patbmi.ewasresults.birth.Rdata")
 MoBa3 <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/MoBa3.patbmi.ewasresults.birth.Rdata")
 
-All.EWAS <- list(ALSPAC,BIB_asian,BIB_white,CHAMACOS,ENVIRONAGE,GenerationR,GOYA,INMA.nocombat,INMA.combat,MoBa1,MoBa2,MoBa3,PICCOLIPIU,ProjectViva,RHEA)
-names(All.EWAS) <- c("ALSPAC","BIB_asian","BIB_white","CHAMACOS","ENVIRONAGE","GenerationR","GOYA","INMA.nocombat","INMA.combat","MoBa1","MoBa2","MoBa3","PICCOLIPIU","ProjectViva","RHEA")
+All.EWAS <- list(ALSPAC,BIB_asian,BIB_white,CHAMACOS,ENVIRONAGE,GenerationR,GOYA,INMA,MoBa1,MoBa2,MoBa3,PICCOLIPIU,ProjectViva,RHEA)
+names(All.EWAS) <- c("ALSPAC","BIB_asian","BIB_white","CHAMACOS","ENVIRONAGE","GenerationR","GOYA","INMA","MoBa1","MoBa2","MoBa3","PICCOLIPIU","ProjectViva","RHEA")
 
 #cutoff=0.1 #calculated previously in QC 5a
 
@@ -62,7 +61,7 @@ extract.Ns <- function(ewas.dataframe){
 }
 
 All.Ns<-lapply(All.EWAS,function(x) do.call(rbind,lapply(x,extract.Ns)))
-names(All.Ns) <-c("ALSPAC","BIB_asian","BIB_white","CHAMACOS","ENVIRONAGE","GenerationR","GOYA","INMA.nocombat","INMA.combat","MoBa1","MoBa2","MoBa3","PICCOLIPIU","ProjectViva","RHEA")
+names(All.Ns) <-c("ALSPAC","BIB_asian","BIB_white","CHAMACOS","ENVIRONAGE","GenerationR","GOYA","INMA","MoBa1","MoBa2","MoBa3","PICCOLIPIU","ProjectViva","RHEA")
 Ns.covs<-do.call(rbind,lapply(All.Ns,function(x) x[which(row.names(x) =="ewas.res.covs.pat"),]))
 Ns.covs.mutual.boys.only<-do.call(rbind,lapply(All.Ns,function(x) x[which(row.names(x) =="ewas.res.covs.mutual.boys.only"),]))
 Ns.covs.mutual.girls.only<-do.call(rbind,lapply(All.Ns,function(x) x[which(row.names(x) =="ewas.res.covs.mutual.girls.only"),]))

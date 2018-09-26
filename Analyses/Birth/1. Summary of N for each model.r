@@ -34,36 +34,43 @@ RHEA <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/RHEA/RHEA/RHEA
 ENVIRONAGE <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/ENVIRONAGE/ENVIRONAGE.patbmi.ewasresults.birth.Rdata")
 PICCOLIPIU <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/PICCOLIPIU/PICCOLIPIU/PICCOLIPIU.patbmi.ewasresults.birth.Rdata")
 GOYA <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/goya/GOYA.patbmi.ewasresults.birth.Rdata")
+MoBa1<- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/MoBa1.patbmi.ewasresults.birth.Rdata")
+MoBa2 <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/MoBa2.patbmi.ewasresults.birth.Rdata")
+MoBa3 <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/MoBa3.patbmi.ewasresults.birth.Rdata")
 
-All.EWAS <- list(ALSPAC,BIB_asian,BIB_white,CHAMACOS,ENVIRONAGE,GenerationR,GOYA,INMA.nocombat,RHEA,PICCOLIPIU,ProjectViva)
-names(All.EWAS) <- c("ALSPAC","BIB_asian","BIB_white","CHAMACOS","ENVIRONAGE","GenerationR","GOYA","INMA","RHEA","PICCOLIPIU","ProjectViva")
+All.EWAS <- list(ALSPAC,BIB_asian,BIB_white,CHAMACOS,ENVIRONAGE,GenerationR,GOYA,INMA.nocombat,INMA.combat,MoBa1,MoBa2,MoBa3,PICCOLIPIU,ProjectViva,RHEA)
+names(All.EWAS) <- c("ALSPAC","BIB_asian","BIB_white","CHAMACOS","ENVIRONAGE","GenerationR","GOYA","INMA.nocombat","INMA.combat","MoBa1","MoBa2","MoBa3","PICCOLIPIU","ProjectViva","RHEA")
 
-cutoff=0.1 #calculated previously in QC 5a
+#cutoff=0.1 #calculated previously in QC 5a
 
-remove.outlying.es <- function(ewas.dataframe){
-  cbind(ewas.dataframe[,-grep(colnames(ewas.dataframe),pattern="coef")],
-    replace(ewas.dataframe[,grep(colnames(ewas.dataframe),pattern="coef")],abs(ewas.dataframe[,grep(colnames(ewas.dataframe),pattern="coef")])>cutoff,NA))
-}
+#remove.outlying.es <- function(ewas.dataframe){
+#  cbind(ewas.dataframe[,-grep(colnames(ewas.dataframe),pattern="coef")],
+#    replace(ewas.dataframe[,grep(colnames(ewas.dataframe),pattern="coef")],abs(ewas.dataframe[,grep(colnames(ewas.dataframe),pattern="coef")])>cutoff,NA))
+#}
 
-All.EWAS <- lapply(All.EWAS,function(x) lapply(x,remove.outlying.es))
+#All.EWAS <- lapply(All.EWAS,function(x) lapply(x,remove.outlying.es))
 
-replace.name<-function(X){
-  colnames(X)[grep(colnames(X),pattern="ewas")]<-"coef"
-  X
-}
+#replace.name<-function(X){
+#  colnames(X)[grep(colnames(X),pattern="ewas")]<-"coef"
+#  X
+#}
 
-All.EWAS <- lapply(All.EWAS,function(x) lapply(x,replace.name))
+#All.EWAS <- lapply(All.EWAS,function(x) lapply(x,replace.name))
 
 extract.Ns <- function(ewas.dataframe){
   summary(ewas.dataframe$n)
 }
 
 All.Ns<-lapply(All.EWAS,function(x) do.call(rbind,lapply(x,extract.Ns)))
-names(All.Ns) <-c("ALSPAC","BIB_asian","BIB_white","CHAMACOS","ENVIRONAGE","GenerationR","GOYA","INMA","RHEA","PICCOLIPIU","ProjectViva")
+names(All.Ns) <-c("ALSPAC","BIB_asian","BIB_white","CHAMACOS","ENVIRONAGE","GenerationR","GOYA","INMA.nocombat","INMA.combat","MoBa1","MoBa2","MoBa3","PICCOLIPIU","ProjectViva","RHEA")
 Ns.covs<-do.call(rbind,lapply(All.Ns,function(x) x[which(row.names(x) =="ewas.res.covs.pat"),]))
 Ns.covs.mutual.boys.only<-do.call(rbind,lapply(All.Ns,function(x) x[which(row.names(x) =="ewas.res.covs.mutual.boys.only"),]))
 Ns.covs.mutual.girls.only<-do.call(rbind,lapply(All.Ns,function(x) x[which(row.names(x) =="ewas.res.covs.mutual.girls.only"),]))
 
-max.covs<-sum(Ns.covs[,6]) #3079
-max.boys<-sum(Ns.covs.mutual.boys.only[,6]) #1557
-max.girls<-sum(Ns.covs.mutual.girls.only[,6]) #1495
+sum(Ns.covs[,6]) #5246
+sum(Ns.covs.mutual.boys.only[,6]) #2709
+sum(Ns.covs.mutual.girls.only[,6]) #2510
+                                                
+write.csv(Ns.covs,"meta/meta_results/samplesize_covs.csv")
+write.csv(Ns.covs.mutual.boys.only,"meta/meta_results/samplesize_boys.csv")
+write.csv(Ns.covs.mutual.girls.only,"meta/meta_results/samplesize_girls.csv")

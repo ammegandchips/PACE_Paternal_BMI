@@ -113,7 +113,7 @@ pdf("looplots.covs.pat.birth.pdf",width=6,height=4)
 lapply(1:length(covs.pat.loo),draw.loo.plot,list.of.dfs=covs.pat.loo)
 dev.off()
 
-pdf("looplots.covs.patmat.pdf",width=6,height=4)
+pdf("looplots.covs.patmat.birth.pdf",width=6,height=4)
 lapply(1:length(covs.patmat.loo),draw.loo.plot,list.of.dfs=covs.patmat.loo)
 dev.off()
 

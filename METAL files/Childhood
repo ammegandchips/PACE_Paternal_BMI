@@ -1,0 +1,132 @@
+module add tools/git-1.8.4.2
+git clone https://github.com/explodecomputer/random-metal
+cd random-metal
+make
+cd ..
+random-metal/executables/metal
+
+#models: 
+#"min.pat"      "min.mat"      "min.patmat"   "min.matpat"   "covs.pat"
+#"covs.mat"     "covs.patmat"  "covs.matpat"  "boys.patmat"  "boys.matpat"
+#"girls.patmat" "girls.matpat"
+
+#Childhood
+
+REMOVEFILTERS
+SCHEME STDERR
+USESTRAND OFF
+GENOMICCONTROL OFF
+AVERAGEFREQ OFF
+MINMAXFREQ OFF
+COLUMNCOUNTING LENIENT
+SEPARATOR COMMA
+PVALUELABEL p
+MARKER probeid
+EFFECTLABEL coef
+STDERRLABEL se
+
+########
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/childhood.covs.pat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.ALSPAC.covs.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.CHAMACOS.covs.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.GenerationR.covs.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.HELIX.covs.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.INMA.covs.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.ProjectViva.covs.pat.csv
+
+ANALYZE RANDOM
+CLEAR
+CLEAR
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/childhood.covs.mat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.ALSPAC.covs.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.CHAMACOS.covs.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.GenerationR.covs.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.HELIX.covs.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.INMA.covs.mat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.ProjectViva.covs.mat.csv
+
+ANALYZE RANDOM
+CLEAR
+CLEAR
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/childhood.covs.patmat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.ALSPAC.covs.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.CHAMACOS.covs.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.GenerationR.covs.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.HELIX.covs.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.INMA.covs.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.ProjectViva.covs.patmat.csv
+
+ANALYZE RANDOM
+CLEAR
+CLEAR
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/childhood.covs.matpat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.ALSPAC.covs.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.CHAMACOS.covs.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.GenerationR.covs.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.HELIX.covs.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.INMA.covs.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.ProjectViva.covs.matpat.csv
+
+ANALYZE RANDOM
+CLEAR
+CLEAR
+
+######
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/childhood.boys.patmat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.ALSPAC.boys.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.CHAMACOS.boys.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.GenerationR.boys.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.HELIX.boys.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.INMA.boys.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.ProjectViva.boys.patmat.csv
+
+ANALYZE RANDOM
+CLEAR
+CLEAR
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/childhood.boys.matpat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.ALSPAC.boys.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.CHAMACOS.boys.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.GenerationR.boys.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.HELIX.boys.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.INMA.boys.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.ProjectViva.boys.matpat.csv
+
+ANALYZE RANDOM
+CLEAR
+CLEAR
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/childhood.girls.patmat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.ALSPAC.girls.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.CHAMACOS.girls.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.GenerationR.girls.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.HELIX.girls.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.INMA.girls.patmat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.ProjectViva.girls.patmat.csv
+
+ANALYZE RANDOM
+CLEAR
+CLEAR
+
+OUTFILE /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/childhood.girls.matpat .txt
+
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.ALSPAC.girls.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.CHAMACOS.girls.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.GenerationR.girls.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.HELIX.girls.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.INMA.girls.matpat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/childhood.ProjectViva.girls.matpat.csv
+
+ANALYZE RANDOM

@@ -52,7 +52,7 @@ All.EWAS <- lapply(All.EWAS,function(x) lapply(x,addprobeID))
 # Remove control probes, remove polymorphic and cross-reactive sites
 
 require(meffil)
-annotation <- meffil.get.features("epic") # 867530
+annotation <- meffil.get.features("450k") # 
 annotation <- annotation[-which(annotation$type=="control"),] #remove control probes (485577)
 annotation <- annotation[-which(annotation$target=="snp"),] # remove snp probes (485512)
 annotation <- annotation[-which(annotation$snp.exclude=="TRUE"),] # remove probes on SNPs (395016)

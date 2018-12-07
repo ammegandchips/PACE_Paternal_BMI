@@ -4,6 +4,11 @@ models <-c("min.pat","min.mat","min.patmat","min.matpat","covs.pat",
 "covs.mat","covs.patmat","covs.matpat","boys.patmat","boys.matpat",
 "girls.patmat","girls.matpat")
 
+#for childhood, "min" models are omitted (because we didn't use them in the birth analyses. So "models" is set up as:
+#models <-c("covs.pat",
+#"covs.mat","covs.patmat","covs.matpat","boys.patmat","boys.matpat",
+#"girls.patmat","girls.matpat")
+
 tp <- "birth" #or whatever
 
 setwd("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/")
@@ -17,7 +22,7 @@ read.meta.results <- function(model,tp) {
 as.data.frame(fread(paste0("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/",tp,".",model,"1.txt")))
 }
 
-list.of.results<-lapply(models,read.meta.results,tp="birth")
+list.of.results<-lapply(models,read.meta.results,tp=tp")
 
 names(list.of.results)<-models
 

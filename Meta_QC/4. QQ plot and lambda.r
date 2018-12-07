@@ -50,6 +50,6 @@ dev.off()
 qq.plot(list.of.results,"meta_models")    
 
 #Just lambda:
-Ps <- data.frame(do.call(cbind, lapply(list.of.results,extract.p))
+Ps <- data.frame(do.call(cbind, lapply(list.of.results,extract.p)))
 apply(Ps,2,Lambda)
 

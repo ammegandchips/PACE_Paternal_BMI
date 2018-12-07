@@ -47,4 +47,9 @@ do.call(grid.arrange,plots)
 dev.off()
 }
 
-qq.plot(list.of.results,"meta_models")       
+qq.plot(list.of.results,"meta_models")    
+
+#Just lambda:
+Ps <- data.frame(do.call(cbind, lapply(list.of.results,extract.p))
+apply(Ps,2,Lambda)
+

@@ -1,5 +1,7 @@
 #Leave one out analysis for top sites (P<1e-5) from covs adjusted models
 
+#E.g. using paternal models
+
 top.sites.covs.pat <- list.of.results$covs.pat[which(list.of.results$covs.pat$Pvalue<1e-5),"MarkerName"]
 top.sites.covs.patmat <- list.of.results$covs.patmat[which(list.of.results$covs.patmat$Pvalue<1e-5),"MarkerName"]
 top.sites.boys <- list.of.results$boys.patmat[which(list.of.results$boys.patmat$Pvalue<1e-5),"MarkerName"]

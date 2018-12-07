@@ -22,7 +22,7 @@ read.meta.results <- function(model,tp) {
 as.data.frame(fread(paste0("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/meta_results/",tp,".",model,"1.txt")))
 }
 
-list.of.results<-lapply(models,read.meta.results,tp=tp")
+list.of.results<-lapply(models,read.meta.results,tp=tp)
 
 names(list.of.results)<-models
 

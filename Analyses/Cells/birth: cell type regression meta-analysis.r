@@ -8,14 +8,17 @@ GenerationR <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/GenR/GenR.pat
 GOYA <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/goya/GOYA.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
 ProjectViva <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/VIVA_PATBMI/VIVA_PATBMI/Viva.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
 CHAMACOS <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/CHAMACOS_results/CHAMACOS.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
-INMA.nocombat <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/results_PACE_INMA/0years_nocombat/PACE.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
+INMA <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/results_PACE_INMA/0years_nocombat/PACE.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
 RHEA <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/RHEA/RHEA/RHEA.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
-ENVIRONAGE <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/ENVIRONAGE/ENVIRONAGE.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
+#ENVIRONAGE <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/ENVIRONAGE/ENVIRONAGE.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
 PICCOLIPIU <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/PICCOLIPIU/PICCOLIPIU/PICCOLIPIU.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
 ProjectViva$X <- tolower(ProjectViva$X)
+MoBa1<- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/MoBa1.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
+MoBa2 <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/MoBa2.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
+MoBa3 <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/MoBa3.patbmi.cells.res.summary.birth.csv",stringsAsFactors=FALSE)
 
-cell.results<- list(ALSPAC,BIB_asian,BIB_white,CHAMACOS,ENVIRONAGE,GenerationR,GOYA,INMA.nocombat,RHEA,PICCOLIPIU,ProjectViva)
-names(cell.results) <- c("ALSPAC","BIB_asian","BIB_white","CHAMACOS","ENVIRONAGE","GenerationR","GOYA","INMA","RHEA","PICCOLIPIU","ProjectViva")
+cell.results <- list(ALSPAC,BIB_asian,BIB_white,CHAMACOS,GenerationR,GOYA,INMA,MoBa1,MoBa2,MoBa3,PICCOLIPIU,ProjectViva,RHEA)
+names(cell.results) <- c("ALSPAC","BIB_asian","BIB_white","CHAMACOS","GenerationR","GOYA","INMA","MoBa1","MoBa2","MoBa3","PICCOLIPIU","ProjectViva","RHEA")
 
 cell.results <- lapply(cell.results,setNames, c("cell_type","effect","se","t","p"))
 cell.results <- do.call(cbind,cell.results)
@@ -24,7 +27,7 @@ cell.results <- do.call(cbind,cell.results)
 
 require(metafor)
 
-studies <- c("ALSPAC","BIB_asian","BIB_white","CHAMACOS","ENVIRONAGE","GenerationR","GOYA","INMA","RHEA","PICCOLIPIU","ProjectViva")
+studies <- c("ALSPAC","BIB_asian","BIB_white","CHAMACOS","GenerationR","GOYA","INMA","MoBa1","MoBa2","MoBa3","PICCOLIPIU","ProjectViva","RHEA")
 
 fixed.effects.meta.analysis <- function(list.of.studies,data){
                               coefs = data[,c("ALSPAC.cell_type",paste0(list.of.studies,".effect"))]
@@ -57,14 +60,14 @@ write.csv(meta.cell.results.dataframe,"cells.meta.results.birth.csv")
 pdf("cells.forest.plots.birth.pdf",width=10,height=6)
 for(i in 1:length(meta.cell.results)){
 par(mar=c(4,5,1,4))
-forest(meta.cell.results[[i]],main="",digits=4,mlab="",xlab="Difference in cell proportion per 1SD increase in paternal BMI",xlim=c(-0.02,0.02),alim=c(-0.02,0.02),cex=1,ylim=c(-1,13))
+forest(meta.cell.results[[i]],main="",digits=4,mlab="",xlab="Difference in cell proportion per 1SD increase in paternal BMI",xlim=c(-0.02,0.02),alim=c(-0.02,0.02),cex=1,ylim=c(-1,16))
 text(-0.02,-1,pos=4,cex=1,
 bquote(paste("FE Model (Q = ",
     .(formatC(meta.cell.results[[i]]$QE, digits=2, format="f")), ", df = ", .(meta.cell.results[[i]]$k - meta.cell.results[[i]]$p),
  ", p = ", .(formatC(meta.cell.results[[i]]$QEp, digits=2, format="f")), "; ", I^2, " = ",
   .(formatC(meta.cell.results[[i]]$I2, digits=1, format="f")), "%)")))
-  text(0,12,paste0("\n\nMeta-analysis P-value = ",round(meta.cell.results[[i]]$pval,3)))
-  text(0,12.2,cex=2,toupper(names(meta.cell.results))[i])
+  text(0,15,paste0("\n\nMeta-analysis P-value = ",round(meta.cell.results[[i]]$pval,3)))
+  text(0,15.2,cex=2,toupper(names(meta.cell.results))[i])
 
 }
 dev.off()

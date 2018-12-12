@@ -1,3 +1,5 @@
+#Imprinted genes
+
 IGF2 <- annotation[which(annotation$chromosome=="chr11" & (annotation$position>2150342 & annotation$position<2170833)),]
 MEST <- annotation[which(annotation$chromosome=="chr7" & (annotation$position>130126012 & annotation$position<130146133)),]
 PEG3 <- annotation[which(annotation$chromosome=="chr19" & (annotation$position>57321445 & annotation$position<57352096)),]
@@ -73,3 +75,12 @@ Plot
 pdf("imprinted.patmatbmi.pdf")
 Plot
 dev.off()
+
+# Donkin (sperm from lean vs obese men)
+donkin <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/DONKIN.csv", header=TRUE)
+donkin <- merge(donkin, annotation, by.x="start", by.y="position",all=F)
+donkin <- merge(list.of.results$covs.patmat,donkin,by.x="MarkerName",by.y="name",all=F)
+table(sign(donkin$Effect)==sign(donkin$meth.diff..Obese.versus.Lean.))
+donkin <- donkin[sign(donkin$Effect)==sign(donkin$meth.diff..Obese.versus.Lean.),]
+donkin$FDR <- p.adjust(donkin$Pvalue,method="fdr")
+summary(donkin$FDR<0.05)

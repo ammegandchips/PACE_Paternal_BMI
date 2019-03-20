@@ -61,10 +61,23 @@ bquote(paste("FE Model (Q = ",
 
 }
 dev.off()
+							   
+##################
+#sensitivity analysis without HELIX
+							   
+cell.results<-list(ALSPAC,CHAMACOS,GenerationR,INMA,ProjectViva)
+names(cell.results) <-c("ALSPAC","CHAMACOS","GenerationR","INMA","ProjectViva")
 
-#Get Tau2 and I2 confidence intervals (only generated in RE meta-analysis):
+cell.results <- lapply(cell.results,setNames, c("cell_type","effect","se","t","p"))
+cell.results <- do.call(cbind,cell.results)
 
-Tau2.I2.confint.meta.analysis <- function(list.of.studies,data){
+#meta-analysis
+
+require(metafor)
+
+studies <-c("ALSPAC","CHAMACOS","GenerationR","INMA","ProjectViva")
+
+fixed.effects.meta.analysis <- function(list.of.studies,data){
                               coefs = data[,c("ALSPAC.cell_type",paste0(list.of.studies,".effect"))]
 							  colnames(coefs) <- c("cell",paste0(list.of.studies))
                               ses = data[,c("ALSPAC.cell_type",paste0(list.of.studies,".se"))]
@@ -75,7 +88,16 @@ Tau2.I2.confint.meta.analysis <- function(list.of.studies,data){
                               data.long = cbind(coefs,ses[,"value"])
                               names(data.long)<-c("cell","study","coef","se")
                               res = split(data.long, f=data$ALSPAC.cell_type)
-                              res = lapply(res, function(x) rma.uni(slab=x$study,yi=x$coef,sei=x$se,method="DL",weighted=TRUE))
+                              res = lapply(res, function(x) rma.uni(slab=x$study,yi=x$coef,sei=x$se,method="FE",weighted=TRUE))
                               res
                               }
-Tau2.I2.confint <- lapply(Tau2.I2.confint.meta.analysis(list.of.studies = studies, data = cell.results),confint)
+extract.and.merge.meta.analysis <-function(meta.res,data){
+                                  require(plyr)
+                                  data.meta = ldply(lapply(meta.res, function(x)unlist(c(x$b[[1]],x[c("se","pval","QE","QEp","I2","H2")]))))
+                                  colnames(data.meta)<-c("cell","coef.fe","se.fe","p.fe","q.fe","het.p.fe","i2.fe","h2.fe")
+                                  data = merge(data,data.meta,by.x="ALSPAC.cell_type",by.y="cell",all.x=T)
+                                  data
+                                  }
+
+meta.cell.results <- fixed.effects.meta.analysis(list.of.studies = studies, data = cell.results)
+meta.cell.results.dataframe <- extract.and.merge.meta.analysis(meta.res = meta.cell.results, data = cell.results)

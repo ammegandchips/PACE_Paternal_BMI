@@ -1,4 +1,5 @@
 #In the literature, we found evidence for association with paternal BMI at imprinted regions and at >9000 CpGs in a paper by Donkin et al.
+#We also compare to results from our 2018 PACE Maternal BMI paper
 
 #Imprinted regions
 
@@ -62,17 +63,18 @@ imprinted.regions$ID <- c(1:nrow(list.of.results$covs.patmat[which(list.of.resul
 1:nrow(list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% GRB10$name),]))
 
 require(ggplot2)
+require(wesanderson)
 
 Plot<-ggplot(imprinted.regions, aes(x=1, y=ID))+
-geom_tile(aes(fill = Effect))+
+geom_tile(aes(fill = Effect*100))+
 facet_wrap(~imprinted.region, ncol=3,scales="free")+
 xlab("")+ylab("")+
-scale_fill_gradientn(colours = c("darkblue", "white", "red"),name="Effect\nestimate",limits=c(-max(abs(imprinted.regions$Effect)),max(abs(imprinted.regions$Effect))))+
+scale_fill_gradientn(colours = c(wes_palette("Zissou1")[1],"white",wes_palette("Zissou1")[5]),name="Effect\nestimate",limits=c(-max(abs(imprinted.regions$Effect*100)),max(abs(imprinted.regions$Effect*100))),values=c(0,0.45,0.5,0.55,1))+
 theme_grey(base_size=8) + labs(x = "",y = "") + 
 scale_x_discrete(expand = c(0, 0)) +
 scale_y_discrete(expand = c(0, 0)) + theme(axis.ticks = element_blank(),axis.text.y = element_text(colour="black",size=11))+
-theme(strip.background = element_rect(fill="grey90"), strip.text=element_text(size=12), plot.background=element_rect(fill="grey90"))+
-ggtitle("Associations between paternal BMI and \noffspring cord blood methylation at imprinted regions\n")+
+theme(strip.background = element_rect(fill="white"), strip.text=element_text(size=12), plot.background=element_rect(fill="white"))+
+ggtitle("Associations between paternal BMI (adjusted for maternal BMI) and \noffspring methylation in imprinted regions at birth\n")+
 theme(plot.title=element_text(size=16, hjust=0.5))+
 theme(legend.position="bottom",legend.text = element_text(size = 12),legend.title=element_text(size=12),legend.background=(element_rect(fill=NA)),legend.key.width=unit(2.5,"cm"))
 
@@ -112,14 +114,14 @@ rep("GRB10 (n probes = 52)",nrow(list.of.results$covs.patmat[which(list.of.resul
 )
 
 Plot <-  ggplot(X) +
-    geom_point(aes(expected, observed), shape = 20, size = 2,colour="cornflowerblue") +
-      geom_abline(intercept = 0, slope = 1, alpha = 0.5) +
-    geom_line(aes(expected, cupper), linetype = 2) +
+    geom_abline(intercept = 0, slope = 1, alpha = 0.5) +
+    geom_line(aes(expected, cupper), linetype = 2,colour=wes_palette("Zissou1")[5]) +
+    geom_line(aes(expected, clower), linetype =2, colour=wes_palette("Zissou1")[5]) +
+    geom_point(aes(expected, observed), shape = 20, size = 2,colour=wes_palette("Zissou1")[1]) +
     facet_wrap(~imprinted.region, ncol=3,scales="free")+
-    geom_line(aes(expected, clower), linetype = 2) +
-    ggtitle("P-value enrichment at imprinted regions") +
+    ggtitle("Paternal BMI (adjusted for maternal BMI) P-value distributions \nat imprinted regions") +
   theme_classic()+
-    theme(plot.title=element_text(size=16, hjust=0.5),strip.background=element_blank(),strip.text=element_text(size=12),plot.background=element_rect(fill="grey90"),panel.background=element_rect(fill="grey90"))+
+    theme(plot.title=element_text(size=16, hjust=0.5),strip.background=element_blank(),strip.text=element_text(size=12),plot.background=element_rect(fill="white"),panel.background=element_rect(fill="white"))+
     xlab(expression(paste("Expected -log"[10], plain(P)))) +
     ylab(expression(paste("Observed -log"[10], plain(P))))  
 
@@ -128,6 +130,12 @@ pdf("imprinted.qq.patmatbmi.pdf")
 Plot
 dev.off()
           
+## Kolmogorov-Smirnov Tests to see distribution of observed P-values fits to null distribution
+          
+X<-lapply(c("IGF2","MEST","PEG3","NNAT","NDN","SNRPN","SGCE","PEG10","MEG3","H19","PLAGL1","GRB10"),function(x) imprinted.regions[grep(imprinted.regions$imprinted.region,pattern=x),"Pvalue"])
+ks.results<-unlist(lapply(lapply(X,function(x) ks.test(unlist(x),distribution="punif",0,1)),function(x) unlist(x)[2]))
+  
+                                 
 #Donkin et al
 ## QQ at sites in the same direction
           
@@ -141,16 +149,157 @@ donkin$FDR <- p.adjust(donkin$Pvalue,method="fdr")
 X<-prep.myQQ(donkin$Pvalue)
 
 Plot <-  ggplot(X) +
-    geom_point(aes(expected, observed), shape = 20, size = 2,colour="cornflowerblue") +
-      geom_abline(intercept = 0, slope = 1, alpha = 0.5) +
-    geom_line(aes(expected, cupper), linetype = 2) +
-    geom_line(aes(expected, clower), linetype = 2) +
-    ggtitle("P-value enrichment at regions identified in Donkin et al.") +
+    geom_abline(intercept = 0, slope = 1, alpha = 0.5) +
+    geom_line(aes(expected, cupper), linetype = 2,colour=wes_palette("Zissou1")[5]) +
+    geom_line(aes(expected, clower), linetype =2, colour=wes_palette("Zissou1")[5]) +
+    geom_point(aes(expected, observed), shape = 20, size = 2,colour=wes_palette("Zissou1")[1]) +
+    ggtitle("Paternal BMI (adjusted for maternal BMI) P-value distributions \nat regions identified in Donkin et al.") +
   theme_classic()+
-    theme(plot.title=element_text(size=16, hjust=0.5),strip.background=element_blank(),strip.text=element_text(size=12),plot.background=element_rect(fill="grey90"),panel.background=element_rect(fill="grey90"))+
+    theme(plot.title=element_text(size=16, hjust=0.5),strip.background=element_blank(),strip.text=element_text(size=12),plot.background=element_rect(fill="white"),panel.background=element_rect(fill="white"))+
     xlab(expression(paste("Expected -log"[10], plain(P)))) +
     ylab(expression(paste("Observed -log"[10], plain(P))))  
 
 pdf("donkin.qq.patmatbmi.pdf")
 Plot
 dev.off()
+                                 
+ks.test(donkin$Pvalue,distribution="punif",0,1)
+                                 
+#Sharp et al previous maternal BMI PACE study
+## QQ patmat
+          
+sharp <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/CpGs_86.csv", header=TRUE)
+sharp <- merge(list.of.results$covs.patmat,sharp,by.x="MarkerName",by.y="CpG",all=F)#64
+table(sign(sharp$Effect.x)==sign(sharp$Effect_cells))#28 same direction
+sharp$FDR <- p.adjust(sharp$Pvalue,method="fdr")
+summary(sharp$FDR<0.05)#0
+                                 
+X<-prep.myQQ(sharp$Pvalue)
+
+Plot <-  ggplot(X) +
+    geom_abline(intercept = 0, slope = 1, alpha = 0.5) +
+    geom_line(aes(expected, cupper), linetype = 2,colour=wes_palette("Zissou1")[5]) +
+    geom_line(aes(expected, clower), linetype =2, colour=wes_palette("Zissou1")[5]) +
+    geom_point(aes(expected, observed), shape = 20, size = 2,colour=wes_palette("Zissou1")[1]) +
+    ggtitle("Paternal BMI (adjusted for maternal BMI) P-value distributions \nat maternal BMI CpGs from Sharp et al.") +
+  theme_classic()+
+    theme(plot.title=element_text(size=16, hjust=0.5),strip.background=element_blank(),strip.text=element_text(size=12),plot.background=element_rect(fill="white"),panel.background=element_rect(fill="white"))+
+    xlab(expression(paste("Expected -log"[10], plain(P)))) +
+    ylab(expression(paste("Observed -log"[10], plain(P))))  
+
+pdf("sharp.qq.patmatbmi.pdf")
+Plot
+dev.off()
+                                 
+ks.test(sharp$Pvalue,distribution="punif",0,1)#0.03077
+                                 
+
+## QQ pat
+          
+sharp <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/CpGs_86.csv", header=TRUE)
+sharp <- merge(list.of.results$covs.pat,sharp,by.x="MarkerName",by.y="CpG",all=F)#64
+table(sign(sharp$Effect.x)==sign(sharp$Effect_cells))#43 same direction
+sharp$FDR <- p.adjust(sharp$Pvalue,method="fdr")
+summary(sharp$FDR<0.05)#0
+                                 
+X<-prep.myQQ(sharp$Pvalue)
+
+Plot <-  ggplot(X) +
+    geom_abline(intercept = 0, slope = 1, alpha = 0.5) +
+    geom_line(aes(expected, cupper), linetype = 2,colour=wes_palette("Zissou1")[5]) +
+    geom_line(aes(expected, clower), linetype =2, colour=wes_palette("Zissou1")[5]) +
+    geom_point(aes(expected, observed), shape = 20, size = 2,colour=wes_palette("Zissou1")[1]) +
+    ggtitle("Paternal BMI P-value distributions \nat maternal BMI CpGs from Sharp et al.") +
+  theme_classic()+
+    theme(plot.title=element_text(size=16, hjust=0.5),strip.background=element_blank(),strip.text=element_text(size=12),plot.background=element_rect(fill="white"),panel.background=element_rect(fill="white"))+
+    xlab(expression(paste("Expected -log"[10], plain(P)))) +
+    ylab(expression(paste("Observed -log"[10], plain(P))))  
+
+pdf("sharp.qq.patbmi.pdf")
+Plot
+dev.off()
+                                 
+ks.test(sharp$Pvalue,distribution="punif",0,1)#0.03077
+                                 
+                                 
+ ## QQ patmat
+          
+sharp <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/CpGs_86.csv", header=TRUE)
+sharp <- merge(list.of.results$covs.patmat,sharp,by.x="MarkerName",by.y="CpG",all=F)#64
+table(sign(sharp$Effect.x)==sign(sharp$Effect_cells))#28 same direction
+sharp$FDR <- p.adjust(sharp$Pvalue,method="fdr")
+summary(sharp$FDR<0.05)#0
+                                 
+X<-prep.myQQ(sharp$Pvalue)
+
+Plot <-  ggplot(X) +
+    geom_abline(intercept = 0, slope = 1, alpha = 0.5) +
+    geom_line(aes(expected, cupper), linetype = 2,colour=wes_palette("Zissou1")[5]) +
+    geom_line(aes(expected, clower), linetype =2, colour=wes_palette("Zissou1")[5]) +
+    geom_point(aes(expected, observed), shape = 20, size = 2,colour=wes_palette("Zissou1")[1]) +
+    ggtitle("Paternal BMI (adjusted for maternal BMI) P-value distributions \nat maternal BMI CpGs from Sharp et al.") +
+  theme_classic()+
+    theme(plot.title=element_text(size=16, hjust=0.5),strip.background=element_blank(),strip.text=element_text(size=12),plot.background=element_rect(fill="white"),panel.background=element_rect(fill="white"))+
+    xlab(expression(paste("Expected -log"[10], plain(P)))) +
+    ylab(expression(paste("Observed -log"[10], plain(P))))  
+
+pdf("sharp.qq.patmatbmi.pdf")
+Plot
+dev.off()
+                                 
+ks.test(sharp$Pvalue,distribution="punif",0,1)#0.03077
+                                 
+
+## QQ mat
+          
+sharp <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/CpGs_86.csv", header=TRUE)
+sharp <- merge(list.of.results$covs.mat,sharp,by.x="MarkerName",by.y="CpG",all=F)#64
+table(sign(sharp$Effect.x)==sign(sharp$Effect_cells))#62 same direction
+sharp$FDR <- p.adjust(sharp$Pvalue,method="fdr")
+summary(sharp$FDR<0.05)#35
+                                 
+X<-prep.myQQ(sharp$Pvalue)
+
+Plot <-  ggplot(X) +
+    geom_abline(intercept = 0, slope = 1, alpha = 0.5) +
+    geom_line(aes(expected, cupper), linetype = 2,colour=wes_palette("Zissou1")[5]) +
+    geom_line(aes(expected, clower), linetype =2, colour=wes_palette("Zissou1")[5]) +
+    geom_point(aes(expected, observed), shape = 20, size = 2,colour=wes_palette("Zissou1")[1]) +
+    ggtitle("Maternal BMI P-value distributions \nat paternal BMI CpGs from Sharp et al.") +
+  theme_classic()+
+    theme(plot.title=element_text(size=16, hjust=0.5),strip.background=element_blank(),strip.text=element_text(size=12),plot.background=element_rect(fill="white"),panel.background=element_rect(fill="white"))+
+    xlab(expression(paste("Expected -log"[10], plain(P)))) +
+    ylab(expression(paste("Observed -log"[10], plain(P))))  
+
+pdf("sharp.qq.matbmi.pdf")
+Plot
+dev.off()
+                                 
+ks.test(sharp$Pvalue,distribution="punif",0,1)#0.03077
+                                 
+## QQ matpat
+          
+sharp <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/CpGs_86.csv", header=TRUE)
+sharp <- merge(list.of.results$covs.matpat,sharp,by.x="MarkerName",by.y="CpG",all=F)#64
+table(sign(sharp$Effect.x)==sign(sharp$Effect_cells))#62 same direction
+sharp$FDR <- p.adjust(sharp$Pvalue,method="fdr")
+summary(sharp$FDR<0.05)#35
+                                 
+X<-prep.myQQ(sharp$Pvalue)
+
+Plot <-  ggplot(X) +
+    geom_abline(intercept = 0, slope = 1, alpha = 0.5) +
+    geom_line(aes(expected, cupper), linetype = 2,colour=wes_palette("Zissou1")[5]) +
+    geom_line(aes(expected, clower), linetype =2, colour=wes_palette("Zissou1")[5]) +
+    geom_point(aes(expected, observed), shape = 20, size = 2,colour=wes_palette("Zissou1")[1]) +
+    ggtitle("Maternal BMI (adjusted for paternal BMI) P-value distributions \nat paternal BMI CpGs from Sharp et al.") +
+  theme_classic()+
+    theme(plot.title=element_text(size=16, hjust=0.5),strip.background=element_blank(),strip.text=element_text(size=12),plot.background=element_rect(fill="white"),panel.background=element_rect(fill="white"))+
+    xlab(expression(paste("Expected -log"[10], plain(P)))) +
+    ylab(expression(paste("Observed -log"[10], plain(P))))  
+
+pdf("sharp.qq.matpatbmi.pdf")
+Plot
+dev.off()
+                                 
+ks.test(sharp$Pvalue,distribution="punif",0,1)#0.03077

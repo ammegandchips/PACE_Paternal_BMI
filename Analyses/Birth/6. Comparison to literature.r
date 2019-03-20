@@ -209,7 +209,7 @@ Plot <-  ggplot(X) +
     geom_line(aes(expected, cupper), linetype = 2,colour=wes_palette("Zissou1")[5]) +
     geom_line(aes(expected, clower), linetype =2, colour=wes_palette("Zissou1")[5]) +
     geom_point(aes(expected, observed), shape = 20, size = 2,colour=wes_palette("Zissou1")[1]) +
-    ggtitle("Paternal BMI P-value distributions \nat maternal BMI CpGs from Sharp et al.") +
+    ggtitle("Paternal BMI meta-EWAS P-value distributions \nat maternal BMI CpGs from Sharp et al.") +
   theme_classic()+
     theme(plot.title=element_text(size=16, hjust=0.5),strip.background=element_blank(),strip.text=element_text(size=12),plot.background=element_rect(fill="white"),panel.background=element_rect(fill="white"))+
     xlab(expression(paste("Expected -log"[10], plain(P)))) +
@@ -237,7 +237,7 @@ Plot <-  ggplot(X) +
     geom_line(aes(expected, cupper), linetype = 2,colour=wes_palette("Zissou1")[5]) +
     geom_line(aes(expected, clower), linetype =2, colour=wes_palette("Zissou1")[5]) +
     geom_point(aes(expected, observed), shape = 20, size = 2,colour=wes_palette("Zissou1")[1]) +
-    ggtitle("Paternal BMI (adjusted for maternal BMI) P-value distributions \nat maternal BMI CpGs from Sharp et al.") +
+    ggtitle("Paternal BMI (adjusted for maternal BMI) meta-EWAS P-value distributions \nat maternal BMI CpGs from Sharp et al.") +
   theme_classic()+
     theme(plot.title=element_text(size=16, hjust=0.5),strip.background=element_blank(),strip.text=element_text(size=12),plot.background=element_rect(fill="white"),panel.background=element_rect(fill="white"))+
     xlab(expression(paste("Expected -log"[10], plain(P)))) +
@@ -265,7 +265,7 @@ Plot <-  ggplot(X) +
     geom_line(aes(expected, cupper), linetype = 2,colour=wes_palette("Zissou1")[5]) +
     geom_line(aes(expected, clower), linetype =2, colour=wes_palette("Zissou1")[5]) +
     geom_point(aes(expected, observed), shape = 20, size = 2,colour=wes_palette("Zissou1")[1]) +
-    ggtitle("Maternal BMI P-value distributions \nat paternal BMI CpGs from Sharp et al.") +
+    ggtitle("Maternal BMI meta-EWAS P-value distributions \nat maternal BMI CpGs from Sharp et al.") +
   theme_classic()+
     theme(plot.title=element_text(size=16, hjust=0.5),strip.background=element_blank(),strip.text=element_text(size=12),plot.background=element_rect(fill="white"),panel.background=element_rect(fill="white"))+
     xlab(expression(paste("Expected -log"[10], plain(P)))) +
@@ -292,7 +292,7 @@ Plot <-  ggplot(X) +
     geom_line(aes(expected, cupper), linetype = 2,colour=wes_palette("Zissou1")[5]) +
     geom_line(aes(expected, clower), linetype =2, colour=wes_palette("Zissou1")[5]) +
     geom_point(aes(expected, observed), shape = 20, size = 2,colour=wes_palette("Zissou1")[1]) +
-    ggtitle("Maternal BMI (adjusted for paternal BMI) P-value distributions \nat paternal BMI CpGs from Sharp et al.") +
+    ggtitle("Maternal BMI (adjusted for paternal BMI) meta-EWAS P-value distributions \nat maternal BMI CpGs from Sharp et al.") +
   theme_classic()+
     theme(plot.title=element_text(size=16, hjust=0.5),strip.background=element_blank(),strip.text=element_text(size=12),plot.background=element_rect(fill="white"),panel.background=element_rect(fill="white"))+
     xlab(expression(paste("Expected -log"[10], plain(P)))) +

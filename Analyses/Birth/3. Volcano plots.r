@@ -12,7 +12,7 @@ ylim(c(0,7.5))+
 xlim(c(-1.1,1.1))+
 ylab("-log10(P-value)")+
 theme(legend.position="none",plot.title = element_text(hjust = 0.5,size=16),axis.text.x=element_text(size=14),axis.text.y=element_text(size=14),axis.title.y=element_text(size=14),axis.title.x=element_text(size=14))+
-ggtitle("Paternal BMI meta-EWAS results at birth")
+ggtitle("Paternal BMI meta-EWAS results at birth\n")
 
 Mat.volcano<-ggplot(list.of.results$covs.mat,aes(x=Effect*100,y=-log10(Pvalue)))+
 geom_point(aes(col=Pvalue<1e-5,size=Pvalue<1e-5))+
@@ -24,7 +24,7 @@ ylim(c(0,7.5))+
 xlim(c(-1.1,1.1))+
 ylab("-log10(P-value)")+
 theme(legend.position="none",plot.title = element_text(hjust = 0.5,size=16),axis.text.x=element_text(size=14),axis.text.y=element_text(size=14),axis.title.y=element_text(size=14),axis.title.x=element_text(size=14))+
-ggtitle("Maternal BMI meta-EWAS results at birth")
+ggtitle("Maternal BMI meta-EWAS results at birth\n")
 
 PatMat.volcano<-ggplot(list.of.results$covs.patmat,aes(x=Effect*100,y=-log10(Pvalue)))+
 geom_point(aes(col=Pvalue<1e-5,size=Pvalue<1e-5))+

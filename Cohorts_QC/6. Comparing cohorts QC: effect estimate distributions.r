@@ -7,8 +7,9 @@ extract.coefficients <- function(ewas.dataframe){
 	ewas.dataframe[,grep(colnames(ewas.dataframe),pattern="coef")]
 }
 
-abbreviated.cohort.names <- c("AL","Bas","Bwh","CH","GR","GO","IN","Mo1","Mo2","Mo3","PI","PV","RH")#or c("AL","CH","GR","HE","IN", PV") for childhood
-time_point <- "birth" #or whatever
+abbreviated.cohort.names <- c("AL","Bas","Bwh","CH","GR","GO","IN","Mo1","Mo2","Mo3","PI","PV","RH")
+#abbreviated.cohort.names <- c("AL","CH","GR","HE","IN", PV") for childhood
+time_point <- "birth" #or childhood
 
 list.of.dataframes <- lapply(All.EWAS,
 function(cohort){

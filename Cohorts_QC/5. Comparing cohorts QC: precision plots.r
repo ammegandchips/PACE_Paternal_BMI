@@ -3,7 +3,7 @@
 require(data.table)
 
 abbreviated.cohort.names <- c("AL","Bas","Bwh","CH","GR","GO","IN","Mo1","Mo2","Mo3","PI","PV","RH")
-#or c("AL","CH","GR","HE","IN", PV") for childhood
+#abbreviated.cohort.names <- c("AL","CH","GR","HE","IN", "PV") for childhood
 time_point <- "birth" #or childhood
 
 extract.median.n <- function(ewas.dataframe){

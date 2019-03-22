@@ -2,8 +2,8 @@
 
 require(data.table)
 
-abbreviated.cohort.names <- c("AL","Bas","Bwh","CH","EN","GR","GO","Inc","Ic","M1","M2","M3","PI","PV","RH")
-#abbreviated.cohort.names <- c("AL","CH","GR","Inc","Ic","PV") #for childhood
+abbreviated.cohort.names <- c("AL","Bas","Bwh","CH","GR","GO","IN","Mo1","Mo2","Mo3","PI","PV","RH")
+#or c("AL","CH","GR","HE","IN", PV") for childhood
 time_point <- "birth" #or childhood
 
 extract.median.n <- function(ewas.dataframe){
@@ -26,15 +26,6 @@ sample.sizes.melted <- melt(sample.sizes)
 sample.sizes.melted$cohort<-row.names(sample.sizes)
 names(sample.sizes.melted) <- c("model","sample.size","cohort")
 
-# head(sample.sizes.melted)
-#    model sample.size cohort
-# min.pat         647     AL
-# min.pat          88    Bas
-# min.pat         138    Bwh
-# min.pat         170     CH
-# min.pat         183     EN
-# min.pat        1061     GR
-
 extract.se <- function(ewas.dataframe){
 	ewas.dataframe[,c(which(colnames(ewas.dataframe)=="se"),grep(colnames(ewas.dataframe),pattern="se.pheno"))]
 }
@@ -53,25 +44,8 @@ median.SEs.melted <- melt(median.SEs)
 median.SEs.melted$cohort<-row.names(median.SEs)
 names(median.SEs.melted) <- c("model","median.se","cohort")
 
-# head(median.SEs.melted)
-#    model    median.se cohort
-# min.pat 0.0010936286     AL
-# min.pat 0.0025318482    Bas
-# min.pat 0.0022816048    Bwh
-# min.pat 0.0010440241     CH
-# min.pat 0.0008717286     EN
-# min.pat 0.0005681995     GR
-
 dat <- cbind(sample.sizes.melted,median.SEs.melted$median.se)
 names(dat) <- c("Model","N","Cohort","Median.SE")
-
-#    Model    N Cohort    Median.SE
-# min.pat  647     AL 0.0010936286
-# min.pat   88    Bas 0.0025318482
-# min.pat  138    Bwh 0.0022816048
-# min.pat  170     CH 0.0010440241
-# min.pat  183     EN 0.0008717286
-# min.pat 1061     GR 0.0005681995
 
 require(ggplot2)
 filename <- paste0("qc_res/Precision.by.samplesize.",time_point,".png")

@@ -32,8 +32,8 @@ CHAMACOS2<- append(CHAMACOS2,list(CHAMACOS2[[positions[2]]]),positions[2])
 CHAMACOS2<- append(CHAMACOS2,list(CHAMACOS2[[positions[3]]]),positions[3])
 CHAMACOS2<- append(CHAMACOS2,list(CHAMACOS2[[positions[4]]]),positions[4])
 
-positions<-3
-ENVIRONAGE2<- append(All.EWAS$ENVIRONAGE,list(All.EWAS$ENVIRONAGE[[positions[1]]]),positions[1])
+#positions<-3
+#ENVIRONAGE2<- append(All.EWAS$ENVIRONAGE,list(All.EWAS$ENVIRONAGE[[positions[1]]]),positions[1])
 
 positions<-grep(names(All.EWAS$GenerationR),pattern="mutual")+c(0,seq(2:length(grep(names(All.EWAS$GenerationR),pattern="mutual"))))
 GenerationR2<- append(All.EWAS$GenerationR,list(All.EWAS$GenerationR[[positions[1]]]),positions[1])
@@ -53,11 +53,11 @@ INMA.nocombat2<- append(INMA.nocombat2,list(INMA.nocombat2[[positions[2]]]),posi
 INMA.nocombat2<- append(INMA.nocombat2,list(INMA.nocombat2[[positions[3]]]),positions[3])
 INMA.nocombat2<- append(INMA.nocombat2,list(INMA.nocombat2[[positions[4]]]),positions[4])
 
-positions<-grep(names(All.EWAS$INMA.combat),pattern="mutual")+c(0,seq(2:length(grep(names(All.EWAS$INMA.combat),pattern="mutual"))))
-INMA.combat2<- append(All.EWAS$INMA.combat,list(All.EWAS$INMA.combat[[positions[1]]]),positions[1])
-INMA.combat2<- append(INMA.combat2,list(INMA.combat2[[positions[2]]]),positions[2])
-INMA.combat2<- append(INMA.combat2,list(INMA.combat2[[positions[3]]]),positions[3])
-INMA.combat2<- append(INMA.combat2,list(INMA.combat2[[positions[4]]]),positions[4])
+#positions<-grep(names(All.EWAS$INMA.combat),pattern="mutual")+c(0,seq(2:length(grep(names(All.EWAS$INMA.combat),pattern="mutual"))))
+#INMA.combat2<- append(All.EWAS$INMA.combat,list(All.EWAS$INMA.combat[[positions[1]]]),positions[1])
+#INMA.combat2<- append(INMA.combat2,list(INMA.combat2[[positions[2]]]),positions[2])
+#INMA.combat2<- append(INMA.combat2,list(INMA.combat2[[positions[3]]]),positions[3])
+#INMA.combat2<- append(INMA.combat2,list(INMA.combat2[[positions[4]]]),positions[4])
 
 positions<-grep(names(All.EWAS$MoBa1),pattern="mutual")+c(0,seq(2:length(grep(names(All.EWAS$MoBa1),pattern="mutual"))))
 MoBa12<- append(All.EWAS$MoBa1,list(All.EWAS$MoBa1[[positions[1]]]),positions[1])
@@ -99,11 +99,11 @@ mapply(prepare.QCd.ewas.results,unique(key$result[which(key$model %in% names(ALS
 mapply(prepare.QCd.ewas.results,unique(key$result[which(key$model %in% names(BIB_asian))]),BIB_asian2,"BIB.asian")
 mapply(prepare.QCd.ewas.results,unique(key$result[which(key$model %in% names(BIB_white))]),BIB_white2,"BIB.white")
 mapply(prepare.QCd.ewas.results,unique(key$result[which(key$model %in% names(CHAMACOS))]),CHAMACOS2,"CHAMACOS")
-mapply(prepare.QCd.ewas.results,unique(key$result[which(key$model %in% names(ENVIRONAGE))]),ENVIRONAGE2,"ENVIRONAGE")
+#mapply(prepare.QCd.ewas.results,unique(key$result[which(key$model %in% names(ENVIRONAGE))]),ENVIRONAGE2,"ENVIRONAGE")
 mapply(prepare.QCd.ewas.results,unique(key$result[which(key$model %in% names(GenerationR))]),GenerationR2,"GenerationR")
 mapply(prepare.QCd.ewas.results,unique(key$result[which(key$model %in% names(GOYA))]),GOYA2,"GOYA")
 mapply(prepare.QCd.ewas.results,unique(key$result[which(key$model %in% names(INMA.nocombat))]),INMA.nocombat2,"INMA.nocombat")
-mapply(prepare.QCd.ewas.results,unique(key$result[which(key$model %in% names(INMA.combat))]),INMA.combat2,"INMA.combat")
+#mapply(prepare.QCd.ewas.results,unique(key$result[which(key$model %in% names(INMA.combat))]),INMA.combat2,"INMA.combat")
 mapply(prepare.QCd.ewas.results,unique(key$result[which(key$model %in% names(MoBa1))]),MoBa12,"MoBa1")
 mapply(prepare.QCd.ewas.results,unique(key$result[which(key$model %in% names(MoBa2))]),MoBa22,"MoBa2")
 mapply(prepare.QCd.ewas.results,unique(key$result[which(key$model %in% names(MoBa3))]),MoBa32,"MoBa3")

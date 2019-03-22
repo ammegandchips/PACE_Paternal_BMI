@@ -20,15 +20,6 @@ library(RISmed)
 paternal_terms<-c(
 "paternal",
 "father")
-  
-#Pregnancy related terms
-#pregnancy_terms<-c(
-#	"pregnancy",
-#	"pregnant",
-#	"gestational",
-#	"prenatal",
-#	"antenatal",
-#	"preconception")
  
 #Epigenetics related terms  
 epigenetic_terms<-c(
@@ -49,7 +40,6 @@ not_terms <- c(
 "beckwith*")
 
 #get intersects between these terms
-#searchterms <- as.vector(outer(paternal_terms,pregnancy_terms,paste,sep=" AND "))
 searchterms <- as.vector(outer(paternal_terms,epigenetic_terms,paste,sep=" AND "))
 searchterms <- as.vector(outer(searchterms,BMI_terms,paste,sep=" AND "))
 searchterms <- paste(searchterms,"NOT (",paste(not_terms,collapse=" OR "),")")
@@ -87,26 +77,26 @@ colnames(searchresults)<-c("search query", "PMID", "DOI", "year_pubmed", "journa
 ## Clean up results object and save clean output
 ############################################################################################
 
-nrow(searchresults) #155
+nrow(searchresults)
 
 #remove any duplicate rows
 searchresults<-searchresults[duplicated(searchresults$PMID)==F,]
-nrow(searchresults)  #29
+nrow(searchresults)
 
 #remove any unwanted article types
 searchresults$publication_type<-as.character(searchresults$publication_type)
 
   #keep Journal Articles
   searchresults <- searchresults[grepl("Journal Article", searchresults$publication_type),]
-  nrow(searchresults) #28
+  nrow(searchresults)
   
   #remove reviews
   searchresults <-searchresults[!grepl("Review", searchresults$publication_type),]
-  nrow(searchresults) #21
+  nrow(searchresults)
   
 #remove any papers not in English language
 searchresults<-searchresults[searchresults$language=="eng",]
-nrow(searchresults) #21
+nrow(searchresults)
 
 #add extra columns for data extraction
   searchresults <- cbind(searchresults,

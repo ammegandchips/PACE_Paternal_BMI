@@ -1,6 +1,6 @@
 # Cohort QC: Correlation plot of betas in all 12 results files
 
-time_point <-"birth"#or whatever
+time_point <-"birth"#or childhood
 
 require(corrplot)
 require(plyr)

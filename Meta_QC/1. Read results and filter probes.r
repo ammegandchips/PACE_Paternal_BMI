@@ -5,9 +5,7 @@ models <-c("min.pat","min.mat","min.patmat","min.matpat","covs.pat",
 "girls.patmat","girls.matpat")
 
 #for childhood, "min" models are omitted (because we didn't use them in the birth analyses. So "models" is set up as:
-#models <-c("covs.pat",
-#"covs.mat","covs.patmat","covs.matpat","boys.patmat","boys.matpat",
-#"girls.patmat","girls.matpat")
+#models <-c("covs.pat","covs.mat","covs.patmat","covs.matpat","boys.patmat","boys.matpat","girls.patmat","girls.matpat")
 
 tp <- "birth" #or childhood
 

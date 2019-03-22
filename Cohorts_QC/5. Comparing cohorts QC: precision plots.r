@@ -3,7 +3,8 @@
 require(data.table)
 
 abbreviated.cohort.names <- c("AL","Bas","Bwh","CH","EN","GR","GO","Inc","Ic","M1","M2","M3","PI","PV","RH")
-time_point <- "birth" #or whatever
+#abbreviated.cohort.names <- c("AL","CH","GR","Inc","Ic","PV") #for childhood
+time_point <- "birth" #or childhood
 
 extract.median.n <- function(ewas.dataframe){
 	median(ewas.dataframe[,c(which(colnames(ewas.dataframe)=="n"))],na.rm=TRUE)

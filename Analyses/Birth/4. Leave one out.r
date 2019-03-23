@@ -7,17 +7,10 @@ top.sites.covs.patmat <- list.of.results$covs.patmat[which(list.of.results$covs.
 top.sites.boys <- list.of.results$boys.patmat[which(list.of.results$boys.patmat$Pvalue<1e-5),"MarkerName"]
 top.sites.girls <- list.of.results$girls.patmat[which(list.of.results$girls.patmat$Pvalue<1e-5),"MarkerName"]
 
-addprobeID <- function(ewas.dataframe){
-  ewas.dataframe$probeid <- row.names(ewas.dataframe)
-  ewas.dataframe
-}
-
-All.EWAS.top <- lapply(All.EWAS,function(x) lapply(x,addprobeID))
-
-All.EWAS.top.covs.pat<-lapply(All.EWAS.top,function(x) lapply(x,function(y) y[which(y$probeid %in% top.sites.covs.pat),]))
-All.EWAS.top.covs.patmat<-lapply(All.EWAS.top,function(x) lapply(x,function(y) y[which(y$probeid %in% top.sites.covs.patmat),]))
-All.EWAS.top.boys<-lapply(All.EWAS.top,function(x) lapply(x,function(y) y[which(y$probeid %in% top.sites.boys),]))
-All.EWAS.top.girls<-lapply(All.EWAS.top,function(x) lapply(x,function(y) y[which(y$probeid %in% top.sites.girls),]))
+All.EWAS.top.covs.pat<-lapply(All.EWAS,function(x) lapply(x,function(y) y[which(y$probeid %in% top.sites.covs.pat),]))
+All.EWAS.top.covs.patmat<-lapply(All.EWAS,function(x) lapply(x,function(y) y[which(y$probeid %in% top.sites.covs.patmat),]))
+All.EWAS.top.boys<-lapply(All.EWAS,function(x) lapply(x,function(y) y[which(y$probeid %in% top.sites.boys),]))
+All.EWAS.top.girls<-lapply(All.EWAS,function(x) lapply(x,function(y) y[which(y$probeid %in% top.sites.girls),]))
 
 covs.pat<-lapply(All.EWAS.top.covs.pat,function(x) x$ewas.res.covs.mutual)
 covs.patmat<-lapply(All.EWAS.top.covs.patmat,function(x) x$ewas.res.covs.mutual)

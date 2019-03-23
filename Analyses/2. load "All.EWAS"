@@ -63,7 +63,7 @@ annotation <- meffil.get.features("450k")
 annotation <- annotation[-which(annotation$type=="control"),] #remove control probes (485577)
 annotation <- annotation[-which(annotation$target=="snp"),] # remove snp probes (485512)
 annotation <- annotation[-which(annotation$snp.exclude=="TRUE"),] # remove probes on SNPs (395016)
-chen <- read.csv("chen_list.csv",stringsAsFactors=FALSE,header=TRUE)
+chen <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/chen_list.csv",stringsAsFactors=FALSE,header=TRUE)
 annotation <- annotation[-which(annotation$name%in%na.omit(chen[,1])),] # remove cross-hybridizing probes (chen) 372993
 annotation <- annotation[-which(annotation$chromosome%in%c("chrX","chrY")),] # remove sex chromosomes (for this analysis; i.e., we could come back and do more with these)
 
@@ -129,7 +129,7 @@ annotation <- meffil.get.features("450k") #
 annotation <- annotation[-which(annotation$type=="control"),] #remove control probes (485577)
 annotation <- annotation[-which(annotation$target=="snp"),] # remove snp probes (485512)
 annotation <- annotation[-which(annotation$snp.exclude=="TRUE"),] # remove probes on SNPs (395016)
-chen <- read.csv("chen_list.csv",stringsAsFactors=FALSE,header=TRUE)
+chen <- read.csv("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/chen_list.csv",stringsAsFactors=FALSE,header=TRUE)
 annotation <- annotation[-which(annotation$name%in%na.omit(chen[,1])),] # remove cross-hybridizing probes (chen) 372993
 annotation <- annotation[-which(annotation$chromosome%in%c("chrX","chrY")),] 
 

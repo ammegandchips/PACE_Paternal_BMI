@@ -76,7 +76,7 @@ covs.patmat<-lapply(All.EWAS.top.covs.patmat,function(x) x$ewas.res.covs.mutual)
 boys<-lapply(All.EWAS.top.boys,function(x) x$ewas.res.covs.mutual.boys.only)
 girls<-lapply(All.EWAS.top.girls,function(x) x$ewas.res.covs.mutual.girls.only)
 
-metareg.covariates<-data.frame(study=names(All.EWAS.top.covs.pat),age=c(7,9,6,8,4,7),in.cord=c(1,1,1,0,1,1))
+metareg.covariates<-data.frame(study=names(All.EWAS.top.covs.pat),age=c(7.5,9,6,8,4,7),in.cord=c(1,1,1,0,1,1))
 
 covs.pat<-do.call(rbind,covs.pat)
 covs.patmat<-do.call(rbind,covs.patmat)

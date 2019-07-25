@@ -28,25 +28,25 @@ matpat.man$abs.Effect <-abs(matpat.man$Effect)*100
 png("pat.manhattan.effect.png",width=1500,height=500)
 manhattan (pat.man, chr = "CHR", bp = "position", p = "abs.Effect", snp = "MarkerName", col = c(wes_palette("Zissou1")[1], 
     desat(wes_palette("Zissou1")[1])), chrlabs = NULL, suggestiveline = NULL, 
-    genomewideline = NULL,ylim_max=max(c(pat.man$abs.Effect,mat.man$abs.Effect))+0.2,logp=F)
+    genomewideline = NULL,ylim_max=max(c(pat.man$abs.Effect,mat.man$abs.Effect,matpat.man$abs.Effect,patmat.man$abs.Effect))+0.2,logp=F)
 dev.off()
 
 png("mat.manhattan.effect.png",width=1500,height=500)
 manhattan (mat.man, chr = "CHR", bp = "position", p = "abs.Effect", snp = "MarkerName", col = c(wes_palette("Zissou1")[5], 
     desat(wes_palette("Zissou1")[5])), chrlabs = NULL, suggestiveline = NULL, 
-    genomewideline = NULL,ylim_max=max(c(pat.man$abs.Effect,mat.man$abs.Effect))+0.2,logp=F)
+    genomewideline = NULL,ylim_max=max(c(pat.man$abs.Effect,mat.man$abs.Effect,matpat.man$abs.Effect,patmat.man$abs.Effect))+0.2,logp=F)
 dev.off()
-png("pat.manhattan.effect.png",width=1500,height=500)
 
+png("patmat.manhattan.effect.png",width=1500,height=500)
 manhattan (patmat.man, chr = "CHR", bp = "position", p = "abs.Effect", snp = "MarkerName", col = c(wes_palette("Zissou1")[1], 
     desat(wes_palette("Zissou1")[1])), chrlabs = NULL, suggestiveline = NULL, 
-    genomewideline = NULL,ylim_max=max(c(matpat.man$abs.Effect,patmat.man$abs.Effect))+0.2,logp=F)
+    genomewideline = NULL,ylim_max=max(c(pat.man$abs.Effect,mat.man$abs.Effect,matpat.man$abs.Effect,patmat.man$abs.Effect))+0.2,logp=F)
 dev.off()
 
 png("matpat.manhattan.effect.png",width=1500,height=500)
 manhattan (matpat.man, chr = "CHR", bp = "position", p = "abs.Effect", snp = "MarkerName", col = c(wes_palette("Zissou1")[5], 
     desat(wes_palette("Zissou1")[5])), chrlabs = NULL, suggestiveline = NULL, 
-    genomewideline = NULL,ylim_max=max(c(matpat.man$abs.Effect,patmat.man$abs.Effect))+0.2,logp=F)
+    genomewideline = NULL,ylim_max=max(c(pat.man$abs.Effect,mat.man$abs.Effect,matpat.man$abs.Effect,patmat.man$abs.Effect))+0.2,logp=F)
 dev.off()
 
 

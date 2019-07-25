@@ -1,4 +1,56 @@
-#MALES AND FEMALES: Pat vs Mat meta-analysis
+#Pat vs Mat manhattan plots
+
+require(meffil)
+require(wesanderson)
+
+desat <- function(cols, sat=0.5) {
+    X <- diag(c(1, sat, 1)) %*% rgb2hsv(col2rgb(cols))
+    hsv(X[1,], X[2,], X[3,])
+}
+
+annotation <- meffil.get.features("450k")
+source("~/EWAS/pat_bmi/manhattan_plot_function.r")
+
+pat.man <- merge(list.of.results$covs.pat,annotation,by.x="MarkerName",by.y="name",all=F)
+mat.man <- merge(list.of.results$covs.mat,annotation,by.x="MarkerName",by.y="name",all=F)
+pat.man$CHR <- as.numeric(unlist(lapply(pat.man$chromosome,substring,first=4)))
+mat.man$CHR <- as.numeric(unlist(lapply(mat.man$chromosome,substring,first=4)))
+patmat.man <- merge(list.of.results$covs.patmat,annotation,by.x="MarkerName",by.y="name",all=F)
+matpat.man <- merge(list.of.results$covs.matpat,annotation,by.x="MarkerName",by.y="name",all=F)
+patmat.man$CHR <- as.numeric(unlist(lapply(patmat.man$chromosome,substring,first=4)))
+matpat.man$CHR <- as.numeric(unlist(lapply(matpat.man$chromosome,substring,first=4)))
+
+pat.man$abs.Effect <-abs(pat.man$Effect)*100
+mat.man$abs.Effect <-abs(mat.man$Effect)*100
+patmat.man$abs.Effect <-abs(patmat.man$Effect)*100
+matpat.man$abs.Effect <-abs(matpat.man$Effect)*100
+
+png("pat.manhattan.effect.png",width=1500,height=500)
+manhattan (pat.man, chr = "CHR", bp = "position", p = "abs.Effect", snp = "MarkerName", col = c(wes_palette("Zissou1")[1], 
+    desat(wes_palette("Zissou1")[1])), chrlabs = NULL, suggestiveline = NULL, 
+    genomewideline = NULL,ylim_max=max(c(pat.man$abs.Effect,mat.man$abs.Effect))+0.2,logp=F)
+dev.off()
+
+png("mat.manhattan.effect.png",width=1500,height=500)
+manhattan (mat.man, chr = "CHR", bp = "position", p = "abs.Effect", snp = "MarkerName", col = c(wes_palette("Zissou1")[5], 
+    desat(wes_palette("Zissou1")[5])), chrlabs = NULL, suggestiveline = NULL, 
+    genomewideline = NULL,ylim_max=max(c(pat.man$abs.Effect,mat.man$abs.Effect))+0.2,logp=F)
+dev.off()
+png("pat.manhattan.effect.png",width=1500,height=500)
+
+manhattan (patmat.man, chr = "CHR", bp = "position", p = "abs.Effect", snp = "MarkerName", col = c(wes_palette("Zissou1")[1], 
+    desat(wes_palette("Zissou1")[1])), chrlabs = NULL, suggestiveline = NULL, 
+    genomewideline = NULL,ylim_max=max(c(matpat.man$abs.Effect,patmat.man$abs.Effect))+0.2,logp=F)
+dev.off()
+
+png("matpat.manhattan.effect.png",width=1500,height=500)
+manhattan (matpat.man, chr = "CHR", bp = "position", p = "abs.Effect", snp = "MarkerName", col = c(wes_palette("Zissou1")[5], 
+    desat(wes_palette("Zissou1")[5])), chrlabs = NULL, suggestiveline = NULL, 
+    genomewideline = NULL,ylim_max=max(c(matpat.man$abs.Effect,patmat.man$abs.Effect))+0.2,logp=F)
+dev.off()
+
+
+#mat vs pat meta-analysis
 
 fixed.effects.meta.analysis <- function(data){
                               require(metafor)

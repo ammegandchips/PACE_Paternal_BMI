@@ -20,8 +20,6 @@ H19 <- annotation[which(annotation$chromosome=="chr11" & (annotation$position>20
 PLAGL1 <- annotation[which(annotation$chromosome=="chr6" & (annotation$position>144261437 & annotation$position<144385735)),]
 GRB10 <- annotation[which(annotation$chromosome=="chr7" & (annotation$position>50657760 & annotation$position<50861159)),]
 
-list.of.results$covs.patmat <- list.of.results$covs.patmat[order(list.of.results$covs.patmat$Effect),]
-
 imprinted.regions <-  rbind(list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% IGF2$name),],
 list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% MEST$name),],
 list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% PEG3$name),],
@@ -49,34 +47,39 @@ rep("PLAGL1 (n probes = 36)",nrow(list.of.results$covs.patmat[which(list.of.resu
 rep("GRB10 (n probes = 52)",nrow(list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% GRB10$name),]))
 )
 
-imprinted.regions$ID <- c(1:nrow(list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% IGF2$name),]),
-1:nrow(list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% MEST$name),]),
-1:nrow(list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% PEG3$name),]),
-1:nrow(list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% NNAT$name),]),
-1:nrow(list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% NDN$name),]),
-1:nrow(list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% SNRPN$name),]),
-1:nrow(list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% SGCE$name),]),
-1:nrow(list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% PEG10$name),]),
-1:nrow(list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% MEG3$name),]),
-1:nrow(list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% H19$name),]),
-1:nrow(list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% PLAGL1$name),]),
-1:nrow(list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% GRB10$name),]))
+imprinted.regions <- merge(imprinted.regions,annotation,by.x="MarkerName",by.y="name",all.y=F)
+imprinted.regions <- imprinted.regions[order(imprinted.regions$position),]
 
+
+imprinted.regions$ID<-NA
+imprinted.regions$ID[imprinted.regions$imprinted.region=="IGF2 (n probes = 97)"]<-1:nrow(imprinted.regions[imprinted.regions$MarkerName %in% IGF2$name,])
+imprinted.regions$ID[imprinted.regions$imprinted.region=="MEST (n probes = 64)"]<-1:nrow(imprinted.regions[imprinted.regions$MarkerName %in% MEST$name,])
+imprinted.regions$ID[imprinted.regions$imprinted.region=="PEG3 (n probes = 25)"]<-1:nrow(imprinted.regions[imprinted.regions$MarkerName %in% PEG3$name,])
+imprinted.regions$ID[imprinted.regions$imprinted.region=="NNAT (n probes = 9)"]<-1:nrow(imprinted.regions[imprinted.regions$MarkerName %in% NNAT$name,])
+imprinted.regions$ID[imprinted.regions$imprinted.region=="NDN (n probes = 6)"]<-1:nrow(imprinted.regions[imprinted.regions$MarkerName %in% NDN$name,])
+imprinted.regions$ID[imprinted.regions$imprinted.region=="SNRPN (n probes = 267)"]<-1:nrow(imprinted.regions[imprinted.regions$MarkerName %in% SNRPN$name,])
+imprinted.regions$ID[imprinted.regions$imprinted.region=="SGCE (n probes = 40)"]<-1:nrow(imprinted.regions[imprinted.regions$MarkerName %in% SGCE$name,])
+imprinted.regions$ID[imprinted.regions$imprinted.region=="PEG10 (n probes = 70)"]<-1:nrow(imprinted.regions[imprinted.regions$MarkerName %in% PEG10$name,])
+imprinted.regions$ID[imprinted.regions$imprinted.region=="MEG3 (n probes = 51)"]<-1:nrow(imprinted.regions[imprinted.regions$MarkerName %in% MEG3$name,])
+imprinted.regions$ID[imprinted.regions$imprinted.region=="H19 (n probes = 52)"]<-1:nrow(imprinted.regions[imprinted.regions$MarkerName %in% H19$name,])
+imprinted.regions$ID[imprinted.regions$imprinted.region=="PLAGL1 (n probes = 36)"]<-1:nrow(imprinted.regions[imprinted.regions$MarkerName %in% PLAGL1$name,])
+imprinted.regions$ID[imprinted.regions$imprinted.region=="GRB10 (n probes = 52)"]<-1:nrow(imprinted.regions[imprinted.regions$MarkerName %in% GRB10$name,])
+
+imprinted.regions$lower<- imprinted.regions$Effect-(1.96*imprinted.regions$StdErr)
+imprinted.regions$upper<- imprinted.regions$Effect+(1.96*imprinted.regions$StdErr)
 require(ggplot2)
 require(wesanderson)
 
-Plot<-ggplot(imprinted.regions, aes(x=1, y=ID))+
-geom_tile(aes(fill = Effect*100))+
+Plot<-ggplot(imprinted.regions, aes(x=ID))+
+geom_ribbon(aes(ymin=lower*100,ymax=upper*100),alpha=0.3,fill=wes_palette("Zissou1")[1])+
+geom_point(aes(y=Effect*100),size=0.5)+
+geom_hline(yintercept=0)+
 facet_wrap(~imprinted.region, ncol=3,scales="free")+
-xlab("")+ylab("")+
-scale_fill_gradientn(colours = c(wes_palette("Zissou1")[1],"white",wes_palette("Zissou1")[5]),name="Effect\nestimate",limits=c(-max(abs(imprinted.regions$Effect*100)),max(abs(imprinted.regions$Effect*100))),values=c(0,0.45,0.5,0.55,1))+
-theme_grey(base_size=8) + labs(x = "",y = "") + 
-scale_x_discrete(expand = c(0, 0)) +
-scale_y_discrete(expand = c(0, 0)) + theme(axis.ticks = element_blank(),axis.text.y = element_text(colour="black",size=11))+
-theme(strip.background = element_rect(fill="white"), strip.text=element_text(size=12), plot.background=element_rect(fill="white"))+
-ggtitle("Associations between paternal BMI (adjusted for maternal BMI) and \noffspring methylation in imprinted regions at birth\n")+
-theme(plot.title=element_text(size=16, hjust=0.5))+
-theme(legend.position="bottom",legend.text = element_text(size = 12),legend.title=element_text(size=12),legend.background=(element_rect(fill=NA)),legend.key.width=unit(2.5,"cm"))
+theme_grey(base_size=8) + labs(x = "Ordered position within region",y = "Difference in percentage methylation per 1 SD increase in paternal BMI",size=12) + 
+theme(axis.text.y = element_text(colour="black",size=8),axis.text.x=element_blank())+
+theme(strip.background = element_rect(fill="white"), strip.text=element_text(size=8), plot.background=element_rect(fill="white"))+
+ggtitle("Associations between paternal BMI (adjusted for maternal BMI)\nand offspring methylation at birth in imprinted regions\n")+
+theme(plot.title=element_text(size=14, hjust=0.5))
 
 
 pdf("imprinted.patmatbmi.pdf")

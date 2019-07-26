@@ -1,3 +1,15 @@
+#agreement and correlation of pat vs patmat
+cor(pat.man$Effect,patmat.man$Effect)#0.97  
+
+plot(pat.man$Effect,patmat.man$Effect,main="Correlation between paternal BMI effect estimates \nobtained before and after adjustment for maternal BMI: r=0.97",xlab="Unadjusted",ylab="Adjusted")
+abline(0,1,col=wes_palette("Zissou1")[1])
+
+summary(abs(abs(patmat.man$Effect*100 - pat.man$Effect*100)/(pat.man$Effect*100)))
+
+#comparing pat vs mat effect sizes
+summary(abs(list.of.results$covs.patmat$Effect)< abs(list.of.results$covs.matpat$Effect))
+summary(abs(list.of.results$covs.pat$Effect)< abs(list.of.results$covs.mat$Effect))
+
 #Pat vs Mat manhattan plots
 
 require(meffil)
@@ -49,11 +61,6 @@ manhattan (matpat.man, chr = "CHR", bp = "position", p = "abs.Effect", snp = "Ma
     genomewideline = NULL,ylim_max=max(c(pat.man$abs.Effect,mat.man$abs.Effect,matpat.man$abs.Effect,patmat.man$abs.Effect))+0.2,logp=F)
 dev.off()
 
-#agreement and correlation of pat vs patmat
-cor(pat.man$Effect,patmat.man$Effect)#0.97
-plot(pat.man$Effect,patmat.man$Effect,main="Correlation between paternal BMI effect estimates \nobtained before and after adjustment for maternal BMI: r=0.97",xlab="Unadjusted",ylab="Adjusted")
-abline(0,1,col=wes_palette("Zissou1")[1])
-
 #mat vs pat meta-analysis
 
 fixed.effects.meta.analysis <- function(data){
@@ -63,7 +70,7 @@ fixed.effects.meta.analysis <- function(data){
                               res
                               }
 
-CpGs <- list.of.results$covs.patmat[which(list.of.results$covs.patmat$Pvalue<1e-5),"MarkerName"]
+CpGs <- list.of.results$covs.pat[which(list.of.results$covs.pat$Pvalue<1e-5),"MarkerName"]
 
 PatMatComparison<-rbind(list.of.results$covs.pat[which(list.of.results$covs.pat$MarkerName %in% CpGs),],
 list.of.results$covs.patmat[which(list.of.results$covs.patmat$MarkerName %in% CpGs),],
@@ -78,8 +85,8 @@ results.patmat<-fixed.effects.meta.analysis(data=PatMatComparison[which(PatMatCo
 results.patmat.adj<-ldply(lapply(results.patmat.adj,function(x) unlist(c(x[c("QE","QEp","I2")]))))
 write.csv(results.patmat.adj,"matpatvspatmat.metaanalysis.birth.csv")
 
-PatMatComparison$colour <-"black"
-PatMatComparison$colour[which(PatMatComparison$Model %in% c("Maternal","Maternal adjusted for paternal"))]<-"red"
+PatMatComparison$colour <-wes_palette("Zissou1")[1]
+PatMatComparison$colour[which(PatMatComparison$Model %in% c("Maternal","Maternal adjusted for paternal"))]<-wes_palette("Zissou1")[5]
 PatMatComparison$ci.lb<-PatMatComparison$Effect - (1.96* PatMatComparison$StdErr)
 PatMatComparison$ci.ub<-PatMatComparison$Effect + (1.96* PatMatComparison$StdErr)
 PatMatComparison$Model<-factor(PatMatComparison$Model,levels=c("Paternal","Paternal adjusted for maternal","Maternal","Maternal adjusted for paternal"),ordered=TRUE)
@@ -100,11 +107,11 @@ geom_hline(yintercept=0,linetype="dashed")+
 geom_errorbar(aes(colour=Model,ymin=ci.lb*100, ymax=ci.ub*100),width=0.5,size=1)+
 geom_point(aes(shape=Model,colour=Model),fill="white",size=4)+
 scale_shape_manual(values=c(15,22,19,21))+
-scale_colour_manual(values=c("#3B9AB2","#3B9AB2","grey14","grey14"))+
+scale_colour_manual(values=c(wes_palette("Zissou1")[1],wes_palette("Zissou1")[1],wes_palette("Zissou1")[5],wes_palette("Zissou1")[5]))+
 facet_grid(.~CpG.Gene)+
 theme_bw() + theme(legend.spacing.x = unit(1.0, 'cm'),legend.position = "bottom",legend.title=element_blank(),legend.text=element_text(size=14),axis.line.x=element_blank(),axis.ticks.x=element_blank(),axis.text.x=element_blank(),axis.text.y=element_text(size=12),axis.title.y=element_text(size=14),panel.grid.major.x = element_blank()) +
 xlab("")+ylab("Effect estimate (difference in % methylation\nper 1SD increase in parental BMI)")+
-ggtitle("CpGs showing evidence of a paternal-specific association between parental BMI and offspring methylation at birth\n") + theme(panel.spacing = unit(0.8, "lines"),panel.border = element_blank(),panel.background = element_rect(fill="grey95"),plot.title = element_text(hjust = 0.5,size=16),strip.background=element_rect(fill="grey95",colour=NA),strip.text = element_text(size=12,face = "italic"))+
+ggtitle("CpGs showing strongest statistical evidence of association with paternal BMI\n") + theme(panel.spacing = unit(0.8, "lines"),panel.border = element_blank(),panel.background = element_rect(fill="grey95"),plot.title = element_text(hjust = 0.5,size=16),strip.background=element_rect(fill="grey95",colour=NA),strip.text = element_text(size=12,face = "italic"))
 
 				 
 png("PatvsMat.coefplot.png",width=1000,height=500)

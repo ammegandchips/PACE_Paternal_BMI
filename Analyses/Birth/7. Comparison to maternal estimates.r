@@ -49,6 +49,10 @@ manhattan (matpat.man, chr = "CHR", bp = "position", p = "abs.Effect", snp = "Ma
     genomewideline = NULL,ylim_max=max(c(pat.man$abs.Effect,mat.man$abs.Effect,matpat.man$abs.Effect,patmat.man$abs.Effect))+0.2,logp=F)
 dev.off()
 
+#agreement and correlation of pat vs patmat
+cor(pat.man$Effect,patmat.man$Effect)#0.97
+plot(pat.man$Effect,patmat.man$Effect,main="Correlation between paternal BMI effect estimates \nobtained before and after adjustment for maternal BMI: r=0.97",xlab="Unadjusted",ylab="Adjusted")
+abline(0,1,col=wes_palette("Zissou1")[1])
 
 #mat vs pat meta-analysis
 

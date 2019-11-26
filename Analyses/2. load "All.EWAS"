@@ -29,8 +29,8 @@ extractEWASres <- function(filename){
 }
 
 ALSPAC <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/alspac/results/ALSPAC.patbmi.ewasresults.birth.Rdata")
-BIB_asian <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/bib/BIB_asian.patbmi.ewasresults.birth.Rdata")
-BIB_white <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/bib/BIB_white.patbmi.ewasresults.birth.Rdata")
+BIB_asian <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/bib/bib/BIB_asian.patbmi.ewasresults.birth.Rdata")
+BIB_white <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/bib/bib/BIB_white.patbmi.ewasresults.birth.Rdata")
 GenerationR <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/GenR/GenR.patbmi.ewasresults.birth.Rdata")
 ProjectViva <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/VIVA_PATBMI/VIVA_PATBMI/Viva.patbmi.ewasresults.birth.Rdata")
 CHAMACOS <- extractEWASres("/panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/CHAMACOS_results/CHAMACOS.patbmi.ewasresults.birth.Rdata")

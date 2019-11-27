@@ -166,7 +166,23 @@ pdf("donkin.qq.patmatbmi.pdf")
 Plot
 dev.off()
                                  
-ks.test(donkin$Pvalue,y="punif")
+ks.test(donkin$Pvalue,y="punif",0,1)
+                                 
+                                 #Noor et al
+          
+noor <- data.frame(cpg=c("cg17206978","cg12837919","cg15687147","cg19846622","cg26544752","cg07908498","cg22355517","cg04763273","cg01029450"),noor.effect=c(0.01,-0.02,0.03,0.008,0.05,0.03,0.01,-0.05,0.02))
+noor.patmat <- merge(list.of.results$covs.patmat,noor,by.x="MarkerName",by.y="cpg",all=F)
+table(sign(noor.patmat$Effect)==sign(noor.patmat$noor.effect))
+noor.patmat$FDR <- p.adjust(noor.patmat$Pvalue,method="fdr")
+                                 
+ks.test(noor.patmat$Pvalue,y="punif",0,1)
+
+noor.stratified <- data.frame(cpg=c("cg08524210","cg07312445","cg00213729","cg18712083","cg23130766","cg11241627","cg13872065","cg00785831","cg14320496","cg21925493","cg07451886","cg08862162","cg02534744","cg04763273","cg11868041","cg24459147","cg16692439","cg16880392"),noor.effect=c(-0.04,0.02,-0.03,-0.04,0.02,0.02,0.02,-0.05,-0.04,0.01,0.02,-0.04,0.03,-0.07,-0.02,0.02,-0.02,-0.03))
+noor.stratified.patmat <- merge(list.of.results$covs.patmat,noor.stratified,by.x="MarkerName",by.y="cpg",all=F)
+table(sign(noor.stratified.patmat$Effect)==sign(noor.stratified.patmat$noor.effect))
+noor.stratified.patmat$FDR <- p.adjust(noor.stratified.patmat$Pvalue,method="fdr")
+                                 
+ks.test(noor.stratified.patmat$Pvalue,y="punif",0,1)
                                  
 #Sharp et al previous maternal BMI PACE study
 

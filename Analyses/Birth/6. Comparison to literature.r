@@ -1,4 +1,4 @@
-#In the literature, we found evidence for association with paternal BMI at imprinted regions and at >9000 CpGs in a paper by Donkin et al.
+#In the literature, we found evidence for association with paternal BMI at imprinted regions, at >9000 CpGs in a paper by Donkin et al. and at 18+9 sites in a paper by Noor et al.
 #We also compare to results from our 2018 PACE Maternal BMI paper
 
 #Imprinted regions
@@ -167,8 +167,8 @@ Plot
 dev.off()
                                  
 ks.test(donkin$Pvalue,y="punif",0,1)
-                                 
-                                 #Noor et al
+
+#Noor et al
           
 noor <- data.frame(cpg=c("cg17206978","cg12837919","cg15687147","cg19846622","cg26544752","cg07908498","cg22355517","cg04763273","cg01029450"),noor.effect=c(0.01,-0.02,0.03,0.008,0.05,0.03,0.01,-0.05,0.02))
 noor.patmat <- merge(list.of.results$covs.patmat,noor,by.x="MarkerName",by.y="cpg",all=F)

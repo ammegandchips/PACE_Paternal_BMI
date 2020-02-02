@@ -63,5 +63,8 @@ list.of.results$covs.pat.measured.selfreport$MarkerName[list.of.results$covs.pat
 cor(list.of.results$covs.pat.measured.selfreport$Effect[list.of.results$covs.pat$Pvalue<1e-5],
 list.of.results$covs.pat.maternalreport$Effect[list.of.results$covs.pat$Pvalue<1e-5])
 #0.83
-
+       
+cor(list.of.results$covs.pat.measured.selfreport$Effect,
+list.of.results$covs.pat$Effect)
+#0.79
 

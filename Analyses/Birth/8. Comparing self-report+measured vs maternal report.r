@@ -40,12 +40,13 @@ lapply(list.of.results, function(x) summary(p.adjust(x$Pvalue,method="fdr")<0.05
 #0
 
 lapply(list.of.results, function(x) summary(x$Pvalue<1e-5))
-#$covs.pat.measured.selfreport
-#   Mode   FALSE    TRUE 
-#logical  363245       8 
-#$covs.pat.maternalreport
-#   Mode   FALSE    TRUE 
-#logical  363247       6 
+#covs.pat.measured.selfreport
+#   Mode   FALSE    TRUE
+#logical  363240      10
+
+#covs.pat.maternalreport
+#   Mode   FALSE    TRUE
+#logical  363244       9
 
 ####### Look at concordance between the CpGs with p<1e-5 (but this will be influenced by power)
 intersect(list.of.results$covs.pat.measured.selfreport$MarkerName[list.of.results$covs.pat.measured.selfreport$Pvalue<1e-5],
@@ -60,11 +61,13 @@ list.of.results$covs.pat.measured.selfreport$MarkerName[list.of.results$covs.pat
 
 ####### Calculate correlation between effect estimates at top CpGs from main analysis
 
-cor(list.of.results$covs.pat.measured.selfreport$Effect[list.of.results$covs.pat$Pvalue<1e-5],
-list.of.results$covs.pat.maternalreport$Effect[list.of.results$covs.pat$Pvalue<1e-5])
-#0.83
+covs.pat<-list.of.results$covs.pat[match(list.of.results$covs.pat.measured.selfreport$MarkerName,list.of.results$covs.pat$MarkerName),]   
+covs.pat.measured.selfreport<-list.of.results$covs.pat.measured.selfreport[match(covs.pat$MarkerName,list.of.results$covs.pat.measured.selfreport$MarkerName),]   
+covs.pat.maternalreport<-list.of.results$covs.pat.maternalreport[match(covs.pat$MarkerName,list.of.results$covs.pat.maternalreport$MarkerName),]   
+      
+cor(covs.pat.measured.selfreport$Effect[covs.pat$Pvalue<1e-5],covs.pat.maternalreport$Effect[covs.pat$Pvalue<1e-5])
+#0.92
        
-cor(list.of.results$covs.pat.measured.selfreport$Effect,
-list.of.results$covs.pat$Effect)
-#0.79
+cor(covs.pat.measured.selfreport$Effect,covs.pat$Effect)
+#0.47
 

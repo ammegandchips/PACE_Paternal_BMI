@@ -33,11 +33,9 @@ PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_aft
 PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.BIB.white.min.pat.csv
 PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.CHAMACOS.min.pat.csv
 PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.GenerationR.min.pat.csv
-PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.MoBa1.min.pat.csv
-PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.MoBa2.min.pat.csv
-PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.MoBa3.min.pat.csv
 
 ANALYZE HETEROGENEITY
+
 CLEAR
 CLEAR
 
@@ -48,7 +46,11 @@ PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_aft
 PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.PICCOLIPIU.min.pat.csv
 PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.ProjectViva.min.pat.csv
 PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.RHEA.min.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.MoBa1.min.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.MoBa2.min.pat.csv
+PROCESSFILE      /panfs/panasas01/sscm/gs8094/EWAS/pat_bmi/meta/cohort_files_after_qc/birth.MoBa3.min.pat.csv
 
 ANALYZE HETEROGENEITY
+
 CLEAR
 CLEAR
